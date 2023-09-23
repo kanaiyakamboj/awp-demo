@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
+    }
+  }
+</script>
+<link rel="stylesheet" href="style.css">
+<title>Monopile</title>
+<link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel = "manifest" href="manifest.json">
+</head>
+<body>
+	<div id="pop" hidden style="position:absolute;  float:left; left:500px; top:300px; min-width:50px; min-height:20px; ">Hello</div>
+
+    <div id="lengthBar" style="padding: 0px;position:absolute; background:none; border-width: 2px; border-right: 0px; float:left; left:500px; top:300px; min-width:10px; min-height:20px; "></div>
+    <div id="aboveWaterBar" style="padding: 0px;position:absolute; background:none; border-width: 2px; border-left: 0px; float:left; left:500px; top:300px; min-width:10px; min-height:20px; "></div>
+    <div id="underWaterBar" style="padding: 0px;position:absolute; background:none; border-width: 2px; border-left: 0px; float:left; left:500px; top:300px; min-width:10px; min-height:20px; "></div>
+    <div id="underGroundBar" style="padding: 0px;position:absolute; background:none; border-width: 2px; border-left: 0px; float:left; left:500px; top:300px; min-width:10px; min-height:20px; "></div>
+    <p id="lengthLabel" style="position:absolute;"></p>
+    <p id="aboveWaterLabel" style="position:absolute;"></p>
+    <p id="underWaterLabel" style="position:absolute; "></p>
+    <p id="underGroundLabel" style="position:absolute;"></p>
+    <div style="position:absolute;  float:left; bottom:0px; top:0px; min-width:25%; " height = "100%">
+        <a href="index.html">
+		    <img src="https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg" alt="Heerema logo" width="72" height="90" srcset="https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=330 330w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=660 660w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=990 990w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=1320 1320w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=1650 1650w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=1980 1980w">
+        </a>
+        <button hidden style="float:right" id="resetCamera">Perspective Camera</button>
+		<br>
+		<br>
+<textarea hidden id="jsonPaste" name="jsonPaste" style="min-width:98%;min-height:60%">
+</textarea>
+		<br>
+        <input id="filePicker" type="file"></input>
+		<!-- <button hidden id="load">load</button> -->
+		<a id="save">save</a>
+
+
+	</div>
+	<div style=" position:absolute; float:right; right:0px; top:0px; bottom:0px; max-width:25%;" height = "100%">
+	<!-- <p>
+		Monopile
+	</p> -->
+	<table id="propertiesTable" style="min-width:100%">
+		<tr>
+			<td>Name</td>
+			<td >  <input id="monoNameField" type="text"> </td>
+		</tr>
+		<tr hidden >
+			<td>Number</td>
+			<td >  <input id="monoNumberField" type="text"> </td>
+		</tr>
+		<tr hidden >
+			<td>Version</td>
+			<td >  <input id="monoVersionField" type="text"> </td>
+		</tr>
+		<tr hidden >
+			<td>Creator</td>
+			<td >  <input id="monoCreatorField" type="text"> </td>
+		</tr>
+		<tr hidden >
+			<td>Last Edited</td>
+			<td >  <input id="monoLastEditedField" type="text"> </td>
+		</tr>
+		<tr>
+			<td>Center of Gravity</td>
+			<td >  <input id="monoCogZField" type="number"> </td>
+		</tr>
+		<tr>
+			<td>Weight</td>
+			<td >  <input id="monoWeightField" type="number"> </td>
+		</tr>
+		<tr hidden >
+			<td>Latitude</td>
+			<td >  <input id="monoLatitudeField" type="number"> </td>
+		</tr>
+		<tr hidden >
+			<td>Longitide</td>
+			<td >  <input id="monoLongitudeField" type="number"> </td>
+		</tr>
+		<tr hidden>
+			<td>Total Length</td>
+			<td >  <input disabled id="monoTotalLengthField" type="number"> </td>
+		</tr>
+        <tr>
+			<td>Water Height</td>
+			<td >  <input id="waterHeightField" type="number"> </td>
+		</tr>
+		<tr>
+			<td>Embedded Length</td>
+			<td >  <input id="monoEmbeddedLengthField" type="number"> </td>
+		</tr>
+		<tr hidden>
+			<td>HTV Position</td>
+			<td >  <input id="monoHTVPositionField" type="number"> </td>
+		</tr>
+		<tr hidden>
+			<td>HTV Layout Number</td>
+			<td >  <input id="monoHTVLayoutNumberField" type="number"> </td>
+		</tr>
+	</table>
+    <br>
+	<!-- <p>
+		Shape
+	</p> -->
+	<table id="shapeTable" style="min-width:100%">
+		<tr>
+		  <td>Name</td>
+		  <td >  <input id="nameField" type="text"> </td>
+		</tr>
+		<tr hidden>
+			<td>Type</td>
+			<td >  <input id="typeField" type="text"> </td>
+		</tr>
+		<tr>
+			<td>Top Radius</td>
+			<td >  <input id="topRadiusField" type="number"> </td>
+		</tr>
+		<tr>
+		  <td>Bottom Radius</td>
+		  <td >  <input id="bottomRadiusField" type="number"> </td>
+		</tr>
+		<tr>
+		  <td>Thickness</td>
+		  <td >  <input id="thicknessField" type="number"> </td>
+		</tr>
+		<tr>
+		  <td>Height</td>
+		  <td >  <input id="heightField" type="number"> </td>
+		</tr>
+		<tr hidden>
+			<td>Position</td>
+			<td >  <input disabled id="positionField" type="number"> </td>
+		</tr>
+		<tr hidden>
+			<td>Color</td>
+			<td style="width:70%;" > r:<input style="width: 18%;" id="colorFieldR" type="number"> g:<input style="width: 18%;" id="colorFieldG" type="number"> b:<input style="width: 18%;" id="colorFieldB" type="number"></td>
+		</tr>
+	  </table>
+      <br>
+      <button hidden id="split">split</button>
+      <button hidden id="delete">delete</button>
+	</div>
+    <script>
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+    </script>
+</body>
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r127/three.min.js'></script> -->
+<!-- <script src='https://opensource.apple.com/source/WebInspectorUI/WebInspectorUI-7605.2.8/UserInterface/External/three.js/OrbitControls.js'></script> -->
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
+let search = window.location.search;
+console.log(search);
+let spr = (search.length>0) ? window.location.search.split('?') : [];
+let searchParams = spr.length > 0 ? spr[1].split('&') : [];
+const debugMode = searchParams.includes('debug');
+if(debugMode){
+    document.querySelectorAll('*').forEach(function(node) {
+        console.log(node.id);
+        node.hidden=false;
+        node.disabled = false;
+    });
+}
+
+
+
+const material = new THREE.ShaderMaterial({
+vertexShader: `
+    varying vec2 vUv;
+    void main()	{
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }
+`,
+fragmentShader: `
+    //#extension GL_OES_standard_derivatives : enable
+    
+    varying vec2 vUv;
+    uniform float winWidth;
+    uniform float winHeight;
+    uniform float objectNum;
+    uniform float hoverObjId;
+    uniform float selectedObjId;
+    uniform sampler2D objectIdTex;
+    uniform bool renderSurfaceIds;
+    
+    void main() {
+        //                                        surface index                   object index         surface type
+        if(renderSurfaceIds) gl_FragColor = vec4(((vUv.y*4.0+vUv.x)/(objectNum*4.0)), (vUv.y/objectNum), (vUv.x/4.0), 1.0);
+        else {
+            vec2 uv = vec2(gl_FragCoord.x/winWidth,gl_FragCoord.y/winHeight);
+            vec4 texel = texture2D( objectIdTex, uv);
+            vec4 delta = vec4(0.0);
+            int rad = 1;
+            for(int j = -rad; j < rad+1; j++ )
+            {
+                for(int i = -rad; i < rad+1; i++ )
+                {
+                    vec2 step = i==0 && j==0 ? vec2(0,0) : normalize(vec2(float(i),float(j)))*0.05;
+                    vec4 otherTex = texture2D( objectIdTex, uv+vec2(step.x/winWidth, step.y/winHeight) );
+                    delta = max(delta,  abs(otherTex-texel));
+                }
+            }
+            delta.x = delta.x > (0.01 / (objectNum*4.0)) ? 0.0 : 1.0;
+            delta.y = delta.y > (0.01 / (objectNum)) ? 0.0 : 1.0;
+            delta.z = delta.z > (0.01 / (4.0)) ? 0.0 : 1.0;
+            float darker = 0.125*0.5;
+            if((selectedObjId>-0.5) && (abs(selectedObjId/objectNum - texel.y) < (0.5/objectNum))) darker *=0.5;
+            if((hoverObjId>-0.5) && (abs(hoverObjId/objectNum - texel.y) < (0.5/objectNum))) darker = 0.0;
+            float c = (delta.x+delta.y+delta.z)/3.0;
+            c = pow(c, 1.0);
+            c *= 1.0-delta.w*1000.0;
+            c*= 1.0-(texel.z)*0.125-darker;
+            gl_FragColor =vec4(c,c,c, 1.0);
+            //gl_FragColor =vec4(texel.xyz/10.0,1.0);
+        }
+    }
+`
+});
+function setShape(shape){
+    document.getElementById('split').hidden = shape===null;
+    document.getElementById('delete').hidden = shape===null;
+    document.getElementById('shapeTable').hidden = shape===null
+
+	document.getElementById('nameField').value = shape?shape.name:"";
+	document.getElementById('typeField').value = shape?shape.type:"";
+	document.getElementById('topRadiusField').value = shape?shape.shapeProperties.radius2:"";
+	document.getElementById('bottomRadiusField').value = shape?shape.shapeProperties.radius1:"";
+	document.getElementById('thicknessField').value = shape?shape.shapeProperties.thickness:"";
+	document.getElementById('heightField').value = shape?shape.shapeProperties.height:"";
+	document.getElementById('positionField').value = shape?shape.position.z:"";
+	document.getElementById('colorFieldR').value = shape?shape.color.r:"";
+	document.getElementById('colorFieldG').value = shape?shape.color.g:"";
+	document.getElementById('colorFieldB').value = shape?shape.color.b:"";
+}
+
+function setProperties(properties){
+	document.getElementById('monoNameField').value = properties?properties.name:"";
+	document.getElementById('monoNumberField').value = properties?properties.number:"";
+	document.getElementById('monoVersionField').value = properties?properties.version:"";
+	document.getElementById('monoCreatorField').value = properties?properties.creator:"";
+	document.getElementById('monoLastEditedField').value = properties?properties.lastEdited:"";
+	document.getElementById('monoCogZField').value = properties?properties.cog?.z:"";
+	document.getElementById('monoWeightField').value = properties?properties.weight:"";
+	document.getElementById('monoLatitudeField').value = properties?properties.latLong?.latitude:"";
+	document.getElementById('monoLongitudeField').value = properties?properties.latLong?.longitude:"";
+	document.getElementById('monoTotalLengthField').value = properties?properties.totalLength:"";
+	document.getElementById('monoEmbeddedLengthField').value = properties?properties.embeddedLength:"";
+	document.getElementById('monoHTVPositionField').value = properties?properties.htvPosition:"";
+	document.getElementById('monoHTVLayoutNumberField').value = properties?properties.htvLayoutNumber:"";
+}
+
+function simplifyJson(jsonData){
+    return;
+    for(let j = 0; j < jsonData.geometry.shapes.length-1; j++)
+    {
+        let shape = jsonData.geometry.shapes[j];
+        for(let i = j+1; i < jsonData.geometry.shapes.length; i++){
+            let shape2 = jsonData.geometry.shapes[i];
+            let sameRadii = shape.shapeProperties.radius1===shape.shapeProperties.radius2 
+                && shape2.shapeProperties.radius1 === shape2.shapeProperties.radius2
+                && shape.shapeProperties.radius1 === shape2.shapeProperties.radius1;
+            let sameRadiusIncrement = shape.shapeProperties.radius1 !==shape.shapeProperties.radius2 
+                && shape2.shapeProperties.radius1 !== shape2.shapeProperties.radius2
+                && Math.abs((shape.shapeProperties.radius1 - shape.shapeProperties.radius2) - (shape2.shapeProperties.radius1 - shape2.shapeProperties.radius2)) < 0.2;
+            let sameColor = shape.color.r === shape2.color.r && shape.color.g === shape2.color.g && shape.color.b === shape2.color.b;
+            if(sameColor) {
+                if(sameRadii){
+                    shape.shapeProperties.height+=shape2.shapeProperties.height;
+                    shape.position.z = shape2.position.z;
+                    jsonData.geometry.shapes.splice(i,1);
+                    i--;
+                }
+                if(sameRadiusIncrement){
+                    shape.shapeProperties.height+=shape2.shapeProperties.height;
+                    shape.position.z = shape2.position.z;
+                    shape.shapeProperties.radius1 = shape2.shapeProperties.radius1;
+                    jsonData.geometry.shapes.splice(i,1);
+                    i--;
+                }
+            }
+        }
+    }
+}
+
+let monopileTop = -10000;
+let monopileBot = 10000;
+let calcHeight = 0;
+const scene = new THREE.Scene();
+let waterHeight=0;
+
+const orthCamera = new THREE.OrthographicCamera( window.innerWidth / - 20, window.innerWidth / 20, window.innerHeight / 20, window.innerHeight / - 20, 1, 1000 );//
+const persCamera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );//
+let camera = orthCamera;
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+let renderTarget = new THREE.WebGLRenderTarget(window.innerWidth*1,window.innerHeight*1);//, THREE.RGBAFormat, THREE.FloatType);
+// renderTarget.texture.format = THREE.RGBAFormat;
+// renderTarget.texture.type = THREE.FloatType;
+// renderer.autoClear = false;
+// renderer.autoClearColor = false;
+// renderer.autoClearDepth = false;
+// renderer.autoClearStencil = false;
+renderer.setRenderTarget(renderTarget);
+renderer.setRenderTarget(null);
+renderer.setClearColor ( new THREE.Color(1.0, 1.0, 1.0), 1.0 );
+// const material = new THREE.MeshStandardMaterial();//new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+const controls = new OrbitControls( camera, renderer.domElement );
+//material.color = new THREE.Color( (shape.color.r+1)/2, (shape.color.g+1)/2, (shape.color.b+1)/2 );
+function repositionCameras(){
+    let centerY = (monopileTop+monopileBot)/2;
+    orthCamera.position.set( 0, centerY, calcHeight );
+    let size = calcHeight/70.0;
+    orthCamera.left=window.innerWidth *size / - 20;
+    orthCamera.right=window.window.innerWidth *size / 20;
+    orthCamera.top= window.innerHeight *size / 20;
+    orthCamera.bottom=window.innerHeight *size / - 20;
+    // orthCamera.setViewOffset(0, )
+    persCamera.position.set( 0, centerY, calcHeight );
+    controls.target = new THREE.Vector3(0, centerY);
+    controls.update();
+}
+
+
+// const composer = new EffectComposer( renderer );
+// const renderPass = new RenderPass( scene, camera );
+// composer.addPass( renderPass );
+
+// // const glitchPass = new GlitchPass();
+// // composer.addPass( glitchPass );
+
+
+
+// const luminosityPass = new ShaderPass( CopyShader );
+// composer.addPass( luminosityPass )
+
+// const outputPass = new OutputPass();
+// composer.addPass( outputPass );
+
+document.body.appendChild( renderer.domElement );
+let root = null;
+let shapes = [];
+let num = 0;
+let embeddedLength = 0;
+//const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+//const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+//const cube = new THREE.Mesh( geometry, material );
+function loadJsonIntoScene(scene, jsonData){
+    monopileTop = -10000;
+    monopileBot = 10000;
+    waterHeight=0;
+	console.log('loading');
+    scene.clear();
+    root = new THREE.Object3D();
+    scene.add(root);
+    calcHeight = 0;
+    num = jsonData.geometry.shapes.length;
+    shapes = jsonData.geometry.shapes;
+    for(let j = 0; j < num; j++){
+        const shape = jsonData.geometry.shapes[j];
+        const topOuterRadius = shape.shapeProperties.radius2;
+        const topInnerRadius = topOuterRadius - shape.shapeProperties.thickness;
+        const botOuterRadius = shape.shapeProperties.radius1;
+        const botInnerRadius = botOuterRadius - shape.shapeProperties.thickness;
+
+        console.log(topInnerRadius);
+        console.log(topOuterRadius);
+        console.log(botInnerRadius);
+        console.log(botOuterRadius);
+
+        //let vertices = [];
+        const vertNum = 50;
+        let verts = [];
+        let uvs = [];
+        let height = shape.shapeProperties.height;
+        calcHeight +=height;
+        monopileTop = Math.max(monopileTop, shape.position.z+height);
+        monopileBot = Math.min(monopileBot, shape.position.z);
+
+        for(let i = 0; i < vertNum; i++)
+        {
+            let sinAt = Math.sin(Math.PI*2*(i/vertNum));
+            let cosAt = Math.cos(Math.PI*2*(i/vertNum));
+            let sinNext = Math.sin(Math.PI*2*((i+1)/vertNum));
+            let cosNext = Math.cos(Math.PI*2*((i+1)/vertNum));
+            
+            //top
+            verts.push(sinAt*topInnerRadius, height, cosAt*topInnerRadius);
+            verts.push(sinAt*topOuterRadius, height, cosAt*topOuterRadius);
+            verts.push(sinNext*topOuterRadius, height, cosNext*topOuterRadius);
+            
+            verts.push(sinAt*topInnerRadius, height, cosAt*topInnerRadius);
+            verts.push(sinNext*topOuterRadius, height, cosNext*topOuterRadius);
+            verts.push(sinNext*topInnerRadius, height, cosNext*topInnerRadius);
+
+            for(let k = 0; k < 6; k++) uvs.push(0,j);
+            
+            //bottom
+            verts.push(sinAt*botInnerRadius, 0, cosAt*botInnerRadius);
+            verts.push(sinNext*botOuterRadius, 0, cosNext*botOuterRadius);
+            verts.push(sinAt*botOuterRadius, 0, cosAt*botOuterRadius);
+            
+            verts.push(sinAt*botInnerRadius, 0, cosAt*botInnerRadius);
+            verts.push(sinNext*botInnerRadius, 0, cosNext*botInnerRadius);
+            verts.push(sinNext*botOuterRadius, 0, cosNext*botOuterRadius);
+
+            for(let k = 0; k < 6; k++) uvs.push(1,j);
+
+                //outer
+            verts.push(sinAt*topOuterRadius, height, cosAt*topOuterRadius);
+            verts.push(sinAt*botOuterRadius, 0, cosAt*botOuterRadius);
+            verts.push(sinNext*topOuterRadius, height, cosNext*topOuterRadius);
+            
+            verts.push(sinAt*botOuterRadius, 0, cosAt*botOuterRadius);
+            verts.push(sinNext*botOuterRadius, 0, cosNext*botOuterRadius);
+            verts.push(sinNext*topOuterRadius, height, cosNext*topOuterRadius);
+
+            for(let k = 0; k < 6; k++) uvs.push(2,j);
+            
+            //inner
+            verts.push(sinAt*topInnerRadius, height, cosAt*topInnerRadius);
+            verts.push(sinNext*topInnerRadius, height, cosNext*topInnerRadius);
+            verts.push(sinAt*botInnerRadius, 0, cosAt*botInnerRadius);
+            
+            verts.push(sinAt*botInnerRadius, 0, cosAt*botInnerRadius);
+            verts.push(sinNext*topInnerRadius, height, cosNext*topInnerRadius);
+            verts.push(sinNext*botInnerRadius, 0, cosNext*botInnerRadius);
+
+            for(let k = 0; k < 6; k++) uvs.push(3,j);
+        
+        }
+
+        const geometry = new THREE.BufferGeometry();
+
+        const vertices = new Float32Array(verts);
+        const uvss = new Float32Array(uvs);
+
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+        geometry.setAttribute( 'uv', new THREE.BufferAttribute( uvss, 2 ) );
+        geometry.computeVertexNormals();
+
+        const mesh = new THREE.Mesh( geometry, material );
+        mesh.translateY(shape.position.z)
+        mesh.name = j;
+        mesh.shape = shape;
+        mesh.index = j;
+        root.add( mesh );
+
+        if(!debugMode) repositionCameras();
+
+    }
+    const waterLevelTorus = new THREE.Mesh( new THREE.TorusGeometry( 10, 10, 2, 50 ), new THREE.MeshBasicMaterial( 
+            { 
+                color: 0x0699D6,
+                transparent: true,
+                opacity: 0.25 
+            } ) );
+            waterLevelTorus.rotateX(Math.PI/2);
+    scene.add(waterLevelTorus);
+    const groundLevelTorus = new THREE.Mesh( new THREE.TorusGeometry( 10, 10, 2, 50 ), new THREE.MeshBasicMaterial( 
+        { 
+            color: 0xDD2E1A,
+            transparent: true,
+            opacity: 0.25 
+        } ) );
+    embeddedLength = jsonData.properties.embeddedLength?jsonData.properties.embeddedLength:0;
+    groundLevelTorus.rotateX(Math.PI/2);
+    groundLevelTorus.translateZ(-monopileBot-embeddedLength);
+    scene.add(groundLevelTorus);
+
+    //jsonData.properties.totalLength =Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(calcHeight))
+    console.log("calculated height: "+calcHeight);
+    console.log("calculated top: "+monopileTop);
+    console.log("calculated bottom: "+monopileBot);
+    waterHeight = (-monopileBot)-embeddedLength;
+    document.getElementById('waterHeightField').value = Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(waterHeight));
+
+};
+
+// if(location.origin !=='http://23.102.51.76:8080'){
+// 	let i = 0;
+// 	while(true) i++;
+// }
+
+let jsonData = null;
+
+function loadJson(){
+	loadJsonIntoScene(scene, jsonData);
+    let stringified = JSON.stringify(jsonData, null, 4);
+	document.getElementById('jsonPaste').value = stringified;
+    document.getElementById('save').setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(stringified ));
+    document.getElementById('save').setAttribute('download', 'monopile.mex');
+}
+function reloadJson(){
+	jsonData = JSON.parse(document.getElementById('jsonPaste').value);
+    simplifyJson(jsonData);
+	loadJson();
+	setProperties(jsonData.properties);
+	setShape(null);
+}
+document.getElementById('jsonPaste').onchange = reloadJson;
+document.getElementById('jsonPaste').onkeyup = reloadJson;
+
+function getText(){
+    // read text from URL location
+    var request = new XMLHttpRequest();
+    let urlParams = searchParams.filter((s)=>s.endsWith('.mex'));
+    if(urlParams.length > 0)    request.open('GET', urlParams[0], true);
+    else request.open('GET', 'monopile.mex', true);
+    request.send(null);
+    request.onreadystatechange = function () {
+        console.log(request.responseText);
+        document.getElementById('jsonPaste').innerHTML = request.responseText;
+        reloadJson();
+        repositionCameras();
+        console.log( request.responseText);
+    }
+}
+getText();
+
+
+
+document.getElementById('resetCamera').onclick = ()=>{
+    document.getElementById('resetCamera').innerHTML = camera === orthCamera ?'Orthographic Camera': 'Perspective Camera';
+    camera = camera === orthCamera ?persCamera:orthCamera; 
+    controls.object = camera;
+    repositionCameras();
+
+};
+
+
+
+controls.enablePan=debugMode;
+controls.enableRotate=debugMode;
+controls.enableZoom=debugMode;
+controls.update();
+
+scene.background = new THREE.Color(0xf3f6fc);
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+let hoverObject = null;
+let hoverObjectColor = null;
+let selectedObject = null;
+let selectedObjectColor = null;
+const pop = document.getElementById('pop');
+
+function onClick( event ) {
+    if(root===null)return;
+	raycaster.setFromCamera( pointer, camera );
+	let intersects = raycaster.intersectObjects( root.children );
+	let found = null;
+	for ( let i = 0; i < intersects.length; i ++ ) {
+		found = intersects[i].object;
+		break;
+	}
+	if(found!=null){
+		selectedObject = found;
+		setShape(selectedObject.shape);
+	} 
+}
+
+function onPointerMove( event ) {
+    if(root===null)return;
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+	pop.style.left = ''+(event.clientX+5)+'px';
+	pop.style.top = ''+(event.clientY+5)+'px';
+
+	raycaster.setFromCamera( pointer, camera );
+	let intersects = raycaster.intersectObjects( root.children );
+	let found = null;
+	for ( let i = 0; i < intersects.length; i ++ ) {
+		found = intersects[i].object;
+		break;
+	}
+    pop.hidden = found===null;
+    pop.innerHTML = found?.shape.name;
+    hoverObject = found
+    console.log(found?.name);
+}
+window.addEventListener( 'mousemove', onPointerMove );
+window.addEventListener( 'click', onClick );
+
+
+document.getElementById('split').onclick = ()=>{
+    if(selectedObject!== null){
+
+        selectedObject.shape.shapeProperties.height/=2.0;
+        let midRadius =Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 5 }).format((selectedObject.shape.shapeProperties.radius1+selectedObject.shape.shapeProperties.radius2)/2));
+        let clonedShape = { ...(selectedObject.shape) };
+
+        clonedShape.position = { ...(selectedObject.shape.position) };
+        clonedShape.shapeProperties = { ...(selectedObject.shape.shapeProperties) };
+        clonedShape.color = { ...(selectedObject.shape.color) };
+        selectedObject.shape.shapeProperties.radius2 = midRadius;
+        clonedShape.shapeProperties.radius1 = midRadius;
+        clonedShape.name = clonedShape.name+"_copy";
+        clonedShape.position.z+=clonedShape.shapeProperties.height;
+        clonedShape.position.z = Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 5 }).format(clonedShape.position.z));
+        shapes.splice(selectedObject.index, 0, clonedShape);
+        selectedObject = null;
+        setShape(null);
+        loadJson();
+    }
+}
+
+
+document.getElementById('delete').onclick = ()=>{
+    if(selectedObject!== null){
+
+        console.log(selectedObject.index);
+        console.log(shapes);
+        console.log(shapes[selectedObject.index]);
+
+        let index = selectedObject.index;
+        let diff = (selectedObject.shape.shapeProperties.height);
+        for(let i = 0; i < index; i++) 
+            shapes[i].position.z = Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 5 }).format(shapes[i].position.z-diff));
+        shapes.splice(selectedObject.index, 1);
+        selectedObject = null;
+        // selectedObject.shape.shapeProperties.height/=2.0;
+        // let clonedShape = { ...(selectedObject.shape) };
+        // clonedShape.position = { ...(selectedObject.shape.position) };
+        // clonedShape.shapeProperties = { ...(selectedObject.shape.shapeProperties) };
+        // clonedShape.color = { ...(selectedObject.shape.color) };
+        // clonedShape.name = clonedShape.name+"_clone";
+        // clonedShape.position.z+=clonedShape.shapeProperties.height;
+        // shapes.splice(selectedObject.index, 0, clonedShape);
+        loadJson();
+    }
+}
+
+function setShapeReload(){
+    let properties = jsonData.properties;
+	if(selectedObject!==null){
+		let shape = selectedObject.shape;
+        let index = selectedObject.index;
+        console.log(shapes);
+		shape.name = document.getElementById('nameField').value;
+		shape.type =document.getElementById('typeField').value;
+		shape.shapeProperties.radius2 = Number(document.getElementById('topRadiusField').value);
+		shape.shapeProperties.radius1 = Number(document.getElementById('bottomRadiusField').value);
+		shape.shapeProperties.thickness = Number(document.getElementById('thicknessField').value);
+        let newHeight = Number(document.getElementById('heightField').value);
+        if(newHeight!==shape.shapeProperties.height){
+
+            let diff = (newHeight-shape.shapeProperties.height);
+            for(let i = 0; i < index; i++) shapes[i].position.z = Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 5 }).format(shapes[i].position.z+diff));
+            //document.getElementById('positionField').value =Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(Number(document.getElementById('positionField').value)-diff));
+            calcHeight+=diff;
+            document.getElementById('monoTotalLengthField').value = Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 5 }).format(calcHeight));
+            
+        }
+		shape.shapeProperties.height = newHeight;
+        let newPos = Number(document.getElementById('positionField').value);
+        if(newPos!==shape.position.z){
+            let diff = (newPos-shape.position.z);
+            for(let i = 0; i < shapes.length; i++) shapes[i].position.z = Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 5 }).format(shapes[i].position.z+diff));
+
+        }
+        //shape.position.z = Number(document.getElementById('positionField').value);
+		shape.color.r = Number(document.getElementById('colorFieldR').value);
+		shape.color.g = Number(document.getElementById('colorFieldG').value);
+		shape.color.b = Number(document.getElementById('colorFieldB').value);
+		//loadJson();
+	}
+
+    properties.name = document.getElementById('monoNameField').value;
+    properties.number = document.getElementById('monoNumberField').value;
+    properties.version = document.getElementById('monoVersionField').value;
+    properties.creator = document.getElementById('monoCreatorField').value;
+    properties.lastEdited = document.getElementById('monoLastEditedField').value;
+    if(properties.cog===undefined) properties.cog = {x:0.0, y:0.0, z:0.0};
+    properties.cog.z = Number(document.getElementById('monoCogZField').value);
+    properties.weight = Number(document.getElementById('monoWeightField').value);
+    if(properties.latLong===undefined) properties.latLong = {latitude:0.0, longitude:0.0};
+    properties.latLong.latitude = Number(document.getElementById('monoLatitudeField').value);
+    properties.latLong.longitude = Number(document.getElementById('monoLongitudeField').value);
+    properties.totalLength = Number(document.getElementById('monoTotalLengthField').value);
+    properties.embeddedLength = Number(document.getElementById('monoEmbeddedLengthField').value);
+    properties.htvPosition = Number(document.getElementById('monoHTVPositionField').value);
+    properties.htvLayoutNumber = Number(document.getElementById('monoHTVLayoutNumberField').value);
+    loadJson();
+}
+
+document.getElementById('nameField').onkeyup = setShapeReload;
+document.getElementById('typeField').onkeyup = setShapeReload;
+document.getElementById('topRadiusField').onkeyup = setShapeReload;
+document.getElementById('bottomRadiusField').onkeyup = setShapeReload;
+document.getElementById('thicknessField').onkeyup = setShapeReload;
+document.getElementById('heightField').onkeyup = setShapeReload;
+document.getElementById('positionField').onkeyup = setShapeReload;
+document.getElementById('colorFieldR').onkeyup = setShapeReload;
+document.getElementById('colorFieldG').onkeyup = setShapeReload;
+document.getElementById('colorFieldB').onkeyup = setShapeReload;
+
+document.getElementById('monoNameField').onkeyup = setShapeReload;
+document.getElementById('monoNumberField').onkeyup = setShapeReload;
+document.getElementById('monoVersionField').onkeyup = setShapeReload;
+document.getElementById('monoCreatorField').onkeyup = setShapeReload;
+document.getElementById('monoLastEditedField').onkeyup = setShapeReload;
+document.getElementById('monoCogZField').onkeyup = setShapeReload;
+document.getElementById('monoWeightField').onkeyup = setShapeReload;
+document.getElementById('monoLatitudeField').onkeyup = setShapeReload;
+document.getElementById('monoLongitudeField').onkeyup = setShapeReload;
+document.getElementById('monoTotalLengthField').onkeyup = setShapeReload;
+document.getElementById('monoEmbeddedLengthField').onkeyup = setShapeReload;
+document.getElementById('monoHTVPositionField').onkeyup = setShapeReload;
+document.getElementById('monoHTVLayoutNumberField').onkeyup = setShapeReload;
+
+document.getElementById('waterHeightField').onchange = ()=>{
+    let diff = waterHeight-document.getElementById('waterHeightField').value;
+    for(let i = 0; i < shapes.length; i++) shapes[i].position.z = Number(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(shapes[i].position.z+diff));
+    loadJson();
+    controls.target = new THREE.Vector3(0, (monopileTop+monopileBot)/2,0);
+    controls.update();
+};
+
+const lengthBar = document.getElementById('lengthBar');
+const aboveWaterBar = document.getElementById('aboveWaterBar');
+const underWaterBar = document.getElementById('underWaterBar');
+const lengthLabel = document.getElementById('lengthLabel');
+const aboveWaterLabel = document.getElementById('aboveWaterLabel');
+const underWaterLabel = document.getElementById('underWaterLabel');
+const aboveGroundLabel = document.getElementById('aboveGroundLabel');
+const underGroundLabel = document.getElementById('underGroundLabel');
+
+document.getElementById('filePicker').onchange=e=>{
+    // getting a hold of the file reference
+   let file = e.target.files[0];
+
+
+    // setting up the reader
+    let reader = new FileReader();
+    reader.readAsText(file,'UTF-8');
+
+    // here we tell the reader what to do when it's done reading...
+    reader.onload = readerEvent => {
+    let content = readerEvent.target.result; // this is the content!
+    console.log( content );
+    document.getElementById('jsonPaste').value = content;
+    reloadJson();
+    }
+}
+material.uniforms = {
+        winWidth: { value: window.innerWidth },
+        winHeight: { value: window.innerHeight },
+        objectIdTex: {value: renderTarget.texture},
+        objectNum: {value: num},
+        renderSurfaceIds:{value: false},
+        hoverObjId: {value:-1},
+        selectedObjId: {value:-1},
+    };
+repositionCameras();
+function animate() {
+	requestAnimationFrame( animate );
+
+    controls.update();
+    material.uniforms.objectNum.value =num;
+
+    material.uniforms.hoverObjId.value = hoverObject?hoverObject.name:-1;
+    material.uniforms.selectedObjId.value = selectedObject?selectedObject.name:-1;
+
+    material.uniforms.renderSurfaceIds.value = true;
+    material.uniforms.objectIdTex.value = null;
+    renderer.setRenderTarget(renderTarget);
+    renderer.clearColor();
+    renderer.render( root, camera );
+
+    material.uniforms.renderSurfaceIds.value = false;
+    material.uniforms.objectIdTex.value = renderTarget.texture;
+    renderer.setRenderTarget(null);
+    renderer.render( scene, camera );//composer.render();//renderer.render( scene, camera );
+
+    let topPos = new THREE.Vector3(0, monopileTop, 0);
+    let zeroPos = new THREE.Vector3(0, 0, 0);
+    let groundPos = new THREE.Vector3(0,embeddedLength+monopileBot,0);
+    let botPos = new THREE.Vector3(0, monopileBot, 0);
+
+
+    topPos.project(camera);
+    zeroPos.project(camera);
+    groundPos.project(camera);
+    botPos.project(camera);
+
+    let windowTopX = (topPos.x + 1) / 2 * window.innerWidth;
+    let windowTopY = (-topPos.y + 1) / 2 * window.innerHeight;
+    let zeroX = (zeroPos.x + 1) / 2 * window.innerWidth;
+    let zeroY = (-zeroPos.y + 1) / 2 * window.innerHeight;
+    let groundX = (groundPos.x + 1) / 2 * window.innerWidth;
+    let groundY = (-groundPos.y + 1) / 2 * window.innerHeight;
+    let windowBotX = (botPos.x + 1) / 2 * window.innerWidth;
+    let windowBotY = (-botPos.y + 1) / 2 * window.innerHeight;
+
+    lengthBar.style.left = ''+((windowTopX+windowBotX)/2-100)+'px';
+	lengthBar.style.top = ''+windowTopY+'px';
+    lengthLabel.style.left = +((windowTopX+windowBotX)/2-160-100)+'px';
+    lengthLabel.style.top = ''+((windowTopY+windowBotY)/2-25)+'px';
+    lengthLabel.innerHTML='Total Length: '+(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(calcHeight))+' m'; 
+    lengthBar.style.minHeight = ""+ (windowBotY-windowTopY)+'px';
+    
+    // aboveWaterBar.hidden = (monopileTop>0)?false:true;
+    // aboveWaterLabel.hidden =(monopileTop>0)?false:true;
+    
+    aboveWaterBar.style.minHeight = ""+ (Math.abs(zeroY-windowTopY))+'px';
+    aboveWaterBar.style.left = ''+((windowTopX+zeroX)/2+100)+'px';
+	aboveWaterBar.style.top = ''+Math.min(zeroY,windowTopY)+'px';
+    aboveWaterLabel.innerHTML=''+(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(Math.abs(monopileTop)))+(monopileTop>0?' m Above Water':' m Below Water'); 
+    aboveWaterLabel.style.top = ''+((windowTopY+zeroY)/2-25)+'px';
+    aboveWaterLabel.style.left = +((windowTopX+zeroX)/2+120)+'px';
+
+    // underWaterBar.hidden = true;
+    // underWaterLabel.hidden = true;
+
+    underWaterBar.style.minHeight = ""+ (groundY-zeroY)+'px';
+    underWaterBar.style.left = ''+((groundX+zeroX)/2+100)+'px';
+	underWaterBar.style.top = ''+zeroY+'px';
+    underWaterLabel.innerHTML=''+(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(waterHeight))+' m Water Height'; 
+    underWaterLabel.style.top = ''+((groundY+zeroY)/2-25)+'px';
+    underWaterLabel.style.left = +((groundX+zeroX)/2+120)+'px';
+
+    underGroundBar.style.minHeight = ""+ (windowBotY-groundY)+'px';
+    underGroundBar.style.left = ''+((groundX+windowBotX)/2+100)+'px';
+	underGroundBar.style.top = ''+groundY+'px';
+    underGroundLabel.innerHTML=''+(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(embeddedLength))+' m Embedded Length'; 
+    underGroundLabel.style.top = ''+((groundY+windowBotY)/2-25)+'px';
+    underGroundLabel.style.left = +((groundX+windowBotX)/2+120)+'px';
+}
+
+animate();
+
+
+
+
+</script>
+</html>

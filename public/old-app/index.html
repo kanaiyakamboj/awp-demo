@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--  <meta http-equiv="Cache-Control" content="no-cache">-->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>AWP Demo</title>
+  <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel = "manifest" href="manifest.json">
+  <link id="styleLink" rel="stylesheet" href="./style.css">
+</head>
+<body >
+<!--<script src="dashboards.json"></script>-->
+<div style="position:absolute; padding:0px;  min-height:100%;min-width:100%;">
+  <div id="titleDiv" style="position:absolute; left:17%; height:50px;width:66%; background-color: aqua; text-align: center;"><p>AUTOMATIC WORK PACK</p></div>
+  <div id="leftPanelDiv" style="position:absolute; top:50px; height:calc(100% - 50px);width:17%; background-color: aqua;"></div>
+  <div id="leftButtonDiv" style="position:absolute; height: 50px;width:17%; z-index:10">
+    <div  id="leftButton" style="position:absolute;  left:25%; height:100%; width:75%;  text-align: center;"><p class="unselectable">MENU</p></div>
+    <div  id="leftCollapseButton" style="position:absolute; height:100%; width:25%; text-align: center;"><p class="unselectable">⇦</p></div>
+  </div>
+  <div id="rightPanelDiv" style="position:absolute; left:83%;top:50px; height:calc(100% - 50px);width:17%; background-color: aqua;"></div>
+  <div id="rightButtonDiv" style="position:absolute; left:83%; height: 50px;width:17%;z-index:10">
+    <div  id="rightButton" style="position:absolute; left:0%; height:100%; width:75%; text-align: center;"><p class="unselectable">MISC</p></div>
+    <div  id="rightCollapseButton" style="position:absolute; left:75%; height:100%; width:25%; text-align: center;"><p class="unselectable">⇨</p></div>
+  </div>
+  <div id="canvasDiv" style="position:absolute; top:50px; left:17%;height:calc(100% - 50px);width:66%;">
+
+<!--    <div id="botCanvasDiv" style="position:absolute; top:50%;height:50%;width:100%;">-->
+<!--      <canvas id="botCanvas" style="position:absolute; height:100%;width:100%;"></canvas>-->
+<!--      <div id="botCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>-->
+
+<!--    </div>-->
+<!--    <div id="topLeftCanvasDiv" style="position:absolute;height:50%;width:50%;">-->
+<!--      <canvas id="topLeftCanvas" style="position:absolute; height:100%;width:100%;"></canvas>-->
+<!--      <div id="topLeftCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>-->
+<!--    </div>-->
+<!--    <div id="topRightCanvasDiv" style="position:absolute; left:50%;height:50%;width:50%;">-->
+<!--      <canvas id="topRightCanvas" style="position:absolute; height:100%;width:100%;"></canvas>-->
+<!--      <div id="topRightCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>-->
+<!--    </div>-->
+<!--    <div hidden id="topCanvasDiv" style="position:absolute; height:50%;width:100%;">-->
+<!--      <canvas id="topCanvas" style="position:absolute; height:100%;width:100%;"></canvas>-->
+<!--      <div id="topCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>-->
+<!--    </div>-->
+<!--    <div hidden id="fullCanvasDiv" style="position:absolute; height:100%;width:100%;z-index:8;">-->
+<!--      <canvas id="fullCanvas" style="position:absolute; height:100%;width:100%;"></canvas>-->
+
+<!--    </div>-->
+  </div>
+  <div hidden id="leftMenuDiv" style="position:absolute; top:50px; width:17%; background: pink; z-index:10">
+
+</div>
+  <div hidden id="rightMenuDiv" style="position:absolute; left:83%;top:50px; width:17%;background: pink; z-index:10">
+    <div onclick="document.getElementById('rightButton').click(); window.print()" style="text-align: center"><p class="unselectable">PRINT</p></div>
+    <div onclick="document.getElementById('rightButton').click(); document.getElementById('modalBackgroundDiv').hidden=false;" style="text-align: center"><p class="unselectable">CAM</p></div>
+    <div onclick="document.getElementById('rightButton').click(); document.getElementById('modalBackgroundDiv').hidden=false;" style="text-align: center"><p class="unselectable">NOTES</p></div>
+  </div>
+  <div hidden id="modalBackgroundDiv" style="position:absolute; height:100%; width:100%;background-color:rgba(0, 0, 0, 0.5);z-index:11;">
+    <div id="modalDiv" style="position:absolute; left:10%; top:10%; height:80%; width:80%;"></div>
+    <div id="modalCloseButton" style="position:absolute; right:calc(10% + 5px); top:calc(10% + 5px); height:50px; width:50px"></div>
+  </div>
+
+
+</div>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
+    }
+  }
+</script>
+<script>
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/service-worker.js');
+  }
+</script>
+</body>
+<script type="module">
+
+await fetch('./dashboards.json')
+        .then(res => res.json())
+        .then(out =>
+                window.dashboards =out)
+        .catch(err => { throw err });
+function setCanvases(){
+  let canvasDiv = document.getElementById("canvasDiv");
+  canvasDiv.innerHTML=`
+    <div hidden id="templateDiv" style="position:absolute; height:100%;width:100%;z-index:8;"></div>
+    <div id="fullCanvasButton" style="position:absolute; left:30%; top:35%; height:50px; width:50px"></div>
+`
+  window.dashboards.canvases.forEach((canvas)=>{
+    canvasDiv.innerHTML+=`
+    <div id="`+canvas.name+`CanvasDiv" style="position:absolute; left:`+canvas.x+`%; top:`+canvas.y+`%;height:`+canvas.height+`%;width:`+canvas.width+`%;">
+      <canvas id="`+canvas.name+`Canvas" style="position:absolute; height:100%;width:100%;"></canvas>
+      <div id="`+canvas.name+`CanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>
+    </div>
+`
+  });
+}
+setCanvases();
+import {ThreejsRendererBoilerplate} from "./ThreejsRendererBoilerplate.js";
+import {ThreejsSceneBoilerplate} from "./ThreejsSceneBoilerplate.js";
+
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+let renderers = {};
+
+function setDashboard(){
+  window.dash = window.dashboards.layouts[window.dashboards.current];
+  console.log(dash);
+  renderers = {};
+  window.dashboards.canvases.forEach((canvas)=>renderers[canvas.name] = new ThreejsRendererBoilerplate(document.getElementById(canvas.name + 'CanvasDiv')));
+  console.log(renderers);
+
+  let activeRenderers =new Set(window.dash.canvasSetups.map((x)=>x.name));
+  console.log(activeRenderers);
+  window.dashboards.canvases.forEach((canvas)=>{
+    console.log(Object.getOwnPropertyNames(dash.canvasSetups));
+    document.getElementById(canvas.name+"CanvasDiv").hidden = !activeRenderers.has(canvas.name);
+  });
+  if(document.getElementById('leftPanelDiv').hidden !== (dash.leftPanel.length === 0) ) document.getElementById('leftCollapseButton').click();
+  if(document.getElementById('rightPanelDiv').hidden !== (dash.rightPanel.length === 0) ) document.getElementById('rightCollapseButton').click();
+  document.getElementById('titleDiv').getElementsByTagName('p')[0].innerText = dash.title;
+}
+setDashboard();
+function setMenu() {
+  document.getElementById('leftMenuDiv').innerHTML = `
+    <div id="projectPickerButton" style="text-align: center"><p className="unselectable">IMPORT XLS</p></div>
+    <div id="configPickerButton" style="text-align: center"><p className="unselectable">LOAD CONFIG</p></div>
+    <div id="stylePickerButton" style="text-align: center"><p className="unselectable">LOAD STYLE</p></div>
+`;
+  if(!window.dashboards)return;
+  Object.entries(window.dashboards.layouts).forEach(entry => {
+    const [key, value] = entry;
+    document.getElementById('leftMenuDiv').innerHTML += `<div id="` + key + 'Button' + `" style="text-align: center"><p class="unselectable">` + value.name + `</p></div>`;
+
+    // ["left", 'right'].forEach((id)=>{
+    //   let collapseButton = document.getElementById(id+'CollapseButton');
+    //   let div = document.getElementById(id+'PanelDiv');
+    //   console.log(value.activePanels);
+    //   div.hidden = value.activePanels.includes(id);
+    //   collapseButton.style.backgroundColor = div.hidden ? "red" :  "white";
+    //   resizeCanvasDiv();
+    //
+    // });
+  });
+  Object.entries(window.dashboards.layouts).forEach(entry => {
+    const [key, value] = entry;
+    let dash = key;
+    document.getElementById(key + 'Button').addEventListener("click", () => {
+      console.log('clicked');
+      document.getElementById('leftButton').click();
+      window.dashboards.current = dash;
+      setDashboard();
+    });
+  });
+}
+setMenu();
+
+
+
+
+
+// {
+//   ['full', 'top', 'bot', 'topLeft', 'topRight'].forEach((id) => {
+//     renderers[id] = new ThreejsRendererBoilerplate(document.getElementById(id + 'CanvasDiv'));
+//   });
+// }
+window.scenes = {};
+['field', 'transport', 'install'].forEach((name)=>{
+  window.scenes[name] = new ThreejsSceneBoilerplate();
+});
+
+
+//
+// let sceneBP = new ThreejsSceneBoilerplate();
+// renderers.forEach((ren)=>{
+//   ren.render(sceneBP);
+// })
+{
+  scenes.field.scene.clear();
+  scenes.field.torus = null;
+  scenes.field.scene.background = new THREE.Color(0xf3f6fc);
+
+  const size = 500;
+  const divisions = 50;
+  const gridHelper = new THREE.GridHelper(size, divisions, 0xDD2E1A, 0x0699D6);
+  scenes.field.scene.add(gridHelper);
+  const waterLevelTorus = new THREE.Mesh(new THREE.TorusGeometry(100, 100, 2, 50), new THREE.MeshBasicMaterial(
+          {
+            color: 0x0699D6,
+            transparent: true,
+            opacity: 0.25
+          }));
+  waterLevelTorus.rotateX(Math.PI / 2);
+  scenes.field.scene.add(waterLevelTorus);
+
+  for (let i = 3; i < 15; i++) {
+    for (let j = 0; j < i; j++) {
+      const geometry = new THREE.CylinderGeometry(0.1, 0.15, 1, 12);
+      const material = new THREE.MeshBasicMaterial({color: 0x00ff33});
+      const cylinder = new THREE.Mesh(geometry, material);
+      cylinder.translateX(i + j * 0.33333 - 10);
+      cylinder.translateZ(j - 5);
+      scenes.field.scene.add(cylinder);
+    }
+  }
+
+}
+
+{
+  scenes.transport.scene.clear();
+  scenes.transport.torus = null;
+  scenes.transport.scene.background = new THREE.Color(0xf3f6fc);
+
+  const size = 500;
+  const divisions = 50;
+  const gridHelper = new THREE.GridHelper(size, divisions, 0xDD2E1A, 0x0699D6);
+  scenes.transport.scene.add(gridHelper);
+  const waterLevelTorus = new THREE.Mesh(new THREE.TorusGeometry(100, 100, 2, 50), new THREE.MeshBasicMaterial(
+          {
+            color: 0x0699D6,
+            transparent: true,
+            opacity: 0.25
+          }));
+  waterLevelTorus.rotateX(Math.PI / 2);
+  scenes.transport.scene.add(waterLevelTorus);
+  const cube = new THREE.Mesh(new THREE.BoxGeometry(20, 2, 5), new THREE.MeshBasicMaterial({color: 0x456789}));
+  scenes.transport.scene.add( cube );
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 4; j++) {
+      const geometry = new THREE.CylinderGeometry(0.4, 0.3, 10, 12);
+      const material = new THREE.MeshBasicMaterial({color: i==1&&j==0?0xff0000 : 0x987654});
+      const cylinder = new THREE.Mesh(geometry, material);
+      cylinder.rotateZ(Math.PI / 2);
+      cylinder.translateX(i*1+1.5);
+      cylinder.translateZ(j*1.2-2);
+      scenes.transport.scene.add(cylinder);
+      if(i==1&&j==0) scenes.transport.target = cylinder.position;
+    }
+  }
+}
+
+console.log();
+function animate() {
+  requestAnimationFrame(animate);
+  let distinctScenes = new Set(window.dash.canvasSetups.map((x)=>x.scene));
+  distinctScenes.forEach((name)=>{
+    scenes[name].update();
+  });
+  let activeRenderers =new Set(window.dash.canvasSetups.map((x)=>x.name));
+  // console.log(activeRenderers);
+
+  window.dash.canvasSetups.forEach((setup)=>{
+    // let setup = canvasMap[ren];
+    renderers[setup.name].render(scenes[setup.scene], window.dashboards.cameras[setup.camera]);
+  })
+}
+animate();
+
+// console.log(renderers);
+// console.log(renderers.bot);
+// Object.entries(renderers).forEach(entry => {
+//   const [key, value] = entry;
+//   console.log(value);
+//   entry.value.render(sceneBP.scene);
+// });
+
+async function parseJsonFile(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+    fileReader.onload = event => resolve(JSON.parse(event.target.result))
+    fileReader.onerror = error => reject(error)
+    fileReader.readAsText(file)
+  })
+}
+
+// import { loadExcelJson } from "./excel-parser.js";
+// import  { fetchExcelToJson } from "./excel-fetcher.js";
+
+async function pickDirectoryAndParse(){
+  const directoryHandle = await window.showDirectoryPicker();
+  console.log(directoryHandle);
+
+  let projectArray = [];
+  for await (const entry of directoryHandle.entries()) {
+    console.log(entry);
+    let arrayOfArrays = await loadExcelJson( await entry[1].getFile());
+    projectArray.push(
+            {
+              name: entry[0].split('.')[0],
+              aoa: arrayOfArrays
+            }
+    );
+
+  }
+  window.projectName = directoryHandle.name;
+  window.projectArray = projectArray;
+  // stepChanged(0);
+  console.log(projectArray);
+};
+
+document.getElementById("configPickerButton").addEventListener("click", async ()=>{
+  document.getElementById('leftButton').click();
+  let [fileHandle] = await window.showOpenFilePicker();
+  console.log(fileHandle);
+
+  let file = await fileHandle.getFile();
+  console.log(file);
+  let obj = await parseJsonFile(file);
+  window.dashboards = obj;
+  setCanvases();
+  setDashboard();
+  setMenu();
+  console.log(obj);
+});
+
+document.getElementById("stylePickerButton").addEventListener("click", async ()=>{
+  document.getElementById('leftButton').click();
+  let [fileHandle] = await window.showOpenFilePicker();
+  console.log(fileHandle);
+
+  let file = await fileHandle.getFile();
+  const url = URL.createObjectURL(file);
+  console.log(url);
+  document.getElementById('styleLink').href = url;
+  // let obj = await parseJsonFile(file);
+  // window.dashboards = obj;
+  //
+  // setDashboard();
+  // setMenu();
+  // console.log(obj);
+});
+document.getElementById("projectPickerButton").addEventListener("click", async ()=>{
+  document.getElementById('leftButton').click();
+  await pickDirectoryAndParse();
+});
+
+window.focusedCanvas = null;
+{
+  document.getElementById('fullCanvasButton').onclick = ()=>{
+    document.getElementById('modalBackgroundDiv').hidden = false;
+
+  }
+  document.getElementById('modalCloseButton').onclick = ()=>{
+    document.getElementById('modalBackgroundDiv').hidden = true;
+  }
+  let panelHiddens = {
+    left: false,
+    right: false
+  }
+  function resizeCanvasDiv(){
+    let canvasDiv = document.getElementById('canvasDiv');
+    canvasDiv.style.left = panelHiddens.left ? '0%' : '17%';
+    let width = 66;
+    if(panelHiddens.left) width+=17;
+    if(panelHiddens.right) width+=17;
+    canvasDiv.style.width = ''+width+'%';
+
+  }
+
+  ["left", 'right'].forEach((id)=>{
+    let button = document.getElementById(id+'Button');
+    button.onclick=()=>{
+      let div = document.getElementById(id+'MenuDiv');
+      div.hidden = !div.hidden;
+      button.style.backgroundColor = div.hidden ? "white" :  "red";
+    };
+
+
+    let collapseButton = document.getElementById(id+'CollapseButton');
+    collapseButton.onclick=()=>{
+      let div = document.getElementById(id+'PanelDiv');
+      div.hidden = !div.hidden;
+      panelHiddens[id] = div.hidden;
+      collapseButton.style.backgroundColor = div.hidden ? "red" :  "white";
+      resizeCanvasDiv();
+    };
+
+  });
+
+  const fullScreenStyle = document.getElementById("templateDiv").style;
+  let storedStyle = null;
+  ["topCanvas", "topRightCanvas", "topLeftCanvas", "botCanvas"].forEach(id => {
+    let div = document.getElementById(id + 'Div');
+    let button = document.getElementById(id + 'Button');
+    button.onclick = () => {
+      if (storedStyle) {
+        Object.entries(storedStyle).forEach(entry => {
+          const [key, value] = entry;
+          div.style[key] = value;
+        });
+        window.focusedCanvas = null;
+        storedStyle = null;
+      } else {
+
+        storedStyle = {
+          top: div.style.top,
+          left: div.style.left,
+          width: div.style.width,
+          height: div.style.height,
+          zIndex: div.style.zIndex
+        };
+        Object.entries(storedStyle).forEach(entry => {
+          const [key, value] = entry;
+          div.style[key] = fullScreenStyle[key];
+        });
+        window.focusedCanvas = document.getElementById(id);
+      }
+    }
+  });
+  let colorMap = {
+    // botCanvas: 'orange',
+    // topLeftCanvas: 'blue',
+    // topRightCanvas: 'yellow',
+    // topCanvas: 'green',
+    // fullCanvas: 'aquamarine'
+  }
+  Object.entries(colorMap).forEach(entry => {
+    const [key, value] = entry;
+    console.log(key, value);
+    let canvas = document.getElementById(key);
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = value;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  });
+}
+
+</script>
+<!--<script src="./layout-script.js"> </script>-->
+</html>

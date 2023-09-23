@@ -1,0 +1,17 @@
+{
+  "trailingSlash": "auto",
+  "routes": [
+    {
+      "route": "/index.html"
+    },
+    {
+      "route": "/gltf.html"
+    },
+    {
+      "route": "/HTML/index.html"
+    },
+    {
+      "route": "/HTML/content/*.{png,jpg,gif}"
+    }
+  ]
+}

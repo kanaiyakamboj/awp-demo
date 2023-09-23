@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Automatic Work Pack - Heerema Marine Contracters</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel = "shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link rel = "manifest" href="./../manifest.json">
+    <!-- Google icons -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script>
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('/../service-worker.js');
+        }
+    </script>
+    <script>
+        let stepAt = 0;
+        let monopileAt = 0;
+        let excelAt = 0;
+        let globalPage;
+        window.listBuilt = false;
+        function resetMonopileButton(){
+            if(document.getElementById('monopileButton')) document.getElementById('monopileButton').innerHTML = window.projectArray[excelAt].aoa[monopileAt].sheet;
+        }
+        function stepChanged(newStep){
+            // console.log(window.projectArray[excelAt].name)
+            if(!window.projectArray) return;
+            if(document.getElementById('selectHTV')) document.getElementById('selectHTV').innerText = window.projectArray[excelAt].name;
+            if(document.getElementById('xlToJS')) document.getElementById('xlToJS').innerText=window.projectName;
+            if(document.getElementById('selectHTVlist')) {
+                document.getElementById('selectHTVlist').innerHTML = '';
+                for (let i = 0; i < window.projectArray.length; i++) {
+                    let s = 'monopileAt=0; excelAt=' + i + '; stepAt = 0; window.listBuilt=false; stepChanged(stepAt); resetMonopileButton(); ';
+                    document.getElementById('selectHTVlist').innerHTML += '<li onclick="' + s + '"><a class="dropdown-item" href="#">' + window.projectArray[i].name + '</a></li>';
+                }
+            }
+            resetMonopileButton();
+            let stepButtons = document.getElementsByClassName('step-button');
+            for (let i = 0; i < stepButtons.length; i++) {
+                stepButtons[i].style.backgroundColor = (stepButtons[i].id ===('stepButton' + newStep)) ? "red" : "white";
+                stepButtons[i].style.fontWeight = (stepButtons[i].id ===('stepButton' + newStep)) ? "bold" : "normal";
+                //style="background-color:red"
+            }
+            console.log(window.projectArray[excelAt].aoa);
+            if(!(window.projectArray[excelAt].aoa) || window.projectArray[excelAt].aoa.length===0) return;
+            console.log('did not return');
+            stepAt = newStep;
+            let stepData = window.projectArray[excelAt].aoa? (window.projectArray[excelAt].aoa[monopileAt]?.steps[stepAt]) : null;
+            document.getElementById("cardBody-bottomLeftDiv").innerHTML = '';
+            if(globalPage ==='install') {
+                for (let x in stepData) {
+                    if (x.startsWith('SB')) {
+                        document.getElementById("cardBody-bottomLeftDiv").innerHTML += ( /*html*/ `
+                <div class="mb-6">
+                    <label style="margin-bottom: 0px" for="text-dark text-bg-light rounded-0 formFile" class="form-label">` + x + `</label>
+                    <p style="margin-bottom: 0px" class="fs-5 text-light">` + stepData[x] + `</p>
+                </div>`);
+                    }
+                }
+                document.getElementById("cardBody-bottomRightDiv").innerHTML = '';
+                for (let x in stepData) {
+                    if (x.startsWith('PS')) {
+                        document.getElementById("cardBody-bottomRightDiv").innerHTML += ( /*html*/ `
+                <div class="mb-6">
+                    <label style="margin-bottom: 0px" for="text-dark text-bg-light rounded-0 formFile" class="form-label">` + x + `</label>
+                    <p style="margin-bottom: 0px" class="fs-5 text-light">` + stepData[x] + `</p>
+                </div>`);
+                    }
+                }
+                document.getElementById("cardBody-topLeftDiv").innerHTML = '';
+                document.getElementById("cardBody-topLeftDiv").innerHTML += ( /*html*/ `
+                <div class="mb-6">
+                    <label style="margin-bottom: 0px" for="text-dark text-bg-light rounded-0 formFile" class="form-label">MONOPILE NAME</label>
+                    <p style="margin-bottom: 0px" class="fs-5 text-light">` + window.projectArray[excelAt].aoa[monopileAt].sheet + `</p>
+                </div>`);
+                for (let x in stepData) {
+                    if (!x.startsWith('SB') && !x.startsWith('PS') && !x.startsWith('INSTALL') && !x.startsWith('IMAGE')) {
+                        document.getElementById("cardBody-topLeftDiv").innerHTML += ( /*html*/ `
+                <div class="mb-6">
+                    <label style="margin-bottom: 0px" for="text-dark text-bg-light rounded-0 formFile" class="form-label">` + x + `</label>
+                    <p style="margin-bottom: 0px" class="fs-5 text-light">` + stepData[x] + `</p>
+                </div>`);
+                    }
+                }
+            }
+            function toLowerCaseJpg(s){
+                return s.split('.')[0]+'.jpg';
+            }
+            let stepDataFirst = window.projectArray[excelAt].aoa? (window.projectArray[excelAt].aoa[monopileAt]?.steps[0]) : null;
+            document.getElementById('sideImage').src= 'content/'+window.projectArray[excelAt].aoa[monopileAt%2].sheet+'-'+toLowerCaseJpg(stepData['INSTALL IMAGE SIDE']);
+            document.getElementById('topImage').src= 'content/'+window.projectArray[excelAt].aoa[monopileAt%2].sheet+'-'+toLowerCaseJpg(stepData['INSTALL IMAGE TOP']);
+            document.getElementById('persImage').src= 'content/'+window.projectArray[excelAt].aoa[monopileAt%2].sheet+'-'+toLowerCaseJpg(stepData['IMAGE INSTALL PERSP']);
+            document.getElementById('htvTop').src= 'content/'+window.projectArray[excelAt].aoa[monopileAt%2].sheet+'-'+toLowerCaseJpg(stepDataFirst['IMAGE HLV TOP']);
+            document.getElementById('htvSide').src= 'content/'+window.projectArray[excelAt].aoa[monopileAt%2].sheet+'-'+toLowerCaseJpg(stepDataFirst['IMAGE HLV SIDE']);
+            document.getElementById('imgSrcFull').src= 'content/'+window.projectArray[excelAt].aoa[monopileAt%2].sheet+'-'+toLowerCaseJpg(stepData['IMAGE FIELD LAYOUT']);
+
+
+
+            // console.log(stepData);
+            if(!(window.listBuilt) && document.getElementById('monopileList')) {
+                console.log('building list');
+                document.getElementById('monopileList').innerHTML = '';
+
+                for (let i = 0; i < window.projectArray[excelAt].aoa.length; i++) {
+                    let s = 'monopileAt=' + i + '; stepAt = 0; stepChanged(stepAt); resetMonopileButton();';
+                    document.getElementById('monopileList').innerHTML += '<li onclick="' + s + '"><a class="dropdown-item" href="#">' + window.projectArray[excelAt].aoa[i].sheet + '</a></li>';
+                }
+                window.listBuilt = true;
+            }
+        }
+    </script>
+    <script type="module">
+        import { get, set } from "https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js";
+        import { loadExcelJson } from "./../old-app/excel-parser.js";
+        import  { fetchExcelToJson } from "./../old-app/excel-fetcher.js";
+        let arrayOfArrays = [];//await get('ExcelJson');
+        let projectArray = [];
+        function getArrayOfArrays(){
+            return projectArray[excelAt%projectArray.length];
+        }
+        //if(arrayOfArrays===undefined)
+        {
+            console.log("Yet to be defined");
+            arrayOfArrays = await fetchExcelToJson('./../old-app/HTV-EW1-04.xlsx');
+            projectArray.push(
+                {
+                    name: 'HTV-EW1-04 (dummy)',
+                    aoa: arrayOfArrays
+                }
+            );
+            console.log(projectArray);
+            await set('ExcelJson', arrayOfArrays);
+            console.log(await get('ExcelJson'));
+
+            window.listBuilt = false;
+            console.log('gotta load');
+            console.log(arrayOfArrays);
+
+        }
+        console.log(arrayOfArrays);
+
+        async function pickAndParse() {
+            const [fileHandle] = await window.showOpenFilePicker();
+            arrayOfArrays = await loadExcelJson( await fileHandle.getFile());
+            projectArray.push(
+                {
+                    name: fileHandle.name.split('.')[0],
+                    aoa: arrayOfArrays
+                }
+            );
+            console.log(projectArray);
+            await set('ExcelJson', arrayOfArrays);
+            console.log(await get('ExcelJson'));
+            window.listBuilt = false;
+            stepChanged(0);
+        }
+        window.pickAndParse = pickDirectoryAndParse;
+        async function pickDirectoryAndParse(){
+            const directoryHandle = await window.showDirectoryPicker();
+            console.log(directoryHandle);
+
+            projectArray = [];
+            for await (const entry of directoryHandle.entries()) {
+                console.log(entry);
+                arrayOfArrays = await loadExcelJson( await entry[1].getFile());
+                projectArray.push(
+                    {
+                        name: entry[0].split('.')[0],
+                        aoa: arrayOfArrays
+                    }
+                );
+
+            }
+            window.projectName = directoryHandle.name;
+            window.projectArray = projectArray;
+            stepChanged(0);
+            console.log(projectArray);
+        };
+        window.pickDirectoryAndParse = pickDirectoryAndParse;
+        function attachLoadFunction() {
+            console.log('attaching load function');
+            //document.getElementById('xlToJS').addEventListener('click', pickDirectoryAndParse);
+        }
+        window.projectName = 'IMPORT PROJECT';
+        window.projectArray = projectArray;
+
+
+
+        stepChanged(0);
+    </script>
+    <script>
+        function goToPage(page) {
+            if (page == "field") {
+                globalPage = "field"
+                window.listBuilt = false;
+                document.getElementById("pageTitle").textContent = "AUTOMATIC WORK PACK - FIELD"
+
+                document.getElementById("imgSrcFull").src = "content/EW1-B21-FL-31-01.jpg"
+
+                document.getElementById("leftdiv").style.display = 'none'
+                document.getElementById("3DContent").style.width = "1600px"
+                document.getElementById("3DContent").style.left = "0px"
+
+                document.getElementById("full").style.display = 'block'
+                document.getElementById("halfTop").style.display = 'none'
+                document.getElementById("halfBottom").style.display = 'none'
+                document.getElementById("quarterLeft").style.display = 'none'
+                document.getElementById("quarterRight").style.display = 'none'
+                document.getElementById("halfBottomMiddle").style.display = 'none'
+
+                document.getElementById("viewNameFull").textContent = "topview"
+
+                document.getElementById("cardTitle-topRightDiv").textContent = 'PROJECT MAP'
+                document.getElementById("cardTitle-bottomRightDiv").textContent = 'PROJECT SELECTION'
+                document.getElementById("cardBody-topRightDiv").style.overflow = "auto";
+
+                document.getElementById("cardBody-topRightDiv").innerHTML = ( /*html*/ `F
+                <img class="img-fluid m-0 p-0" src="./content/Map-client.jpg">`);
+
+                document.getElementById("cardBody-bottomRightDiv").innerHTML = ( /*html*/ `
+                <div class="mb-3">
+                    <label for="text-dark text-bg-light rounded-0 formFile" class="form-label">PROJECT</label>
+                    <button id="xlToJS" style="width: 100%" type="button" class="btn btn-light btn-lg rounded-0" onclick="pickAndParse()">IMPORT XLS</button>
+                </div>
+
+                <div class="mb-3">
+                    <label for="text-dark text-bg-light rounded-0 formFile" class="form-label">HTV</label>
+                    <div class="dropdown" data-bs-theme="light" ">
+                        <button id="selectHTV" style="width: 100%" class="btn btn-light btn-lg rounded-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">HTV-EW1-04 (dummy)</button>
+                        <ul  id="selectHTVlist" style="width: 100%" class="rounded-0 dropdown-menu">
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="text-dark text-bg-light rounded-0 formFile" class="form-label">MONOPILE</label>
+                    <div class="dropdown" data-bs-theme="light" ">
+                        <button id="monopileButton" style="width: 100%" class="btn btn-light btn-lg rounded-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">SELECT MONOPILE</button>
+                        <ul id="monopileList" style="width: 100%" class="rounded-0 dropdown-menu">
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                        </ul>
+                    </div>
+                </div>`);
+                listBuilt = false;
+                stepChanged(stepAt);
+
+            }
+            else if (page == "htvLayout") {
+                window.listBuilt = false;
+                globalPage = "htvLayout"
+                document.getElementById("pageTitle").textContent = "AUTOMATIC WORK PACK - HTV"
+
+                document.getElementById("leftdiv").style.display = 'none'
+                document.getElementById("3DContent").style.width = "1600px"
+                document.getElementById("3DContent").style.left = "0px"
+
+                document.getElementById("full").style.display = 'none'
+                document.getElementById("halfTop").style.display = 'block'
+                document.getElementById("halfBottom").style.display = 'block'
+                document.getElementById("quarterLeft").style.display = 'none'
+                document.getElementById("quarterRight").style.display = 'none'
+                document.getElementById("halfBottomMiddle").style.display = 'none'
+
+                document.getElementById("viewNameHalfTop").textContent = "section"
+                document.getElementById("viewNameHalfBottom").textContent = "topview"
+
+                document.getElementById("cardTitle-topRightDiv").textContent = 'DESCRIPTION'
+                document.getElementById("cardTitle-bottomRightDiv").textContent = 'MONOPILE SELECTION'
+
+                document.getElementById("cardBody-topRightDiv").innerHTML = ( /*html*/ `
+                <p class="fs-5 text-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                `);
+                document.getElementById("cardBody-bottomRightDiv").innerHTML = ( /*html*/ `
+                <div class="mb-3">
+                    <label for="text-dark text-bg-light rounded-0 formFile" class="form-label">PROJECT</label>
+                    <button id="xlToJS" style="width: 100%" type="button" class="btn btn-light btn-lg rounded-0" onclick="pickAndParse()">IMPORT XLS</button>
+                </div>
+
+                <div class="mb-3">
+                    <label for="text-dark text-bg-light rounded-0 formFile" class="form-label">HTV</label>
+                    <div class="dropdown" data-bs-theme="light">
+                        <button  id="selectHTV" style="width: 100%" class="btn btn-light btn-lg rounded-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">HTV-EW1-04 (dummy)</button>
+                        <ul id="selectHTVlist" style="width: 100%" class="rounded-0 dropdown-menu">
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="text-dark text-bg-light rounded-0 formFile" class="form-label">MONOPILE</label>
+                    <div class="dropdown" data-bs-theme="light" ">
+                        <button id="monopileButton" style="width: 100%" class="btn btn-light btn-lg rounded-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">SELECT MONOPILE</button>
+                        <ul id="monopileList" style="width: 100%" class="rounded-0 dropdown-menu">
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                            <li><a class="dropdown-item" href="#">value from xls....</a></li>
+                        </ul>
+                    </div>
+                </div>`);
+                listBuilt=false;
+                stepChanged(stepAt);
+            }
+            else if (page == "install") {
+                globalPage = "install";
+                document.getElementById("pageTitle").textContent = "AUTOMATIC WORK PACK - INSTALL"
+
+                document.getElementById("leftdiv").style.display = 'block'
+                document.getElementById("3DContent").style.width = "1280px"
+                document.getElementById("3DContent").style.left = "320px"
+
+                document.getElementById("full").style.display = 'none'
+                document.getElementById("halfTop").style.display = 'none'
+                document.getElementById("halfBottom").style.display = 'block'
+                document.getElementById("quarterLeft").style.display = 'block'
+                document.getElementById("quarterRight").style.display = 'block'
+                document.getElementById("halfBottomMiddle").style.display = 'block'
+
+                document.getElementById("viewNameQuarterLeft").textContent = "side"
+                document.getElementById("viewNameQuarterRight").textContent = "perspective"
+                document.getElementById("viewNameHalfBottomMiddle").textContent = "topview"
+
+                document.getElementById("cardTitle-topLeftDiv").textContent = 'DATA ENGINEERING'
+                document.getElementById("cardTitle-bottomLeftDiv").textContent = 'SB CRAIN DIMENSIONS'
+                document.getElementById("cardTitle-topRightDiv").textContent = 'INSTALLATION STEPS'
+                document.getElementById("cardTitle-bottomRightDiv").textContent = 'PS CRAIN DIMENSIONS'
+
+
+
+                document.getElementById("cardBody-topRightDiv").innerHTML = ( /*html*/ `
+                <div class="d-grid gap-2">
+                    <button id="stepButton0" type="button" class=" step-button btn btn-light btn-lg rounded-0" onclick = "stepChanged(0);">STEP 1</button>
+                    <button id="stepButton1" type="button" class=" step-button btn btn-light btn-lg rounded-0" onclick = "stepChanged(1);">STEP 2</button>
+                    <button id="stepButton2" type="button" class=" step-button btn btn-light btn-lg rounded-0" onclick = "stepChanged(2);">STEP 3</button>
+                    <button id="stepButton3" type="button" class=" step-button btn btn-light btn-lg rounded-0" onclick = "stepChanged(3);">STEP 4</button>
+                    <button id="stepButton4" type="button" class=" step-button btn btn-light btn-lg rounded-0" onclick = "stepChanged(4);">STEP 5</button>
+                </div>
+                `);
+                listBuilt=false;
+                stepChanged(stepAt);
+
+            }
+            else if (page == "account") {
+                globalPage = "account"
+            }
+            else if (page == "faq") {
+                globalPage = "faq"
+            }
+            else if (page == "logout") {
+                globalPage = "logout"
+            }
+            else {
+                globalPage = "field"
+            }
+            console.log(page)
+        }
+    </script>
+</head>
+
+<body onload="goToPage('field')">
+<div style="width: 1920px; height: 1080px;" class="mx-auto m-0 p-0">
+
+    <!-- navbar -->
+    <div type="position: absolute; top: 0px; height: 80px; width: 1080px;"
+         class="d-flex justify-content-between align-items-start m-0 p-0">
+        <div class="rounded-0 m-0 p-0">
+            <button style="height: 70px; width: 157px;" class="btn btn-light border border-0 rounded-0 m-0 p-0"
+                    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+                    aria-controls="offcanvasExample">
+                <h3>MENU</h3>
+            </button>
+            <button style="height: 70px; width: 157px;" class="btn btn-light border border-0 rounded-0 m-0 p-0"
+                    type="button" data-bs-toggle="modal" data-bs-target="#makeNotes">
+                <h3>NOTES</h3>
+            </button>
+        </div>
+
+        <div  class="m-0 p-0">
+            <h1 id="pageTitle" class="display-4">AUTOMATIC WORK PACK</h1>
+        </div>
+
+        <div class="rounded-0 m-0 p-0">
+            <button style="height: 70px; width: 157px;" class="btn btn-light border border-0 rounded-0 m-0 p-0"
+                    type="button" data-bs-toggle="modal" data-bs-target="#makePictures">
+                <h3>CAM</h3>
+            </button>
+            <button style="height: 70px; width: 157px;" class="btn btn-light border border-0 rounded-0 m-0 p-0"
+                    type="button" onclick="window.print()">
+                <h3>PRINT</h3>
+            </button>
+        </div>
+    </div>
+
+    <!-- leftdiv -->
+    <div id="leftdiv" style="position: absolute; top: 80px; left: 0px; width: 320px; height: 1000px;"
+         class="m-0 p-0">
+        <!-- topdiv -->
+        <div style="position: absolute; top: 0px; width: 320px; height: 500px;"
+             class="card border border-0 m-0 p-0">
+            <div style="height: 500px;" class="card rounded-0 m-0 p-0">
+                <div class="card-header bg-light text-dark rounded-0">
+                    <h5 id="cardTitle-topLeftDiv" class="card-title m-0 p-1">TOPLEFTDIV</h5>
+                    <button style="position: absolute; right: 3px; top: 3px;" type="button" class="btn btn-light material-symbols-outlined m-0 p-2" data-bs-toggle="dropdown" aria-expanded="false" disabled>filter_list</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">DATA ENGINEERING</a></li>
+                        <li><a class="dropdown-item" href="#">INSTALLATION STEPS</a></li>
+                        <li><a class="dropdown-item" href="#">SB CRAIN DIMENSIONS</a></li>
+                        <li><a class="dropdown-item" href="#">PS CRAIN DIMENSIONS</a></li>
+                    </ul>
+                </div>
+                <div id="cardBody-topLeftDiv" class="card-body">
+                    <p class="card-text">Content here...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- bottomdiv -->
+        <div style="position: absolute; top: 500px; width: 320px; height: 500px;"
+             class="card border border-0 m-0 p-0">
+            <!-- bottomdiv -->
+            <div style="height: 500px;" class="card rounded-0 m-0 p-0">
+                <div class="card-header bg-light text-dark rounded-0">
+                    <h5 id="cardTitle-bottomLeftDiv" class="card-title m-0 p-1">BOTTOMLEFTDIV</h5>
+                    <button style="position: absolute; right: 3px; top: 3px;" type="button" class="btn btn-light material-symbols-outlined m-0 p-2" data-bs-toggle="dropdown" aria-expanded="false" disabled>filter_list</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">DATA ENGINEERING</a></li>
+                        <li><a class="dropdown-item" href="#">INSTALLATION STEPS</a></li>
+                        <li><a class="dropdown-item" href="#">SB CRAIN DIMENSIONS</a></li>
+                        <li><a class="dropdown-item" href="#">PS CRAIN DIMENSIONS</a></li>
+                    </ul>
+                </div>
+                <div id="cardBody-bottomLeftDiv" class="card-body">
+                    <p class="card-text">Content here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </script>
+
+    <!-- 3d content -->
+    <div id="3DContent" style="position: absolute; top: 80px; height: 1000px;">
+        <div id="full" style="position: absolute; top: 0px; width: 1600px; height: 1000px;">
+            <div style="width: 1600px; height: 1000px; border: 6px solid blue;">
+                <h3 id="viewNameFull" style="position: absolute;" class="text-dark m-0 p-3">ffgfgf</h3>
+                <img id="imgSrcFull" class="img-fluid" alt="...">
+            </div>
+        </div>
+        <div id="halfTop" style="position: absolute; top: 0px; width: 1600px; height: 500px;">
+            <div style="width: 1600px; height: 500px; border: 6px solid blue;">
+                <h3 id="viewNameHalfTop" style="position: absolute;" class="text-dark m-0 p-3">ffgfgf</h3>
+                <button style="position: absolute; right: 0px;" type="button" class="btn m-0 p-3"><span
+                        class="fs-1 material-symbols-outlined text-dark">open_in_full</span></button>
+                <img id="htvTop" src="content/EW1-B21-HLV-T-31-01.jpg" class="img-fluid" alt="...">
+            </div>
+        </div>
+        <div id="halfBottom" style="position: absolute; bottom: 0px; width: 1600px; height: 500px;">
+            <div style="width: 1600px; height: 500px; border: 6px solid blue;">
+                <h3 id="viewNameHalfBottom" style="position: absolute;" class="text-dark m-0 p-3">ffgfgf</h3>
+                <button style="position: absolute; right: 0px;" type="button" class="btn m-0 p-3"><span
+                        class="fs-1 material-symbols-outlined text-dark">open_in_full</span></button>
+                <img id="htvSide" src="content/EW1-B21-HLV-S-31-01.jpg" class="img-fluid" alt="...">
+            </div>
+        </div>
+
+        <div id="quarterLeft" style="position: absolute; top: 0px; left: 0px; width: 640px; height: 500px;">
+            <div style="width: 640px; height: 500px; border: 6px solid blue;">
+                <h3 id="viewNameQuarterLeft" style="position: absolute;" class="text-dark m-0 p-3">ffgfgf</h3>
+                <button style="position: absolute; right: 0px;" type="button" class="btn m-0 p-3"><span
+                        class="fs-1 material-symbols-outlined text-dark">open_in_full</span></button>
+                <img id="sideImage" src="content/EW1-B22-IN-S-31-01.jpg" class="img-fluid" alt="...">
+            </div>
+        </div>
+        <div id="quarterRight" style="position: absolute; top: 0px; left: 640px; width: 640px; height: 500px;">
+            <div style="width: 640px; height: 500px; border: 6px solid blue;">
+                <h3 id="viewNameQuarterRight" style="position: absolute;" class="text-dark m-0 p-3">ffgfgf</h3>
+                <button style="position: absolute; right: 0px;" type="button" class="btn m-0 p-3"><span
+                        class="fs-1 material-symbols-outlined text-dark">open_in_full</span></button>
+                <img id="persImage"  src="content/EW1-B22-IN-P-31-01.jpg" class="img-fluid" alt="...">
+            </div>
+        </div>
+        <div id="halfBottomMiddle" style="position: absolute; bottom: 0px; width: 1280px; height: 500px;">
+            <div style="width: 1280px; height: 500px; border: 6px solid blue;">
+                <h3 id="viewNameHalfBottomMiddle" style="position: absolute;" class="text-dark m-0 p-3">ffgfgf</h3>
+                <button style="position: absolute; right: 0px;" type="button" class="btn m-0 p-3"><span
+                        class="fs-1 material-symbols-outlined text-dark">open_in_full</span></button>
+                <img id="topImage"  src="content/EW1-B22-IN-T-31-01.jpg" class="img-fluid" alt="...">
+            </div>
+        </div>
+    </div>
+
+    <!-- rightdiv -->
+    <div style="position: absolute; top: 80px; right: 0px; width: 320px; height: 1000px;" class="m-0 p-0">
+        <!-- topdiv -->
+        <div style="position: absolute; top: 0px; width: 320px; height: 500px;" class="card rounded-0 m-0 p-0">
+            <div class="card-header bg-light text-dark  rounded-0">
+                <h5 id="cardTitle-topRightDiv" class="card-title m-0 p-1">TOPRIGHTDIV</h5>
+                <button style="position: absolute; right: 3px; top: 3px;" type="button" class="btn btn-light material-symbols-outlined m-0 p-2" data-bs-toggle="dropdown" aria-expanded="false" disabled>filter_list</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">DATA ENGINEERING</a></li>
+                    <li><a class="dropdown-item" href="#">INSTALLATION STEPS</a></li>
+                    <li><a class="dropdown-item" href="#">SB CRAIN DIMENSIONS</a></li>
+                    <li><a class="dropdown-item" href="#">PS CRAIN DIMENSIONS</a></li>
+                </ul>
+            </div>
+            <div id="cardBody-topRightDiv" class="card-body">
+                <p class="card-text">Content here..</p>
+            </div>
+        </div>
+
+        <!-- bottomdiv -->
+        <div style="position: absolute; top: 500px; width: 320px; height: 500px;" class="card rounded-0 m-0 p-0">
+            <div class="card-header bg-light text-dark rounded-0">
+                <h5 id="cardTitle-bottomRightDiv" class="card-title m-0 p-1">TOPRIGHTDIV</h5>
+                <button style="position: absolute; right: 3px; top: 3px;" type="button" class="btn btn-light material-symbols-outlined m-0 p-2" data-bs-toggle="dropdown" aria-expanded="false" disabled>filter_list</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">DATA ENGINEERING</a></li>
+                    <li><a class="dropdown-item" href="#">INSTALLATION STEPS</a></li>
+                    <li><a class="dropdown-item" href="#">SB CRAIN DIMENSIONS</a></li>
+                    <li><a class="dropdown-item" href="#">PS CRAIN DIMENSIONS</a></li>
+                </ul>
+            </div>
+            <div id="cardBody-bottomRightDiv" class="card-body">
+                <p class="card-text">Content here...</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- collapseable menu -->
+<div style="height: 1080px; width: 320px;" data-bs-theme="light" class="offcanvas offcanvas-start" tabindex="-1"
+     id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Heerema logo</h5>
+        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex align-content-between flex-wrap">
+        <div>
+            <button onclick="goToPage('field')" style="height: 72px; width: 287px;"
+                    class="btn btn-light text-start border border-0 rounded-0 m-0 p-0 mb-3" type="button">
+                <h3>&nbsp;&nbsp;▇ FIELD</h3>
+            </button>
+            <button onclick="goToPage('htvLayout')" style="height: 72px; width: 287px;"
+                    class="btn btn-light text-start border border-0 rounded-0 m-0 p-0 mb-3" type="button">
+                <h3>&nbsp;&nbsp;▇ HTV</h3>
+            </button>
+            <button onclick="goToPage('install')" style="height: 72px; width: 287px;"
+                    class="btn btn-light text-start border border-0 rounded-0 m-0 p-0 mb-3" type="button">
+                <h3>&nbsp;&nbsp;▇ INSTALL</h3>
+            </button>
+        </div>
+        <div>
+            <button onclick="goToPage('account')" style="height: 72px; width: 287px;"
+                    class="btn btn-light text-start border border-0 rounded-0 m-0 p-0 mb-3" type="button" disabled>
+                <h3>&nbsp;&nbsp;▇ ACCOUNT</h3>
+            </button>
+            <button onclick="goToPage('faq')" style="height: 72px; width: 287px;"
+                    class="btn btn-light text-start border border-0 rounded-0 m-0 p-0 mb-3" type="button" disabled>
+                <h3>&nbsp;&nbsp;▇ FAQ</h3>
+            </button>
+            <button onclick="goToPage('logout')" style="height: 72px; width: 287px;"
+                    class="btn btn-light text-start border border-0 rounded-0 m-0 p-0" type="button" disabled>
+                <h3>&nbsp;&nbsp;▇ LOGOUT</h3>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- end collapseable menu -->
+
+<!-- modal for notes -->
+<div class="modal fade" id="makeNotes" data-bs-theme="light" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="makeNotesLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="makeNotesLabel">Add notes here...</h1>
+                <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div style="width: 500px; height: 600px;" class="modal-body rounded-0">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light border border-0 rounded-0" type="button">
+                    SAVE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal for notes -->
+
+<!-- modal for cam -->
+<div class="modal fade" id="makePictures" data-bs-theme="light" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="makePicturesLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="makePicturesLabel">Make pictures...</h1>
+                <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div style="width: 500px; height: 600px;" class="modal-body rounded-0">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light border border-0 rounded-0" type="button">
+                    SAVE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal for notes -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+</script>
+</body>
+</html>

@@ -1,0 +1,630 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+
+:root {
+    --Black: #1F1F1F;
+    --LightBlack: #313236;
+    --InputColor: #434650;
+    --White: #fff;
+    --Blue: #0099D5;
+    --DarkBlue: #0089be;
+    --Orange: #FF400A;
+    --DarkOrange: #e03101;
+    --CardBg2: #2b2b2f;
+
+    --PrimaryFont: Poppins;
+
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d1d1d1;
+}
+
+.W100 {
+    width: 100%;
+}
+
+.MW100 {
+    max-width: 100%;
+}
+
+body {
+    margin: 0px;
+    font-family: var(--PrimaryFont);
+    transition: all 0.6s;
+}
+
+ul {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.OrangeBtn {
+    background: var(--Orange);
+    color: var(--White);
+}
+
+.OrangeBtn:hover {
+    background: var(--DarkOrange);
+    color: var(--White);
+}
+
+.BlueBtn {
+    background: var(--Blue);
+    color: var(--White);
+}
+
+.BlueBtn:hover {
+    background: var(--DarkBlue);
+}
+
+.WhiteBtn {
+    background: var(--White);
+    color: var(--Orange);
+}
+
+.WhiteBtn:hover {
+    background: var(--Orange);
+    color: var(--White);
+}
+
+.MyBtn {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 20px;
+    border-radius: 4px;
+    font-size: 18px;
+    border: none;
+    box-shadow: none;
+}
+
+.MainWrapper {
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    background: var(--Black);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.HeaderPart {
+    width: 100%;
+    height: 0px;
+    padding: 0px 20px 0px 50px;
+    background: var(--LightBlack);
+    display: flex;
+    opacity: 0;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.6s;
+}
+
+.HeaderPart.Active {
+    opacity: 1;
+    height: auto;
+    transition: all 0.6s;
+    position: relative;
+    top: 0px;
+    padding: 25px 20px 25px 50px;
+}
+
+.HeaderPart h2 {
+    margin: 0px;
+    color: var(--White);
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.TopMenuIcon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 5px 10px;
+    border-radius: 0 0 10px 10px;
+    background: var(--Orange);
+    color: var(--White);
+    z-index: 999999;
+    border: none;
+}
+
+.TopMenuIcon:hover {
+    background: var(--DarkBlue);
+}
+
+.TopMenuIcon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.PannelIcon {
+    position: absolute;
+    left: -70px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    padding: 8px 10px;
+    border-radius: 10px 10px 0 0;
+    background: var(--Orange);
+    color: var(--White);
+    gap: 8px;
+}
+
+.PannelIcon:hover {
+    background: var(--DarkOrange);
+}
+
+.MenuIcon {
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%) rotate(270deg);
+    padding: 8px 10px;
+    border-radius: 0 0 10px 10px;
+    background: var(--Blue);
+    color: var(--White);
+    gap: 8px;
+}
+
+.MenuIcon:hover {
+    background: var(--DarkBlue);
+}
+
+.MenuIcon svg,
+.PannelIcon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.ContentWrapper {
+    width: 100%;
+    height: calc(100% - 95px);
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    overflow: auto;
+    transition: all 0.3s;
+    bottom: 0;
+}
+
+.ContentWrapper.ToggleDiv.Active {
+    height: 100%;
+}
+
+.ContentWrapper.ChangeFlex {
+    gap: 0;
+}
+
+.MainContent {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    background: var(--LightBlack);
+}
+
+.AsideBarRight.Active {
+    flex: 0 0 430px;
+    transform: translateX(0%);
+}
+
+.AsideBarRight {
+    /* flex: 0 0 430px; */
+    flex: 0 0 0px;
+    width: 0px;
+    position: relative;
+    transition: all 0.8s;
+    transform: translateX(100%);
+}
+
+.AsideBarRight .PannelAside {
+    padding: 0px;
+    width: 0px;
+    background: var(--LightBlack);
+    overflow: hidden;
+    transition: all 0.8s;
+}
+
+.AsideBarRight.Active .PannelAside {
+    width: 100%;
+    height: 100%;
+    transition: all 0.8s;
+    overflow-y: auto;
+    max-height: calc(100vh - 133px);
+    border-radius: 10px 0px 0px 10px;
+    padding: 10px;
+}
+
+.ToggleDiv.Active .AsideBarRight.Active .PannelAside {
+    max-height: calc(100vh - 38px);
+}
+
+.MyCard {
+    width: 100%;
+    padding: 25px 20px;
+    border-radius: 10px;
+    background: var(--LightBlack);
+}
+
+.MyCardTitle {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--White);
+    margin-bottom: 20px;
+}
+
+.MyCardBody {}
+
+.AsideBarRight .PannelAside .MyCard {
+    background: var(--CardBg2);
+}
+
+.MyInputField {
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.MyInputField label {
+    display: block;
+    font-size: 20px;
+    color: var(--White);
+    margin-bottom: 7px;
+}
+
+.MySelect {
+    width: 100%;
+    min-height: 50px;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: var(--White);
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--InputColor);
+    background-image: url(../assets/ange-down.svg);
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 20px;
+}
+
+.MyInput {
+    width: 100%;
+    min-height: 50px;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: var(--White);
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--InputColor);
+}
+
+.MyInput::placeholder {
+    color: var(--White);
+}
+
+.MyInputBtn {
+    /* width: 100%; */
+    min-height: 50px;
+    padding: 10px 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--White);
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: var(--InputColor);
+    transition: all 0.6s;
+}
+
+.MyInputBtn:hover,
+.MyInputBtn:focus,
+.MyInputBtn:active {
+    background: var(--Orange);
+}
+
+.modal {
+    position: absolute;
+    z-index: 999999;
+    /* 1 */
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.modal.is-visible {
+    visibility: visible;
+}
+
+.modal-overlay {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: hsla(0, 0%, 0%, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.3s, opacity 0.3s;
+}
+
+.modal.is-visible .modal-overlay {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.modal-wrapper {
+    position: absolute;
+    z-index: 9999;
+    top: 6em;
+    left: 50%;
+    width: 32em;
+    margin-left: -16em;
+    background-color: var(--LightBlack);
+    box-shadow: 0 0 1.5em hsla(0, 0%, 0%, 0.35);
+}
+
+.modal-transition {
+    transition: all 0.3s 0.12s;
+    transform: translateY(-10%);
+    opacity: 0;
+}
+
+.modal.is-visible .modal-transition {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-header {
+    padding: 20px 15px;
+}
+
+.modal-content {
+    /* padding: 20px 15px 0px 15px; */
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+}
+
+.modal-header {
+    position: relative;
+    background-color: var(--LightBlack);
+    box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.06);
+    border-bottom: 1px solid var(--InputColor);
+}
+
+.modal-header img {
+    max-height: 47px;
+    max-width: 100%;
+}
+
+.modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    color: #aaa;
+    background: none;
+    border: 0;
+}
+
+.modal-close:hover {
+    color: #777;
+}
+
+.modal-heading {
+    font-size: 1.125em;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.modal-content>*:first-child {
+    margin-top: 0;
+}
+
+.modal-content>*:last-child {
+    margin-bottom: 0;
+}
+
+.MainMenu.modal .modal-wrapper {
+    left: -100%;
+    margin-left: 0;
+    top: 0;
+    min-height: 100vh;
+    overflow: auto;
+    max-width: 320px;
+}
+
+.MainMenu.modal.is-visible .modal-wrapper {
+    left: 0;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.MenusList {
+    padding: 20px 15px;
+    max-height: calc(100vh - 320px);
+    overflow: auto;
+}
+
+.MenusList li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--White);
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.MenusList li.active a {
+    background: var(--Orange);
+}
+
+.MenusList li:hover a {
+    background: var(--Orange);
+}
+
+.MenusList li a span {
+    flex: 0 0 18px;
+    height: 18px;
+}
+
+.MenusList li a span svg {
+    max-width: 18px;
+    max-height: 18px;
+}
+
+.MenusList li:not(:last-child),
+.UserAccountMenus li:not(:last-child) {
+    margin-bottom: 2px;
+}
+
+.UserAccountMenus {
+    background: var(--InputColor);
+    padding: 20px 15px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+
+.UserAccountMenus li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--White);
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.UserAccountMenus li.active a {
+    background: var(--Orange);
+}
+
+.UserAccountMenus li:hover a {
+    background: var(--Orange);
+}
+
+.UserAccountMenus li a span {
+    flex: 0 0 18px;
+    height: 18px;
+}
+
+.UserAccountMenus li a span svg {
+    max-width: 18px;
+    max-height: 18px;
+}
+
+.UserAccountMenus li a span.usericon {
+    flex: 0 0 40px;
+    height: 40px;
+}
+
+.UserAccountMenus li .ProfileMenu {
+    border-bottom: solid 1px var(--LightBlack);
+    border-radius: 0px !important;
+}
+
+.UserAccountMenus li:hover .ProfileMenu {
+    border-color: var(--Orange);
+    border-radius: 8px !important;
+}
+
+
+.MainMenu.modal .modal-body {
+    height: calc(100vh - 95px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.canvas-div {
+    width: 100%;
+    height: 100%;
+}
+
+.canvas-div canvas#field-canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+ul.BreadCrumb {
+    display: inline-flex;
+    flex-flow: wrap;
+    gap: 10px;
+}
+
+ul.BreadCrumb li {
+    font-size: 28px;
+    color: var(--White);
+    font-weight: 600;
+}
+
+ul.BreadCrumb li:not(:last-child):after {
+    content: "/";
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+ul.BreadCrumb li a {
+    font-size: 28px;
+    text-decoration: none;
+    color: var(--White);
+}
+
+.map {
+    height: 180px;
+}

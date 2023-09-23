@@ -1,0 +1,586 @@
+
+    {
+        "properties": {
+            "name": "Pile Ew1 Bw1",
+            "number": "",
+            "version": "0.2",
+            "creator": "",
+            "lastEdited": "",
+            "cog": {
+                "x": 0,
+                "y": 0,
+                "z": -22.2
+            },
+            "weight": 1031.8,
+            "latLong": {
+                "latitude": 0,
+                "longitude": 0
+            },
+            "totalLength": 62.9,
+            "embeddedLength": 29,
+            "htvPosition": 1,
+            "htvLayoutNumber": 1
+        },
+        "geometry": {
+            "shapes": [
+                {
+                    "name": "Can_01",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 7.26
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.126,
+                        "g": 0.126,
+                        "b": 0.126
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4,
+                        "radius2": 4,
+                        "thickness": 0.38,
+                        "height": 0.24
+                    }
+                },
+                {
+                    "name": "Can_02",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 4.3
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.643,
+                        "g": 0.451,
+                        "b": 0
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4,
+                        "radius2": 4,
+                        "thickness": 0.103,
+                        "height": 2.96
+                    }
+                },
+                {
+                    "name": "Can_03",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.1
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.643,
+                        "g": 0.451,
+                        "b": 0
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4,
+                        "radius2": 4,
+                        "thickness": 0.085,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_04",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -4
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.643,
+                        "g": 0.451,
+                        "b": 0
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4,
+                        "radius2": 4,
+                        "thickness": 0.093,
+                        "height": 4.1
+                    }
+                },
+                {
+                    "name": "Can_05",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -7
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.643,
+                        "g": 0.451,
+                        "b": 0
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.157,
+                        "radius2": 4,
+                        "thickness": 0.093,
+                        "height": 3
+                    }
+                },
+                {
+                    "name": "Can_06",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -10.541
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.643,
+                        "g": 0.451,
+                        "b": 0
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.343,
+                        "radius2": 4.157,
+                        "thickness": 0.073,
+                        "height": 3.541
+                    }
+                },
+                {
+                    "name": "Can_07",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -13.541
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.643,
+                        "g": 0.451,
+                        "b": 0
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.343,
+                        "thickness": 0.085,
+                        "height": 3
+                    }
+                },
+                {
+                    "name": "Can_08",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -16.141
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.085,
+                        "height": 2.6
+                    }
+                },
+                {
+                    "name": "Can_09",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -20.2
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.073,
+                        "height": 4.059
+                    }
+                },
+                {
+                    "name": "Can_10",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -24.4
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.078,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_11",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -28.6
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.073,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_12",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -32.8
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.073,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_13",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -37
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.073,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_14",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -41.2
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.065,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_15",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -45.4
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.065,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_16",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -49.6
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.065,
+                        "height": 4.2
+                    }
+                },
+                {
+                    "name": "Can_17",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -52.8
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.065,
+                        "height": 3.2
+                    }
+                },
+                {
+                    "name": "Can_18",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -55.4
+                    },
+                    "rotationQuat": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotationEuler": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "color": {
+                        "r": 0.109,
+                        "g": 0.047,
+                        "b": 0.023
+                    },
+                    "type": "Tube",
+                    "shapeProperties": {
+                        "radius1": 4.5,
+                        "radius2": 4.5,
+                        "thickness": 0.065,
+                        "height": 2.6
+                    }
+                }
+            ]
+        }
+    }

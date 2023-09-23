@@ -1,0 +1,140 @@
+{
+    "current": "field",
+    "canvases":[
+        {
+            "name": "bot",
+            "x": 0,
+            "y": 50,
+            "width": 100,
+            "height": 50
+        },
+        {
+            "name": "topLeft",
+            "x": 0,
+            "y": 0,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "name": "topRight",
+            "x": 50,
+            "y": 0,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "name": "top",
+            "x": 0,
+            "y": 0,
+            "width": 100,
+            "height": 50
+        },
+        {
+            "name": "full",
+            "x": 0,
+            "y": 0,
+            "width": 100,
+            "height": 100
+        }
+
+    ],
+    "cameras": {
+        "top": {
+            "type": "orth",
+            "offset": {
+                "x": 0,
+                "y": 10,
+                "z": 0
+            }
+        },
+        "transportTop": {
+            "type": "orth",
+            "offset": {
+                "x": 0,
+                "y": 20,
+                "z": 0
+            }
+        },
+        "back": {
+            "type": "orth",
+            "offset": {
+                "x": -7.5,
+                "y": 0,
+                "z": 0
+            }
+        },
+        "left": {
+            "type": "orth",
+            "offset": {
+                "x": -10,
+                "y": 0,
+                "z": 0
+            }
+        },
+        "frontLeft": {
+            "type": "pers",
+            "offset": {
+                "x": 10,
+                "y": 10,
+                "z": 5
+            }
+        }
+    },
+    "layouts":{
+        "field": {
+            "name": "FIELD",
+            "title": "AUTOMATIC WORK PACK - FIELD",
+            "leftPanel": [],
+            "rightPanel": ["map"],
+            "canvasSetups": [
+                {
+                    "name": "full",
+                    "scene":"field",
+                    "camera":"top"
+                }
+            ]
+        },
+        "transport": {
+            "name": "TRANSPORT",
+            "title": "AUTOMATIC WORK PACK - TRANSPORT",
+            "leftPanel": [],
+            "rightPanel": ["desc"],
+            "canvasSetups": [
+                {
+                    "name": "top",
+                    "scene":"transport",
+                    "camera":"transportTop"
+                },
+                {
+                    "name": "bot",
+                    "scene":"transport",
+                    "camera":"back"
+                }
+            ]
+        },
+        "install": {
+            "name": "INSTALL",
+            "title": "AUTOMATIC WORK PACK - INSTALLATION",
+            "leftPanel": ["dataEng", "sbDims"],
+            "rightPanel": ["steps", "psDims"],
+            "canvasSetups": [
+                {
+                    "name": "topLeft",
+                    "scene":"install",
+                    "camera":"left"
+                },
+                {
+                    "name": "topRight",
+                    "scene":"install",
+                    "camera":"frontLeft"
+                },
+                {
+                    "name": "bot",
+                    "scene":"install",
+                    "camera":"top"
+                }
+            ]
+        }
+    }
+
+}

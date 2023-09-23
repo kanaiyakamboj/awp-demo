@@ -1,0 +1,141 @@
+<div id="titleDiv" style="position:absolute; left:17%; height:50px;width:66%; background-color: aqua; text-align: center;"><p>AUTOMATIC WORK PACK</p></div>
+<div id="leftPanelDiv" style="position:absolute; top:50px; height:calc(100% - 50px);width:17%; background-color: aqua;"></div>
+<div id="leftButtonDiv" style="position:absolute; height: 50px;width:17%; z-index:10">
+    <div  id="leftButton" style="position:absolute;  left:25%; height:100%; width:75%;  text-align: center;"><p class="unselectable">MENU</p></div>
+    <div  id="leftCollapseButton" style="position:absolute; height:100%; width:25%; text-align: center;"><p class="unselectable">⇦</p></div>
+</div>
+<div id="rightPanelDiv" style="position:absolute; left:83%;top:50px; height:calc(100% - 50px);width:17%; background-color: aqua;"></div>
+<div id="rightButtonDiv" style="position:absolute; left:83%; height: 50px;width:17%;z-index:10">
+    <div  id="rightButton" style="position:absolute; left:0%; height:100%; width:75%; text-align: center;"><p class="unselectable">MISC</p></div>
+    <div  id="rightCollapseButton" style="position:absolute; left:75%; height:100%; width:25%; text-align: center;"><p class="unselectable">⇨</p></div>
+</div>
+<div id="canvasDiv" style="position:absolute; top:50px; left:17%;height:calc(100% - 50px);width:66%;">
+    <div id="botCanvasDiv" style="position:absolute; top:50%;height:50%;width:100%;">
+        <canvas id="botCanvas" style="position:absolute; height:100%;width:100%;"></canvas>
+        <div id="botCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>
+        <div id="fullCanvasButton" style="position:absolute; left:30%; top:35%; height:50px; width:50px"></div>
+    </div>
+    <div id="topLeftCanvasDiv" style="position:absolute;height:50%;width:50%;">
+        <canvas id="topLeftCanvas" style="position:absolute; height:100%;width:100%;"></canvas>
+        <div id="topLeftCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>
+    </div>
+    <div id="topRightCanvasDiv" style="position:absolute; left:50%;height:50%;width:50%;">
+        <canvas id="topRightCanvas" style="position:absolute; height:100%;width:100%;"></canvas>
+        <div id="topRightCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>
+    </div>
+    <div id="topCanvasDiv" style="position:absolute; height:50%;width:100%;">
+        <canvas id="topCanvas" style="position:absolute; height:100%;width:100%;"></canvas>
+        <div id="topCanvasButton" style="position:absolute; right:5px; top:5px; height:50px; width:50px"></div>
+    </div>
+    <div hidden id="fullCanvasDiv" style="position:absolute; height:100%;width:100%;z-index:8;">
+        <canvas id="fullCanvas" style="position:absolute; height:100%;width:100%;"></canvas>
+
+    </div>
+</div>
+<div hidden id="leftMenuDiv" style="position:absolute; top:50px; width:17%; background: pink; z-index:10">
+    <div onclick="document.getElementById('leftButton').click(); window.showDirectoryPicker()" style="text-align: center"><p class="unselectable">IMPORT XLS</p></div>
+    <div onclick="document.getElementById('leftButton').click(); window.showDirectoryPicker()" style="text-align: center"><p class="unselectable">WORKING DIR</p></div>
+<!--    <div onclick="document.getElementById('leftButton').click(); document.getElementById('botCanvasButton').click()" style="text-align: center"><p class="unselectable">FIELD</p></div>-->
+<!--    <div onclick="document.getElementById('leftButton').click();  document.getElementById('modalBackgroundDiv').hidden=false;" style="text-align: center"><p class="unselectable">TRANSPORTATION</p></div>-->
+<!--    <div onclick="document.getElementById('leftButton').click(); window.showDirectoryPicker()" style="text-align: center"><p class="unselectable">INSTALL</p></div>-->
+</div>
+<div hidden id="rightMenuDiv" style="position:absolute; left:83%;top:50px; width:17%;background: pink; z-index:10">
+    <div onclick="document.getElementById('rightButton').click(); window.print()" style="text-align: center"><p class="unselectable">PRINT</p></div>
+    <div onclick="document.getElementById('rightButton').click(); document.getElementById('modalBackgroundDiv').hidden=false;" style="text-align: center"><p class="unselectable">CAM</p></div>
+    <div onclick="document.getElementById('rightButton').click(); document.getElementById('modalBackgroundDiv').hidden=false;" style="text-align: center"><p class="unselectable">NOTES</p></div>
+</div>
+<div hidden id="modalBackgroundDiv" style="position:absolute; height:100%; width:100%;background-color:rgba(0, 0, 0, 0.5);z-index:11;">
+    <div id="modalDiv" style="position:absolute; left:10%; top:10%; height:80%; width:80%;"></div>
+    <div id="modalCloseButton" style="position:absolute; right:calc(10% + 5px); top:calc(10% + 5px); height:50px; width:50px"></div>
+</div>
+<script>
+window.focusedCanvas = null;
+{
+    document.getElementById('fullCanvasButton').onclick = ()=>{
+        document.getElementById('modalBackgroundDiv').hidden = false;
+
+    }
+    document.getElementById('modalCloseButton').onclick = ()=>{
+        document.getElementById('modalBackgroundDiv').hidden = true;
+    }
+    let panelHiddens = {
+        left: false,
+        right: false
+    }
+    function resizeCanvasDiv(){
+        let canvasDiv = document.getElementById('canvasDiv');
+        canvasDiv.style.left = panelHiddens.left ? '0%' : '17%';
+        let width = 66;
+        if(panelHiddens.left) width+=17;
+        if(panelHiddens.right) width+=17;
+        canvasDiv.style.width = ''+width+'%';
+
+    }
+
+    ["left", 'right'].forEach((id)=>{
+        let button = document.getElementById(id+'Button');
+        button.onclick=()=>{
+            let div = document.getElementById(id+'MenuDiv');
+            div.hidden = !div.hidden;
+            button.style.backgroundColor = div.hidden ? "white" :  "red";
+        };
+
+
+        let collapseButton = document.getElementById(id+'CollapseButton');
+        collapseButton.onclick=()=>{
+            let div = document.getElementById(id+'PanelDiv');
+            div.hidden = !div.hidden;
+            panelHiddens[id] = div.hidden;
+            collapseButton.style.backgroundColor = div.hidden ? "red" :  "white";
+            resizeCanvasDiv();
+        };
+
+    })
+
+    const fullScreenStyle = document.getElementById("fullCanvasDiv").style;
+    let storedStyle = null;
+    ["topCanvas", "topRightCanvas", "topLeftCanvas", "botCanvas"].forEach(id => {
+        let div = document.getElementById(id + 'Div');
+        let button = document.getElementById(id + 'Button');
+        button.onclick = () => {
+            if (storedStyle) {
+                Object.entries(storedStyle).forEach(entry => {
+                    const [key, value] = entry;
+                    div.style[key] = value;
+                });
+                window.focusedCanvas = null;
+                storedStyle = null;
+            } else {
+
+                storedStyle = {
+                    top: div.style.top,
+                    left: div.style.left,
+                    width: div.style.width,
+                    height: div.style.height,
+                    zIndex: div.style.zIndex
+                };
+                Object.entries(storedStyle).forEach(entry => {
+                    const [key, value] = entry;
+                    div.style[key] = fullScreenStyle[key];
+                });
+                window.focusedCanvas = document.getElementById(id);
+            }
+        }
+    });
+    let colorMap = {
+        botCanvas: 'orange',
+        topLeftCanvas: 'blue',
+        topRightCanvas: 'yellow',
+        topCanvas: 'green',
+        fullCanvas: 'aquamarine'
+    }
+    Object.entries(colorMap).forEach(entry => {
+        const [key, value] = entry;
+        console.log(key, value);
+        let canvas = document.getElementById(key);
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = value;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    });
+}
+</script>

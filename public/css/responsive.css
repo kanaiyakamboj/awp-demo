@@ -1,0 +1,164 @@
+@media screen and (max-width: 1728px) {
+    .AsideBarRight.Active {
+        flex: 0 0 380px;
+    }
+}
+
+@media screen and (max-width: 1512px) {
+    .AsideBarRight.Active {
+        flex: 0 0 320px;
+    }
+    .MyCardTitle {
+        font-size: 26px;
+    }
+    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MySelect {
+        font-size: 18px;
+    }
+    .MySelect {
+        background-size: 16px;
+    }
+    .HeaderPart h2 {
+        font-size: 24px;
+    }
+    ul.BreadCrumb li {
+        font-size: 24px;
+     }
+     ul.BreadCrumb li:not(:last-child):after{
+         font-size: 20px;
+     }
+     ul.BreadCrumb li a {
+        font-size: 24px;
+     }
+    .HeaderPart.Active {
+        padding: 20px 20px 20px 50px;
+    }
+    .ContentWrapper {
+        height: calc(100% - 85px);
+    }
+    .AsideBarRight.Active .PannelAside {
+        max-height: calc(100vh - 123px);
+    }
+    .MenusList li a, .UserAccountMenus li a {
+        font-size: 16px;
+    }
+    .MenusList li a span {
+        flex: 0 0 16px;
+        height: 16px;
+    }
+    .MenusList li a span svg {
+        max-width: 16px;
+        max-height: 16px;
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .HeaderPart.Active {
+        padding: 10px 20px 10px 50px;
+    }
+    .modal-header {
+        padding: 10px 15px;
+    }
+    .HeaderPart h2 {
+        font-size: 18px;
+    }
+    ul.BreadCrumb li {
+        font-size: 18px;
+     }
+     ul.BreadCrumb li:not(:last-child):after{
+         font-size: 14px;
+     }
+     ul.BreadCrumb li a {
+        font-size: 18px;
+     }
+    .modal-header img {
+        max-height: 40px;
+    }
+    .MainMenu.modal .modal-wrapper {
+        max-width: 280px;
+    }
+    
+    .MainMenu.modal .modal-body {
+        height: calc(100vh - 70px);
+    }
+    .MenusList {
+        max-height: calc(100vh - 275px);
+    }
+    .AsideBarRight.Active {
+        flex: 0 0 320px;
+    }
+    .MyCardTitle {
+        font-size: 18px;
+    }
+    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MySelect {
+        font-size: 14px;
+    }
+    .MyBtn {
+        font-size: 16px;
+        min-height: 38px;
+    }
+    .MenuIcon svg, .PannelIcon svg {
+        width: 18px;
+        height: 18px;
+    }    
+    .PannelIcon {
+        left: -62px;
+    }
+    .TopMenuIcon svg {
+        width: 20px;
+        height: 20px;
+    }
+    .MyCard {
+        padding: 20px 15px;
+    }
+    .MyCard.mb-30 {
+        margin-bottom: 15px;
+    }
+    .MenusList li a, .UserAccountMenus li a {
+        padding: 12px 15px;
+    }
+    .MenusList, .UserAccountMenus {
+        padding: 15px;
+    }
+    .MenusList li a, .UserAccountMenus li a {
+        font-size: 14px;
+    }
+    .ContentWrapper {
+        height: calc(100% - 58px);
+    }
+    .AsideBarRight.Active .PannelAside {
+        max-height: calc(100vh - 98px);
+    }
+    .MyInput, .MySelect, .MyInputBtn {
+        min-height: 44px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .MyCardTitle {
+        font-size: 20px;
+    }
+    .HeaderPart h2 {
+        font-size: 20px;
+    }
+    ul.BreadCrumb li {
+        font-size: 20px;
+     }
+     ul.BreadCrumb li:not(:last-child):after{
+         font-size: 18px;
+     }
+     ul.BreadCrumb li a {
+        font-size: 20px;
+     }
+}
+
+@media screen and (max-width: 1024px) {
+    .MyCardTitle {
+        font-size: 18px;
+    }
+    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MySelect {
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 991px) {
+    
+}

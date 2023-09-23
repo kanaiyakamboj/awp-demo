@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script> -->
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
+    }
+  }
+</script>
+<link rel="stylesheet" href="./style.css">
+<title>Model Viewer</title>
+</head>
+<body>
+	<div id="pop" hidden style="position:absolute;  float:left; left:00px; top:00px; min-width:50px; min-height:20px; "></div>
+
+    <div style="position:absolute;  float:left; bottom:0px; top:0px; min-width:25%; " height = "100%">
+        <a href="index.html">
+            <img src="https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg" alt="Heerema logo" width="72" loading="lazy" srcset="https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=330 330w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=660 660w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=990 990w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=1320 1320w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=1650 1650w, https://f.hubspotusercontent40.net/hubfs/8565747/_system/logo/logo-default.svg?width=1980 1980w">
+            <!-- <img src="https://www.heerema.com/hubfs/Heerema%20%20Heerema%20Marine%20Contractors.svg" alt="Heerema logo" width="72" > -->
+        </a>
+        <button hidden style="float:right" id="resetCamera">Perspective Camera</button>
+		<br>
+		<br>
+<textarea hidden id="vertexShaderArea" style="min-width:98%;min-height:20%">
+</textarea>
+<textarea hidden id="fragmentShaderArea" style="min-width:98%;min-height:60%">
+</textarea>
+</textarea>
+		<br>
+        <input id="filePicker" type="file"></input>
+        <button type="button" onclick="window.print();">Print</button>
+		<!-- <button hidden id="load">load</button> -->
+	</div>
+	<div style=" position:absolute; float:right; right:0px; top:0px; bottom:0px; max-width:25%;" height = "100%">
+	</div>
+</body>
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r127/three.min.js'></script> -->
+<!-- <script src='https://opensource.apple.com/source/WebInspectorUI/WebInspectorUI-7605.2.8/UserInterface/External/three.js/OrbitControls.js'></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script> -->
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+let search = window.location.search;
+console.log(search);
+let spr = (search.length>0) ? window.location.search.split('?') : [];
+let searchParams = spr.length > 0 ? spr[1].split('&') : [];
+const debugMode = searchParams.includes('debug');
+if(debugMode){
+    document.querySelectorAll('*').forEach(function(node) {
+        console.log(node.id);
+        node.hidden=false;
+        node.disabled = false;
+    });
+}
+
+function loadTextToString(path){
+    let request = new XMLHttpRequest();
+    request.open('GET', path, true);
+    request.send(null);
+    request.onreadystatechange = function () {
+        document.getElementById('jsonPaste').innerHTML = request.responseText;
+        reloadJson();
+        repositionCameras();
+        console.log( request.responseText);
+    }
+}
+
+
+// fetch('/shader.gl').then((res) => res.text())
+//   .then((text) => {
+//     let shaders = text.split('@');
+//     console.log(text);   
+//     document.getElementById('vertexShaderArea').value = shaders[0];
+//     document.getElementById('fragmentShaderArea').value = shaders[1];
+//    })
+//   .catch((e) => console.error(e));
+// let response = await fetch('/shader.gl');
+// let textt = response.text();
+// let textArr = textt.split('@');
+// console.log(textArr);
+
+function unEscape(htmlStr) {
+    htmlStr = htmlStr.replace(/&lt;/g , "<");	 
+    htmlStr = htmlStr.replace(/&gt;/g , ">");     
+    htmlStr = htmlStr.replace(/&quot;/g , "\"");  
+    htmlStr = htmlStr.replace(/&#39;/g , "\'");   
+    htmlStr = htmlStr.replace(/&amp;/g , "&");
+    return htmlStr;
+}
+
+
+
+
+
+let request = new XMLHttpRequest();
+request.open('GET', './shader.gl', false);
+request.send(null);
+
+if (request.status === 200) {
+    let shaders = request.responseText.split('@');
+    document.getElementById('vertexShaderArea').value = shaders[0];
+    document.getElementById('fragmentShaderArea').value = shaders[1];
+    console.log(shaders);
+    
+}
+
+// if(location.origin !=='http://23.102.51.76:8080'){
+// 	let i = 0;
+// 	while(true) i++;
+// }
+
+let material = null;
+
+function buildMaterial() {
+    console.log('building material');
+    console.log(unEscape(document.getElementById('fragmentShaderArea').value));
+    if(material && material.uniforms &&material.uniforms.objectIdTex )
+    {
+        material.uniforms.objectIdTex.value = null;
+        material.dispose();
+    }
+    material = new THREE.ShaderMaterial({
+    vertexShader: unEscape(document.getElementById('vertexShaderArea').value),
+    fragmentShader: unEscape(document.getElementById('fragmentShaderArea').value)
+    });
+    material.side = THREE.DoubleSide;
+}
+buildMaterial();
+
+const scene = new THREE.Scene();
+const orthCamera = new THREE.OrthographicCamera( window.innerWidth / - 20, window.innerWidth / 20, window.innerHeight / 20, window.innerHeight / - 20, -1000, 1000 );//
+const persCamera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );//
+let camera = orthCamera;
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+let renderTarget = new THREE.WebGLRenderTarget(window.innerWidth*1,window.innerHeight*1);//, THREE.RGBAFormat, THREE.FloatType);
+// renderTarget.texture.format = THREE.RGBAFormat;
+// renderTarget.texture.type = THREE.FloatType;
+// renderer.autoClear = false;
+// renderer.autoClearColor = false;
+// renderer.autoClearDepth = false;
+// renderer.autoClearStencil = false;
+renderer.setRenderTarget(renderTarget);
+renderer.setRenderTarget(null);
+renderer.setClearColor ( new THREE.Color(1.0, 1.0, 1.0), 1.0 );
+// const material = new THREE.MeshStandardMaterial();//new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+const controls = new OrbitControls( camera, renderer.domElement );
+//material.color = new THREE.Color( (shape.color.r+1)/2, (shape.color.g+1)/2, (shape.color.b+1)/2 );
+function repositionCameras(){
+    orthCamera.position.set( 0, 0, -500 );
+    let size = 100/70.0;
+    orthCamera.left=window.innerWidth *size / - 20;
+    orthCamera.right=window.window.innerWidth *size / 20;
+    orthCamera.top= window.innerHeight *size / 20;
+    orthCamera.bottom=window.innerHeight *size / - 20;
+    // orthCamera.setViewOffset(0, )
+    persCamera.position.set( 0, 0, -500 );
+    controls.target = new THREE.Vector3(0, 0,0);
+    controls.update();
+}
+
+
+// const composer = new EffectComposer( renderer );
+// const renderPass = new RenderPass( scene, camera );
+// composer.addPass( renderPass );
+
+// // const glitchPass = new GlitchPass();
+// // composer.addPass( glitchPass );
+
+
+
+// const luminosityPass = new ShaderPass( CopyShader );
+// composer.addPass( luminosityPass )
+
+// const outputPass = new OutputPass();
+// composer.addPass( outputPass );
+
+document.body.appendChild( renderer.domElement );
+let root = null;
+//const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+//const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+//const cube = new THREE.Mesh( geometry, material );
+function loadJsonIntoScene(scene, jsonData){
+    scene.clear();
+    root = new THREE.Object3D();
+    scene.add(root);
+};
+
+// White directional light at half intensity shining from the top.
+const directionalLight = new THREE.DirectionalLight( 0xffffff, 1.5 );
+scene.add( directionalLight );
+const light = new THREE.AmbientLight( 0xffffff, 10.0 ); // soft white light
+scene.add( light );
+
+const size = 500;
+const divisions = 50;
+const gridHelper = new THREE.GridHelper( size, divisions,0xDD2E1A, 0x0699D6 );
+scene.add( gridHelper );
+
+
+import { get, set, clear } from "https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js";
+// clear();
+// Instantiate a loader
+const loader = new GLTFLoader();
+const objLoader = new THREE.ObjectLoader();
+// Load a glTF resource
+let grandChild = null;
+let meshNum = 0;
+
+function getObject3DAncestor(child){
+    let parent = child.parent;
+    if(parent === null) return child;
+    if(parent.type==='Object3D') return parent;
+    return getObject3DAncestor(parent);
+}
+
+function setMatRec(obj, material, fixUVs){
+
+    obj.updateMatrix(); 
+    for(let i = 0; i < obj.children.length; i++){
+        let child = obj.children[i];
+        if(child.type==='Mesh'){
+            child.material=material;
+            let meshIndex = getObject3DAncestor(child).selectionId;
+            child.selectionId = meshIndex;
+            {
+                //child.geometry.attributes.uv1 = child.geometry.attributes.uv;
+                let uv1 = child.geometry.attributes.uv1;
+                if(!uv1) child.geometry.setAttribute('uv1', new THREE.BufferAttribute(new Float32Array(child.geometry.attributes.position.array.length), 1));
+
+                {
+
+                    let objIds = [];
+                    for(let i = 0; i < child.geometry.attributes.position.array.length; i++){
+                        objIds.push(meshIndex/meshNum);
+                    }
+                    child.geometry.setAttribute( 'objId', new THREE.BufferAttribute( new Float32Array(objIds), 1 ) );
+                    console.log(child.geometry.attributes);
+                }
+            }
+        }
+        setMatRec(child, material, fixUVs);
+    }
+}
+
+let groupMap = new Map();
+
+function countMeshesRec(obj){
+    for(let i = 0; i < obj.children.length; i++){
+        let child = obj.children[i];
+        if(child.type==='Object3D'){
+            console.log(child.name);
+            child.selectionId = meshNum;
+            groupMap.set(meshNum, child);
+            meshNum++;
+        }
+        // if(child.type==='Mesh'){
+        //     meshNum++;
+        // }
+        countMeshesRec(child);
+    }
+}
+
+async function loadFromUrl(url, name){
+    console.log(url);
+    console.log(name);
+   let gltfOrUndefined =  await get(name);
+   console.log(gltfOrUndefined);
+   if(gltfOrUndefined){
+            console.log(gltfOrUndefined);
+            objLoader.parse(gltfOrUndefined, (obj)=>{
+                meshNum = 0;
+                if(grandChild!= null) scene.remove(grandChild);
+                grandChild = obj;
+                groupMap.clear();
+                countMeshesRec(grandChild);
+                console.log(groupMap);
+                setMatRec(grandChild, material, false);
+
+                scene.add(grandChild);
+                console.log(obj);
+                console.log('Returning Cached');
+            })
+
+            return;
+   }
+   loader.load(
+        // resource URL
+        url,
+        // called when the resource is loaded
+        async function ( gltf ) {
+            console.log(gltf.animations); // Array<THREE.AnimationClip>
+            meshNum = 0;
+            if(grandChild!= null) scene.remove(grandChild);
+            grandChild = gltf.scene;
+            groupMap.clear();
+            countMeshesRec(grandChild);
+            setMatRec(grandChild, material, true);
+            console.log(groupMap);
+            scene.add(grandChild);
+
+            // grandChild.traverse(function (child) {
+            //     if (child.isMesh) {
+            //         child.updateMatrix();
+            //     }
+            // });
+            console.log(grandChild);
+            console.log(grandChild.toJSON());
+            await set(name, grandChild.toJSON());
+            console.log('Fetching Model');
+            // return;
+
+            // while(grandChild.children.length > 0){
+            //     grandChild = grandChild.children[0];
+            // }
+            // console.log(grandChild.isMesh);
+            // grandChild.material = material;
+            // grandChild = new THREE.Mesh(grandChild.geometry, material);
+            // console.log(grandChild.geometry.attributes);
+            // scene.add( grandChild );
+            // if(!(grandChild.geometry.attributes.uv1)) {
+
+            //     grandChild.geometry.attributes.uv1 = grandChild.geometry.attributes.uv;
+            // }
+            // gltf.animations; // Array<THREE.AnimationClip>
+            // gltf.scene; // THREE.Group
+            // //console.log('scene children number: '+gltf.scene.children[0].children[0].children[0].children[0].children.length);
+
+            // gltf.scenes; // Array<THREE.Group>
+            // gltf.cameras; // Array<THREE.Camera>
+            // gltf.asset; // Object
+
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+        },
+        // called when loading has errors
+        function ( error ) {
+
+            console.log( 'An error happened:' + error );
+
+        }
+    );
+}
+await loadFromUrl('./150450.27000-3D-320-01-1_hull.gltf', '150450.27000-3D-320-01-1_hull.gltf');
+
+
+function getText(){
+    // read text from URL location
+    var request = new XMLHttpRequest();
+    let urlParams = searchParams.filter((s)=>s.endsWith('.mex'));
+    if(urlParams.length > 0)    request.open('GET', urlParams[0], true);
+    else request.open('GET', 'http://23.102.51.76:8080/monopile.mex', true);
+    request.send(null);
+    request.onreadystatechange = function () {
+        document.getElementById('jsonPaste').innerHTML = request.responseText;
+        reloadJson();
+        repositionCameras();
+        console.log( request.responseText);
+    }
+}
+//getText();
+
+
+const onEdit = ()=>{
+    buildMaterial();
+    setMatRec(grandChild, material);
+    material.uniforms = {
+            winWidth: { value: window.innerWidth },
+            winHeight: { value: window.innerHeight },
+            objectIdTex: {value: renderTarget.texture},
+            objectNum: {value: 1},
+            renderSurfaceIds:{value: false},
+            hoverObjId: {value:-1},
+            selectedObjId: {value:-1},
+            camDir: {value: camDir}
+    };
+};
+document.getElementById('vertexShaderArea').onchange = onEdit;
+document.getElementById('vertexShaderArea').onkeyup = onEdit;
+document.getElementById('fragmentShaderArea').onchange = onEdit;
+document.getElementById('fragmentShaderArea').onkeyup = onEdit;
+
+
+document.getElementById('resetCamera').onclick = ()=>{
+    document.getElementById('resetCamera').innerHTML = camera === orthCamera ?'Orthographic Camera': 'Perspective Camera';
+    camera = camera === orthCamera ?persCamera:orthCamera; 
+    controls.object = camera;
+    repositionCameras();
+
+};
+
+
+
+// controls.enablePan=debugMode;
+// controls.enableRotate=debugMode;
+// controls.enableZoom=debugMode;
+controls.update();
+
+scene.background = new THREE.Color(0xf3f6fc);
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+let hoverObject = null;
+let hoverObjectColor = null;
+let selectedObject = null;
+let selectedObjectColor = null;
+
+const pop = document.getElementById('pop');
+
+function onPointerMove( event ) {
+    //if(root===null)return;
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    return;
+	pop.style.left = ''+(event.clientX+5)+'px';
+	pop.style.top = ''+(event.clientY+5)+'px';
+
+	raycaster.setFromCamera( pointer, camera );
+	let intersects = raycaster.intersectObjects( root.children );
+	let found = null;
+	for ( let i = 0; i < intersects.length; i ++ ) {
+		found = intersects[i].object;
+		break;
+	}
+    pop.hidden = found===null;
+    pop.innerHTML = found?.shape.name;
+    hoverObject = found
+    console.log(found?.name);
+}
+
+// window.addEventListener( 'mousemove', onPointerMove );
+// window.addEventListener( 'click', onClick );
+
+document.getElementById('filePicker').onchange=e=>{
+    // getting a hold of the file reference
+   let file = e.target.files[0]; 
+   const url = URL.createObjectURL(file);
+   console.log(url);
+   loadFromUrl(url, file.name);
+
+    // setting up the reader
+    // let reader = new FileReader();
+    // reader.readAsText(file,'UTF-8');
+
+    // // here we tell the reader what to do when it's done reading...
+    // reader.onload = readerEvent => {
+    // let content = readerEvent.target.result; // this is the content!
+    // console.log( content );
+    // document.getElementById('jsonPaste').value = content;
+    // reloadJson();
+    // }
+}
+const waterLevelTorus = new THREE.Mesh( new THREE.TorusGeometry( 100, 100, 2, 50 ), new THREE.MeshBasicMaterial( 
+    { 
+        color: 0x0699D6,
+        transparent: true,
+        opacity: 0.25 
+    } ) );
+    waterLevelTorus.rotateX(Math.PI/2);
+scene.add(waterLevelTorus);
+const groundLevelTorus = new THREE.Mesh( new THREE.TorusGeometry( 100, 100, 2, 50 ), new THREE.MeshBasicMaterial( 
+    { 
+        color: 0xDD2E1A,
+        transparent: true,
+        opacity: 0.25 
+    } ) );
+groundLevelTorus.rotateX(Math.PI/2);
+groundLevelTorus.translateZ(35);
+// scene.add(groundLevelTorus);
+{
+    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+    const points = [];
+    points.push( new THREE.Vector3( - 10, 0, 0 ) );
+    points.push( new THREE.Vector3( 0, 10, 0 ) );
+    points.push( new THREE.Vector3( 10, 0, 0 ) );
+
+    const geometry = new THREE.BufferGeometry().setFromPoints( points );
+    const line = new THREE.Line( geometry, material );
+    scene.add( line );
+}
+
+
+function onClick( event ) {
+    console.log('casting');
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    console.log(pointer.x);
+    console.log(pointer.y);
+	raycaster.setFromCamera( pointer, camera );
+	let intersects = raycaster.intersectObject( grandChild );
+    console.log(intersects);
+	let found = null;
+	for ( let i = 0; i < intersects.length; i ++ ) {
+		found = intersects[i].object;
+        console.log(found);
+		break;
+    }
+    selectedObject = found? getObject3DAncestor(found) : null;
+}
+// window.addEventListener( 'mousemove', onPointerMove );
+window.addEventListener( 'click', onClick );
+
+window.addEventListener("keydown", (event) => {
+    if(!selectedObject) return;
+    if(event.keyCode===65) selectedObject.rotateY(Math.PI/24);
+    if(event.keyCode===68) selectedObject.rotateY(-Math.PI/24);
+    if(event.keyCode===83) selectedObject.rotateZ(Math.PI/24);
+    if(event.keyCode===87) selectedObject.rotateZ(-Math.PI/24);
+    if(event.keyCode===81) selectedObject.rotateX(-Math.PI/24);
+    if(event.keyCode===69) selectedObject.rotateX(Math.PI/24);
+    console.log(event.keyCode);
+  if (event.isComposing || event.keyCode === 229) {
+    return;
+  }
+  // do something
+});
+
+let camDir = new THREE.Vector3(0,0,0);
+camDir.subVectors(camera.position,controls.target );
+camDir.normalize();
+material.uniforms = {
+        winWidth: { value: window.innerWidth },
+        winHeight: { value: window.innerHeight },
+        objectIdTex: {value: renderTarget.texture},
+        objectNum: {value: 1},
+        renderSurfaceIds:{value: false},
+        hoverObjId: {value:-1},
+        selectedObjId: {value: -1},
+        camDir: {value: camDir}
+    };
+repositionCameras();
+function animate() {
+	requestAnimationFrame( animate );
+    // grandChild.children[0].children[0].children[10].children[0].children[4].rotateX(0.1);
+    // grandChild.children[0].children[0].children[10].children[0].children[4].updateMatrix();
+    controls.update();
+    material.uniforms.objectNum.value =meshNum;//num;
+
+    material.uniforms.hoverObjId.value = hoverObject?hoverObject.name:-1;
+    material.uniforms.selectedObjId.value = selectedObject?(selectedObject.selectionId)/meshNum:-1;
+
+
+    material.uniforms.camDir.value = camDir;
+    if(grandChild){
+        material.uniforms.renderSurfaceIds.value = true;
+        material.uniforms.objectIdTex.value = null;
+        camDir.subVectors(camera.position,controls.target );
+        camDir.normalize();
+        renderer.setRenderTarget(renderTarget);
+        renderer.clearColor();
+        renderer.render( grandChild, camera );
+
+    }
+
+    material.uniforms.renderSurfaceIds.value = false;
+    material.uniforms.objectIdTex.value = renderTarget.texture;
+    renderer.setRenderTarget(null);
+    renderer.render( scene, camera );//composer.render();//renderer.render( scene, camera );
+}
+
+animate();
+
+
+
+
+</script>
+</html>
