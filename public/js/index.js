@@ -26,7 +26,7 @@ function addClasses(elements, className) {
   });
 }
 
-function onFilterClick(type) {
+function onFilterClick(type) {debugger
   const fieldTemplate = document.getElementById("field-template");
   const htvTemplate = document.getElementById("htv-template");
   const installTemplate = document.getElementById("install-template");
@@ -47,6 +47,19 @@ function onFilterClick(type) {
     removeClasses([installTemplate], "display-none");
     addClasses([fieldTemplate, htvTemplate], "display-none");
     addClasses([installTemplate], "display-block");
+  }
+}
+
+function toggelFilterMenu(){debugger
+  let filterMenuElement=document.getElementById('filter-menu');
+  let currentClass=filterMenuElement.getAttribute('class');
+
+  filterMenuElement.classList.add('MainMenu');
+
+  if(currentClass.includes('is-visible')){
+      filterMenuElement.classList.remove('is-visible');
+  }else{
+      filterMenuElement.classList.add('is-visible');
   }
 }
 

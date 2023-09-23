@@ -244,7 +244,7 @@ function showHideRightPanel(){
     }
 }
 
-function toggelDiv(){
+function toggelProjectSelectDiv(){
     let elementAsideBarRight=document.getElementById('AsideBarRight');
     let currentClassAsideBarRight=elementAsideBarRight.getAttribute('class');
     let elementContentWrapper=document.getElementById('ContentWrapper');
