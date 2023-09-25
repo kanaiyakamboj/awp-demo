@@ -50,6 +50,7 @@ function bindMonopilesDropdown(fileName) {
 }
 
 function bindAllProjectSelectionFilterControlOnRefresh() {
+  
   const projectSelectionFilterData = JSON.parse(
     localStorage.getItem("projectSelectionFilterData")
   );
