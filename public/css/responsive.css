@@ -1,11 +1,11 @@
 @media screen and (max-width: 1728px) {
-    .AsideBarRight.Active {
+    .AsideBarRight.Active,.AsideBarInstallRight.Active {
         flex: 0 0 380px;
     }
 }
 
 @media screen and (max-width: 1512px) {
-    .AsideBarRight.Active {
+    .AsideBarRight.Active,.AsideBarInstallRight.Active {
         flex: 0 0 320px;
     }
     .MyCardTitle {
@@ -35,7 +35,7 @@
     .ContentWrapper {
         height: calc(100% - 85px);
     }
-    .AsideBarRight.Active .PannelAside {
+    .AsideBarRight.Active .PannelAside,.AsideBarInstallRight.Active .PannelAside {
         max-height: calc(100vh - 123px);
     }
     .MenusList li a, .UserAccountMenus li a {
@@ -83,7 +83,7 @@
     .MenusList {
         max-height: calc(100vh - 275px);
     }
-    .AsideBarRight.Active {
+    .AsideBarRight.Active,.AsideBarInstallRight.Active {
         flex: 0 0 320px;
     }
     .MyCardTitle {
@@ -128,7 +128,7 @@
     .ContentWrapper {
         height: calc(100% - 58px);
     }
-    .AsideBarRight.Active .PannelAside {
+    .AsideBarRight.Active .PannelAside,.AsideBarInstallRight.Active .PannelAside {
         max-height: calc(100vh - 98px);
     }
     .MyInput, .MySelect, .MyInputBtn {

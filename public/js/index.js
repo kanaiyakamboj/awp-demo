@@ -50,14 +50,14 @@ function onFilterClick(type) {debugger
   }
 }
 
-function toggelFilterMenu(){debugger
+function toggelFilterMenu(){
   let filterMenuElement=document.getElementById('filter-menu');
   let currentClass=filterMenuElement.getAttribute('class');
 
   filterMenuElement.classList.add('MainMenu');
 
   if(currentClass.includes('is-visible')){
-      filterMenuElement.classList.remove('is-visible');
+      filterMenuElement.classList.remove('is-visible');      
   }else{
       filterMenuElement.classList.add('is-visible');
   }

@@ -177,17 +177,17 @@ button {
 .PannelIcon {
     position: absolute;
     left: -70px;
-    top: 50%;
+    top: 15%;
     transform: translateY(-50%) rotate(-90deg);
     padding: 8px 10px;
     border-radius: 10px 10px 0 0;
-    background: var(--Orange);
+    background: var(--Blue);
     color: var(--White);
     gap: 8px;
 }
 
 .PannelIcon:hover {
-    background: var(--DarkOrange);
+    background: var(--DarkBlue);
 }
 
 .MenuIcon {
@@ -239,12 +239,12 @@ button {
     background: var(--LightBlack);
 }
 
-.AsideBarRight.Active {
+.AsideBarRight.Active,.AsideBarInstallRight.Active {
     flex: 0 0 430px;
     transform: translateX(0%);
 }
 
-.AsideBarRight {
+.AsideBarRight,.AsideBarInstallRight {
     /* flex: 0 0 430px; */
     flex: 0 0 0px;
     width: 0px;
@@ -253,7 +253,7 @@ button {
     transform: translateX(100%);
 }
 
-.AsideBarRight .PannelAside {
+.AsideBarRight .PannelAside,.AsideBarInstallRight .PannelAside {
     padding: 0px;
     width: 0px;
     background: var(--LightBlack);
@@ -261,7 +261,7 @@ button {
     transition: all 0.8s;
 }
 
-.AsideBarRight.Active .PannelAside {
+.AsideBarRight.Active .PannelAside,.AsideBarInstallRight.Active .PannelAside {
     width: 100%;
     height: 100%;
     transition: all 0.8s;
@@ -271,7 +271,7 @@ button {
     padding: 10px;
 }
 
-.ToggleDiv.Active .AsideBarRight.Active .PannelAside {
+.ToggleDiv.Active .AsideBarRight.Active .PannelAside,.ToggleDiv.Active .AsideBarInstallRight.Active .PannelAside {
     max-height: calc(100vh - 38px);
 }
 
@@ -291,7 +291,7 @@ button {
 
 .MyCardBody {}
 
-.AsideBarRight .PannelAside .MyCard {
+.AsideBarRight .PannelAside .MyCard,.AsideBarInstallRight .PannelAside .MyCard {
     background: var(--CardBg2);
 }
 
@@ -749,4 +749,56 @@ ul.BreadCrumb li a {
     font-size: 16px;
     font-weight: 400;
     color: var(--GrayColor);
+}
+.display-none {
+    display: none;
+    opacity: 0;
+}
+
+.diplay-block {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}
+
+.PannelIcon2 {
+    position: absolute;
+    right: -52px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    padding: 8px 10px;
+    border-radius: 10px 10px 0 0;
+    background: var(--Orange);
+    color: var(--White);
+    gap: 8px;
+    white-space: nowrap;
+}
+.PannelIcon2.Active {
+    right: 288px;
+}
+.AsideBarRight.RightPanel2Active,.AsideBarInstallRight.RightPanel2Active {
+    transform: translateX(0px);
+    width: 100%;
+    flex: 0 0 350px;
+}
+.AsideBarRight.RightPanel2Active .PannelAside.RightPanel2.Active,.AsideBarInstallRight.RightPanel2Active .PannelAside.RightPanel2.Active {
+    width: calc(100% - 30px);
+    height: 100%;
+    margin-left: 30px;
+    padding: 10px;
+    overflow: auto;
+}
+
+.AsideBarRight.RightPanel1Active,.AsideBarInstallRight.RightPanel1Active {
+    transform: translateX(0px);
+    width: 100%;
+    flex: 0 0 430px;
+}
+.AsideBarRight.RightPanel1Active .PannelAside.RightPanel1.Active,.AsideBarInstallRight.RightPanel1Active .PannelAside.RightPanel1.Active {
+    width: calc(100% - 30px);
+    height: 100%;
+    padding: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    overflow: auto;
 }
