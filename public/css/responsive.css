@@ -99,7 +99,10 @@
     .MenuIcon svg, .PannelIcon svg,  .PannelIcon2 svg, .LeftPannelIcon1 svg {
         width: 18px;
         height: 18px;
-    }    
+    } 
+    .MenuIcon {
+        top: 150px;
+    }   
     .PannelIcon {
         left: -62px;
     }

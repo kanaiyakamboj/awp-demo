@@ -193,7 +193,7 @@ button {
 .MenuIcon {
     position: absolute;
     left: -25px;
-    top: 50%;
+    top: 180px;
     transform: translateY(-50%) rotate(270deg);
     padding: 8px 10px;
     border-radius: 0 0 10px 10px;
@@ -635,7 +635,7 @@ ul.BreadCrumb li a {
 .LeftPannelIcon1 {
     position: absolute;
     left: -51px;
-    top: 60%;
+    top: 50%;
     transform: translateY(-50%) rotate(-90deg);
     padding: 8px 10px;
     border-radius: 0 0 10px 10px;
