@@ -44,7 +44,9 @@ function onFilterClick(type) {debugger
   }
 
   if (type === "install") {
-    removeClasses([installTemplate], "display-none");
+    const installRightPanel=document.getElementById('install-right-panel');
+
+    removeClasses([installRightPanel], "acitve");
     addClasses([fieldTemplate, htvTemplate], "display-none");
     addClasses([installTemplate], "display-block");
   }
