@@ -1,46 +1,30 @@
-var leftInstallMenuBtn =""; 
-var rightInstallMenuBtn="";
-var rightMenuBtn="";
-var asideBarRight="";
-var mapContainer="";
-var installcontainer="";
 $(document).ready(function(){
-    leftInstallMenuBtn =document.getElementById("LeftPannelIcon1");
-    rightInstallMenuBtn =document.getElementById("RightPannelInstallIcon1");
-    rightMenuBtn=document.getElementById("PannelMenuBtn");
-    asideBarRight=document.getElementById("AsideBarRight");
-    mapContainer=document.getElementById("map-container");
-    installcontainer=document.getElementById("install-container");
-    $(".LeftPannelIcon1").click(function(){
-       toggleInstallMenu();
-    });   
+    $(".PannelIcon").click(function(){
+        $(this).toggleClass("Active", {duration:3000});
+        $(".PannelIcon2").removeClass("Active", {duration:3000});
+        $(".AsideBarRight").toggleClass("RightPanel1Active");
+        $(".AsideBarRight").removeClass("RightPanel2Active");
+        $(".RightPanel1").toggleClass("Active");
+        $(".RightPanel2").removeClass("Active");
+        $(".ContentWrapper").toggleClass("ChangeFlex");
+        $(".ContentWrapper").removeClass("panel2");
+    });
 
     $(".PannelIcon2").click(function(){
-        toggleRightInstallMenu();
-     });
+        $(this).toggleClass("Active", {duration:3000});
+        $(".PannelIcon").removeClass("Active", {duration:3000});
+        $(".AsideBarRight").toggleClass("RightPanel2Active");
+        $(".AsideBarRight").removeClass("RightPanel1Active");
+        $(".RightPanel1").removeClass("Active");
+        $(".RightPanel2").toggleClass("Active");
+        $(".ContentWrapper").toggleClass("panel2");
+        $(".ContentWrapper").removeClass("ChangeFlex");
+    });
+   
+    $(".LeftPannelIcon1").click(function(){
+       toggleInstallMenu();
+    });  
 });
-function toggleRightInstallMenu(){
-    $(this).toggleClass("Active", {duration:3000});
-    $(".PannelIcon").removeClass("Active", {duration:3000});   
-    $(".AsideBarInstallRight").toggleClass("RightPanel2Active");
-    $(".AsideBarRight").removeClass("RightPanel1Active");
-    $(".RightPanel1").removeClass("Active");
-    $(".RightPanel2").toggleClass("Active");
-    
-    if($(".AsideBarRight").hasClass("Active")){
-        toggelProjectSelectDiv();
-        removeClasses([rightMenuBtn], "display-block");
-        addClasses([rightMenuBtn], "display-none");
-    }
-    if(!$(".AsideBarInstallRight").hasClass("RightPanel2Active")){       
-        addClasses([rightMenuBtn], "display-block");
-        removeClasses([rightMenuBtn], "display-none");
-    }
-    else{
-        removeClasses([rightMenuBtn], "display-block");
-        addClasses([rightMenuBtn], "display-none");       
-    }
-}
 
 function toggleInstallMenu() {
     $(".LeftPannelIcon1").toggleClass("Active", {duration:3000});
@@ -49,8 +33,6 @@ function toggleInstallMenu() {
     removeClasses([rightInstallMenuBtn], "display-none");
     addClasses([rightInstallMenuBtn], "display-block");
     $(".AsideBarLeft").toggleClass("AsideBarLeftActive");
-
-    // $(".ContentWrapper").removeClass("ChangeFlex");
 }
 
 function handleInstallMenuItemClick() {
