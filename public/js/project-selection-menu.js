@@ -25,13 +25,10 @@ function bindControls(fileName) {
 
   if (fileName) {
     bindMonopilesDropdown(fileName);
-  }else{
+  } else {
     const selectOptionElement = document.getElementById("sheet-names");
 
-    setFilesNameDropDownptions(
-      [],
-      selectOptionElement
-    );
+    setFilesNameDropDownptions([], selectOptionElement);
   }
 }
 
@@ -50,7 +47,6 @@ function bindMonopilesDropdown(fileName) {
 }
 
 function bindAllProjectSelectionFilterControlOnRefresh() {
-  
   const projectSelectionFilterData = JSON.parse(
     localStorage.getItem("projectSelectionFilterData")
   );
@@ -98,6 +94,25 @@ function onMonopileDropdownChange(e) {
   setProjectSelectionFilter({ monopileName: val });
 }
 
+function getFileName(filesName){
+  let fileName=''; 
+  let extension='';
+
+  const fileNameArray=filesName.split(".");
+
+  if(fileNameArray.length===2){
+    fileName=fileNameArray[0];
+    extension=fileNameArray[1];
+  }
+  
+  if(fileNameArray.length===3){
+    fileName=`${fileNameArray[0]}.${fileNameArray[1]}`;
+    extension=fileNameArray[2];
+  }
+
+  return [fileName,extension]
+};
+
 async function btnImportProjectClick(event) {
   const fileNames = [];
 
@@ -106,16 +121,23 @@ async function btnImportProjectClick(event) {
   localStorage.removeItem("projectSelectionFilterData");
 
   var files = event.target.files;
-
+debugger
   for (let i = 0; i < files.length; i++) {
-    const [fileName, extension] = files[i].name.split(".");
+
+const [fileName,extension]=getFileName(files[i].name);
+
     if (extension === "xlsx") {
       parseXlsx(files[i]);
 
-      fileNames.push(fileName);
+      if (fileName.includes("BAR") || fileName.includes("HTV")) {
+        fileNames.push(fileName);
+      }
     }
 
-    if (extension === "mex") {
+    if (extension === "mex" || extension === "gltf") {
+      if(extension === "gltf"){
+        debugger
+      }
       parseMex(files[i]);
     }
   }
@@ -194,8 +216,8 @@ function parseXlsx(file) {
 }
 
 function formatProjectStoreDataBeforePush(file, sheetWiseData, monopiles) {
-  const fileName = file.name.split(".")[0];
-
+  const [fileName]=getFileName(file.name);
+  
   const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
 
   const projectData = {
@@ -231,38 +253,38 @@ function setProjectSelectionFilter(filterData) {
   }
 }
 
-function showHideRightPanel(){
-    const element=document.getElementById('right-fields-result-sidebar');
-    const className=element.getAttribute('class');
-    if(className.includes('display-none')){
-        element.classList.remove('display-none');
-        element.classList.add('resize');
-        element.classList.add('display-block');
-    }else{
-        element.classList.add('resize');
-        element.classList.add('display-none');
-        element.classList.remove('display-block');
-    }
+function showHideRightPanel() {
+  const element = document.getElementById("right-fields-result-sidebar");
+  const className = element.getAttribute("class");
+  if (className.includes("display-none")) {
+    element.classList.remove("display-none");
+    element.classList.add("resize");
+    element.classList.add("display-block");
+  } else {
+    element.classList.add("resize");
+    element.classList.add("display-none");
+    element.classList.remove("display-block");
+  }
 }
 
-function toggelProjectSelectDiv(){
-    let elementAsideBarRight=document.getElementById('AsideBarRight');
-    let currentClassAsideBarRight=elementAsideBarRight.getAttribute('class');
-    let elementContentWrapper=document.getElementById('ContentWrapper');
-  
-    if(currentClassAsideBarRight.includes('Active')){
-        elementAsideBarRight.classList.add('AsideBarRight');
-        elementAsideBarRight.classList.remove('Active');
+function toggelProjectSelectDiv() {
+  let elementAsideBarRight = document.getElementById("AsideBarRight");
+  let currentClassAsideBarRight = elementAsideBarRight.getAttribute("class");
+  let elementContentWrapper = document.getElementById("ContentWrapper");
 
-        elementContentWrapper.classList.add('ChangeFlex');
-         elementContentWrapper.classList.add('ToggleDiv');
-        elementContentWrapper.classList.add('ContentWrapper');
-    }else{
-        elementAsideBarRight.classList.add('AsideBarRight');
-        elementAsideBarRight.classList.add('Active');
+  if (currentClassAsideBarRight.includes("Active")) {
+    elementAsideBarRight.classList.add("AsideBarRight");
+    elementAsideBarRight.classList.remove("Active");
 
-        elementContentWrapper.classList.add('ToggleDiv');
-        elementContentWrapper.classList.remove('ChangeFlex');
-        elementContentWrapper.classList.add('ContentWrapper');
-    }
+    elementContentWrapper.classList.add("ChangeFlex");
+    elementContentWrapper.classList.add("ToggleDiv");
+    elementContentWrapper.classList.add("ContentWrapper");
+  } else {
+    elementAsideBarRight.classList.add("AsideBarRight");
+    elementAsideBarRight.classList.add("Active");
+
+    elementContentWrapper.classList.add("ToggleDiv");
+    elementContentWrapper.classList.remove("ChangeFlex");
+    elementContentWrapper.classList.add("ContentWrapper");
   }
+}
