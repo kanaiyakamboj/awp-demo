@@ -9,5 +9,12 @@ $(document).ready(function(){
         button.parentElement.parentElement.parentElement.classList.toggle("active")
     );
     });
+
+    const buttons2 = document.querySelectorAll(".resize-div");
+    buttons2.forEach((button) => {
+    button.addEventListener("click", () =>
+        button.parentElement.parentElement.parentElement.classList.toggle("fullscreen")
+    );
+    });
 });
 
