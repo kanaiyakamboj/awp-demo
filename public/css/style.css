@@ -508,6 +508,7 @@ button {
     text-decoration: none;
     padding: 15px;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 .MenusList li.active a {
