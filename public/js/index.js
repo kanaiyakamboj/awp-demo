@@ -15,15 +15,23 @@ function openLeftMainSideBar() {
 }
 
 function removeClasses(elements, className) {
-  elements.forEach((element) => {
-    element.classList.remove(className);
-  });
+  if(elements && elements.length){
+    elements.forEach((element) => {
+      if(element){
+        element.classList.remove(className);
+      }
+    });
+  }
 }
 
 function addClasses(elements, className) {
-  elements.forEach((element) => {
-    element.classList.add(className);
-  });
+  if(elements && elements.length){
+    elements.forEach((element) => {
+      if(element){
+        element.classList.add(className);
+      }
+    });
+  }
 }
 
 function onFilterClick(type) {debugger
