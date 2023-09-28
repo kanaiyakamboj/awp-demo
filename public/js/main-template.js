@@ -13,14 +13,23 @@ $(document).ready(function () {
     fieldContainer = document.getElementById("field-container");
     installcontainer = document.getElementById("install-container");
 
-    $(".LeftPannelIcon1").click(function () {
-        toggleInstallMenu();
-    });
+    // $(".LeftPannelIcon1").click(function () {
+    //     toggleInstallMenu();
+    // });
 
-    $(".PannelIcon2").click(function () {
-        toggleRightInstallMenu();
-    });
+    // $(".PannelIcon2").click(function () {
+    //     toggleRightInstallMenu();
+    // });
+  
+    
 });
+
+function PannelIcon2(event)  {
+    $(".AsideBarInstallRight").toggleClass("RightPanel2Active");
+    $(".RightPanel2").toggleClass("Active");
+    event.currentTarget.classList.toggle("Active")
+};
+
 function toggleRightInstallMenu() {
     $(this).toggleClass("Active", { duration: 3000 });
     $(".PannelIcon").removeClass("Active", { duration: 3000 });
@@ -66,6 +75,12 @@ const templateName=document.getElementById('template-name');
         removeClasses([htvLi], "active");
         removeClasses([installLi], "active");
         templateName.textContent='Field';
+        removeClasses([fieldContainer], "display-none");
+        addClasses([fieldContainer], "d-flex");
+        removeClasses([installcontainer], "d-flex");
+        addClasses([installcontainer], "display-none");
+        $(".AsideBarRight").addClass("Active");
+        $(".PannelIco").addClass("Active");
     }
 
     if (filterType === 'install') {
@@ -73,12 +88,13 @@ const templateName=document.getElementById('template-name');
         removeClasses([filedLi], "active");
         removeClasses([htvLi], "active");
         templateName.textContent='Install';
+        removeClasses([fieldContainer], "d-flex");
+        addClasses([fieldContainer], "display-none");
+        removeClasses([installcontainer], "display-none");
+        addClasses([installcontainer], "d-flex");
     }
 
-    removeClasses([fieldContainer], "display-block");
-    addClasses([fieldContainer], "display-none");
-    removeClasses([installcontainer], "display-none");
-    addClasses([installcontainer], "display-block");
+   
     toggelFilterMenu();
     
     // if install menu is already not opened

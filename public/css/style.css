@@ -6,30 +6,37 @@
 }
 
 :root {
-    --Black: #1F1F1F;
+    --Black: #1f1f1f;
     --LightBlack: #313236;
     --InputColor: #434650;
     --White: #fff;
-    --Blue: #0099D5;
+    --Blue: #0099d5;
     --DarkBlue: #0089be;
-    --Orange: #FF400A;
+    --Orange: #ff400a;
     --DarkOrange: #e03101;
     --CardBg2: #2b2b2f;
-    --GrayColor: #C4C4C4;
+    --GrayColor: #c4c4c4;
+    --Color1: #658483;
+    --Color2: #f23d3e;
+    --Color3: #c49899;
+    --Color4: #bf02fa;
+    --Color5: #000000;
+    --Color6: #00e600;
 
     --PrimaryFont: Poppins;
-
 }
 
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-webkit-scrollbar {
     width: 6px;
     height: 6px;
-    background-color: #F5F5F5;
+    background-color: var(--LightBlack);
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #d1d1d1;
+    background-color: var(--CardBg2);
+    border-radius: 10px;
 }
 
 .W100 {
@@ -97,6 +104,14 @@ button {
     color: var(--White);
 }
 
+.TextCenter {
+    text-align: center;
+}
+
+.JustifyCenter {
+    justify-content: center;
+}
+
 .MyBtn {
     min-height: 42px;
     display: inline-flex;
@@ -107,6 +122,23 @@ button {
     font-size: 18px;
     border: none;
     box-shadow: none;
+}
+
+.flex-wrap {
+    width: calc(100% + 30px);
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.Card50 {
+    width: 50%;
+    padding: 0px 15px;
+}
+
+.Card100 {
+    width: 100%;
+    padding: 0px 15px;
 }
 
 .MainWrapper {
@@ -169,15 +201,27 @@ button {
     background: var(--DarkBlue);
 }
 
-.TopMenuIcon svg {
-    width: 24px;
-    height: 24px;
+.TopMenuIcon svg,
+.TopMenuIcon img,
+.PannelIcon2 svg,
+.PannelIcon2 img,
+.LeftPannelIcon1 svg,
+.LeftPannelIcon1 img,
+.MenuIcon svg,
+.MenuIcon img,
+.MyBtn svg,
+.MyBtn img {
+    width: 22px;
+    height: 22px;
+    max-width: unset;
 }
 
 .PannelIcon {
     position: absolute;
-    left: -70px;
-    top: 15%;
+    /* left: -70px; */
+    right: -44px;
+    /* top: 50%; */
+    top: 77px;
     transform: translateY(-50%) rotate(-90deg);
     padding: 8px 10px;
     border-radius: 10px 10px 0 0;
@@ -190,10 +234,14 @@ button {
     background: var(--DarkBlue);
 }
 
+.PannelIcon.Active {
+    right: 376px;
+}
+
 .MenuIcon {
     position: absolute;
     left: -25px;
-    top: 180px;
+    top: 90px;
     transform: translateY(-50%) rotate(270deg);
     padding: 8px 10px;
     border-radius: 0 0 10px 10px;
@@ -208,7 +256,9 @@ button {
 }
 
 .MenuIcon svg,
-.PannelIcon svg {
+.PannelIcon svg,
+.PannelIcon2 svg,
+.LeftPannelIcon1 svg {
     width: 24px;
     height: 24px;
 }
@@ -217,11 +267,12 @@ button {
     width: 100%;
     height: calc(100% - 95px);
     display: flex;
-    gap: 30px;
+    /* gap: 30px; */
     padding: 20px;
     overflow: auto;
     transition: all 0.3s;
     bottom: 0;
+    position: relative;
 }
 
 .ContentWrapper.ToggleDiv.Active {
@@ -237,31 +288,36 @@ button {
     padding: 20px;
     border-radius: 10px;
     background: var(--LightBlack);
+    overflow: auto;
+    /* position: relative; */
 }
 
-.AsideBarRight.Active,.AsideBarInstallRight.Active {
+.AsideBarRight.Active {
     flex: 0 0 430px;
     transform: translateX(0%);
 }
 
-.AsideBarRight,.AsideBarInstallRight {
+.AsideBarRight {
     /* flex: 0 0 430px; */
     flex: 0 0 0px;
     width: 0px;
+    border-radius: 10px;
     position: relative;
     transition: all 0.8s;
     transform: translateX(100%);
 }
 
-.AsideBarRight .PannelAside,.AsideBarInstallRight .PannelAside {
+.AsideBarRight .PannelAside {
     padding: 0px;
     width: 0px;
+    height: 0px;
+    border-radius: 10px;
     background: var(--LightBlack);
     overflow: hidden;
     transition: all 0.8s;
 }
 
-.AsideBarRight.Active .PannelAside,.AsideBarInstallRight.Active .PannelAside {
+.AsideBarRight.Active .PannelAside {
     width: 100%;
     height: 100%;
     transition: all 0.8s;
@@ -271,7 +327,7 @@ button {
     padding: 10px;
 }
 
-.ToggleDiv.Active .AsideBarRight.Active .PannelAside,.ToggleDiv.Active .AsideBarInstallRight.Active .PannelAside {
+.AsideBarRight.Active .PannelAside {
     max-height: calc(100vh - 38px);
 }
 
@@ -291,7 +347,7 @@ button {
 
 .MyCardBody {}
 
-.AsideBarRight .PannelAside .MyCard,.AsideBarInstallRight .PannelAside .MyCard {
+.AsideBarRight .PannelAside .MyCard {
     background: var(--CardBg2);
 }
 
@@ -406,10 +462,11 @@ button {
 .modal-wrapper {
     position: absolute;
     z-index: 9999;
-    top: 6em;
+    top: 50%;
     left: 50%;
     width: 32em;
-    margin-left: -16em;
+    /* margin-left: -16em; */
+    transform: translate(-50%, -50%);
     background-color: var(--LightBlack);
     box-shadow: 0 0 1.5em hsla(0, 0%, 0%, 0.35);
 }
@@ -451,12 +508,12 @@ button {
 
 .modal-close {
     position: absolute;
-    top: 0;
-    right: 0;
-    padding: 1em;
-    color: #aaa;
+    top: 50%;
+    right: 15px;
+    color: var(--White);
     background: none;
     border: 0;
+    transform: translateY(-50%);
 }
 
 .modal-close:hover {
@@ -468,6 +525,9 @@ button {
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: var(--White);
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .modal-content>*:first-child {
@@ -476,6 +536,43 @@ button {
 
 .modal-content>*:last-child {
     margin-bottom: 0;
+}
+
+.modal-content p {
+    font-size: 14px;
+    line-height: 28px;
+    color: var(--White);
+    font-weight: 300;
+}
+
+/*** Modal 2 CSS ***/
+
+.modal.FilterModal .modal-header,
+.modal.StepInstructionModal .modal-header {
+    width: 100%;
+    padding: 20px 30px;
+}
+
+.modal.FilterModal .modal-content,
+.modal.StepInstructionModal .modal-content {
+    padding: 30px;
+}
+
+.modal.FilterModal .modal-wrapper,
+.modal.StepInstructionModal .modal-wrapper {
+    width: 100%;
+    max-width: 700px;
+    border-radius: 20px;
+    overflow: hidden;
+    /* transform: translateX(-50%); */
+    transform: translate(-50%, -50%) !important;
+    margin-left: 0px;
+}
+
+.modal.FilterModal .modal-body,
+.modal.StepInstructionModal .modal-body {
+    max-height: calc(100vh - 90px);
+    overflow: auto;
 }
 
 .MainMenu.modal .modal-wrapper {
@@ -539,7 +636,6 @@ button {
     border-radius: 10px 10px 0px 0px;
 }
 
-
 .UserAccountMenus li a {
     display: flex;
     align-items: center;
@@ -585,7 +681,6 @@ button {
     border-radius: 8px !important;
 }
 
-
 .MainMenu.modal .modal-body {
     height: calc(100vh - 95px);
     display: flex;
@@ -593,12 +688,7 @@ button {
     justify-content: space-between;
 }
 
-.canvas-div {
-    width: 100%;
-    height: 100%;
-}
-
-.canvas-div canvas#field-canvas {
+.MainContent canvas {
     max-width: 100%;
     max-height: 100%;
 }
@@ -611,7 +701,7 @@ ul.BreadCrumb {
 
 ul.BreadCrumb li {
     font-size: 28px;
-    color: var(--White);
+    color: var(--InputColor);
     font-weight: 600;
 }
 
@@ -627,140 +717,6 @@ ul.BreadCrumb li a {
     color: var(--White);
 }
 
-.map {
-    height: 180px;
-}
-
-/* install menu left panel */
-.LeftPannelIcon1 {
-    position: absolute;
-    left: -51px;
-    top: 50%;
-    transform: translateY(-50%) rotate(-90deg);
-    padding: 8px 10px;
-    border-radius: 0 0 10px 10px;
-    background: var(--Orange);
-    color: var(--White);
-    gap: 8px;
-    white-space: nowrap;
-}
-.LeftPannelIcon1.Active {left: 309px;}
-
-/* .ToggleDiv.Active .AsideBarRight.Active .LeftPannelIcon1 {
-    top: 113px;
-} */
-.LeftPannelIcon1:hover{
-    background: var(--DarkOrange);
-}
-/* .ContentWrapper.ToggleDiv.ChangeFlex .LeftPannelIcon1 {
-    left: -51px;
-} */
-
-.AsideBarLeft.AsideBarLeftActive{
-    flex: 0 0 340px;
-    margin-right: 30px;
-    transform: translateX(0%);
-}
-.AsideBarLeft{
-    /* flex: 0 0 430px; */
-    flex: 0 0 0px;
-    width: 0px;
-    position: relative;
-    transition: all 0.8s;
-    transform: translateX(100%);
-}
-.AsideBarLeft .PannelAside{
-    padding: 0px;
-    width: 0px;
-    background: var(--LightBlack);
-    overflow: hidden;
-    transition: all 0.8s;
-}
-.AsideBarLeft.AsideBarLeftActive .PannelAside{
-    width: 100%;
-    height: 100%;
-    transition: all 0.8s;
-    overflow-y: auto;
-    max-height: calc(100vh - 63px);
-    border-radius: 10px;
-    padding: 10px;
-}
-.AsideBarLeft .PannelAside .MyCard{
-    background: var(--Black);
-}
-.ToggleDiv.Active .AsideBarLeft.AsideBarLeftActive .PannelAside{
-    max-height: calc(100vh - 38px);
-}
-
-/*** Collapse ***/
-.toggle-card{
-    transition: all 0.3s;
-}
-
-.toggle-card-header {
-    width: 100%;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.toggle-card-header h3{
-    color: var(--White);
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0px;
-}
-.toggle-card-header .filter-btns button {
-    background: transparent;
-    border: none;
-    color: var(--White);
-    width: 25px;
-    height: 25px;
-    padding: 0px;
-    text-align: center;
-}
-.toggle-card .toggle-card-header .filter-btns .collpase-btn svg{
-    transform: rotate(180deg);
-}
-.toggle-card.active .toggle-card-header .filter-btns .collpase-btn svg{
-    transform: rotate(0deg);
-}
-
-.toggle-card .toggle-card-body {
-    display: none;
-}
-.toggle-card.active .toggle-card-body {
-    display: block;
-    margin-top: 15px;
-    padding-top: 20px;
-    border-top: solid 1px var(--InputColor);
-}
-.toggle-card-body .progress-steps li:not(:last-child){
-    margin-bottom: 15px;
-}
-/* card content taggable */
-.ContentPara {
-    width: 100%;
-    height: auto;
-    max-height: 25vh;
-    overflow: auto;
-}
-.ContentPara p{
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--GrayColor);
-}
-.display-none {
-    display: none;
-    opacity: 0;
-}
-
-.diplay-block {
-    display: block;
-    opacity: 1;
-    transition: opacity 0.5s linear;
-}
-
 .PannelIcon2 {
     position: absolute;
     right: -52px;
@@ -773,15 +729,33 @@ ul.BreadCrumb li a {
     gap: 8px;
     white-space: nowrap;
 }
+
 .PannelIcon2.Active {
     right: 288px;
 }
-.AsideBarRight.RightPanel2Active,.AsideBarInstallRight.RightPanel2Active {
+
+.AsideBarRight.RightPanel1Active {
+    transform: translateX(0px);
+    width: 100%;
+    flex: 0 0 430px;
+}
+
+.AsideBarRight.RightPanel1Active .PannelAside.RightPanel1.Active {
+    width: calc(100% - 30px);
+    height: 100%;
+    padding: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    overflow: auto;
+}
+
+.AsideBarRight.RightPanel2Active {
     transform: translateX(0px);
     width: 100%;
     flex: 0 0 350px;
 }
-.AsideBarRight.RightPanel2Active .PannelAside.RightPanel2.Active,.AsideBarInstallRight.RightPanel2Active .PannelAside.RightPanel2.Active {
+
+.AsideBarRight.RightPanel2Active .PannelAside.RightPanel2.Active {
     width: calc(100% - 30px);
     height: 100%;
     margin-left: 30px;
@@ -789,16 +763,468 @@ ul.BreadCrumb li a {
     overflow: auto;
 }
 
-.AsideBarRight.RightPanel1Active,.AsideBarInstallRight.RightPanel1Active {
-    transform: translateX(0px);
-    width: 100%;
-    flex: 0 0 430px;
+/*** Collapse ***/
+.toggle-card {
+    transition: all 0.3s;
 }
-.AsideBarRight.RightPanel1Active .PannelAside.RightPanel1.Active,.AsideBarInstallRight.RightPanel1Active .PannelAside.RightPanel1.Active {
-    width: calc(100% - 30px);
-    height: 100%;
+
+.toggle-card-header {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-card-header h3 {
+    color: var(--White);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0px;
+}
+
+.toggle-card-header .filter-btns button {
+    background: transparent;
+    border: none;
+    color: var(--White);
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    text-align: center;
+}
+
+.toggle-card .toggle-card-header .filter-btns .collpase-btn svg,
+.toggle-card .toggle-card-header .filter-btns .collpase-btn img {
+    transform: rotate(180deg);
+}
+
+.toggle-card.active .toggle-card-header .filter-btns .collpase-btn svg,
+.toggle-card.active .toggle-card-header .filter-btns .collpase-btn img {
+    transform: rotate(0deg);
+}
+
+.toggle-card .toggle-card-header .filter-btns button img {
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.toggle-card .toggle-card-body {
+    display: none;
+}
+
+.toggle-card.active .toggle-card-body {
+    display: block;
+    margin-top: 15px;
+    padding-top: 20px;
+    border-top: solid 1px var(--InputColor);
+}
+
+.toggle-card-body .progress-steps li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--White);
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: var(--InputColor);
+    transition: all 0.6s;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+}
+
+.toggle-card-body .progress-steps li:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+/* .toggle-card-body .progress-steps li span{
+    padding-left: 15px;
+} */
+.toggle-card-body .progress-steps li button {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: solid 1px var(--LightBlack);
     padding: 10px;
-    margin-left: 30px;
-    margin-right: 30px;
+}
+
+.toggle-card-body .progress-steps li button img {
+    max-width: 20px;
+    max-height: 20px;
+}
+
+.ValueView {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.ValueView span {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: var(--White);
+}
+
+.ValueView h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--Orange);
+    margin: 0px;
+}
+
+.LeftPannelIcon1 {
+    position: absolute;
+    left: -51px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    padding: 8px 10px;
+    border-radius: 0 0 10px 10px;
+    background: var(--Orange);
+    color: var(--White);
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.LeftPannelIcon1.Active {
+    left: 289px;
+}
+
+/* .ToggleDiv.Active .AsideBarRight.Active .LeftPannelIcon1 {
+    top: 113px;
+} */
+.LeftPannelIcon1:hover {
+    background: var(--DarkOrange);
+}
+
+/* .ContentWrapper.ToggleDiv.ChangeFlex .LeftPannelIcon1 {
+    left: -51px;
+} */
+
+.ContentPara {
+    width: 100%;
+    height: auto;
+    max-height: 25vh;
     overflow: auto;
+}
+
+.ContentPara p {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--GrayColor);
+}
+
+.AsideBarLeft.AsideBarLeftActive {
+    flex: 0 0 320px;
+    margin-right: 30px;
+    transform: translateX(0%);
+}
+
+.AsideBarLeft {
+    /* flex: 0 0 430px; */
+    flex: 0 0 0px;
+    width: 0px;
+    position: relative;
+    transition: all 0.8s;
+    transform: translateX(100%);
+}
+
+.AsideBarLeft .PannelAside {
+    padding: 0px;
+    width: 0px;
+    background: var(--LightBlack);
+    overflow: hidden;
+    transition: all 0.8s;
+}
+
+.AsideBarLeft.AsideBarLeftActive .PannelAside {
+    width: 100%;
+    height: 100%;
+    transition: all 0.8s;
+    overflow-y: auto;
+    max-height: calc(100vh - 63px);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.AsideBarLeft .PannelAside .MyCard {
+    background: var(--Black);
+}
+
+.ToggleDiv.Active .AsideBarLeft.AsideBarLeftActive .PannelAside {
+    max-height: calc(100vh - 38px);
+}
+
+.ContentPara p {
+    font-weight: 300;
+    font-size: 16px;
+    margin-top: 0px;
+    color: var(--GrayColor);
+}
+
+.MyCard.BgWhite {
+    background: var(--White);
+}
+
+/***** CheckBox CSS *****/
+.filter-checklist {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.filter-checklist li {
+    flex: 0 0 49%;
+}
+
+.filter-checklist li:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.styled-checkbox {
+    position: absolute;
+    opacity: 0;
+}
+
+.styled-checkbox+label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--White);
+    padding-left: 30px;
+}
+
+.styled-checkbox+label:before {
+    content: "";
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: solid 2px var(--Orange);
+    top: 3px;
+    left: 0px;
+    position: absolute;
+}
+
+.styled-checkbox:hover+label:before {
+    background: var(--Orange);
+}
+
+.styled-checkbox:focus+label:before {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+.styled-checkbox:checked+label:before {
+    background: var(--Orange);
+}
+
+.styled-checkbox:disabled+label {
+    color: var(--White);
+    cursor: auto;
+}
+
+.styled-checkbox:disabled+label:before {
+    box-shadow: none;
+    /* background: #ddd; */
+}
+
+.styled-checkbox:checked+label:after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 11px;
+    /* background: white; */
+    width: 2px;
+    height: 2px;
+    box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white,
+        4px -6px 0 white, 4px -8px 0 white;
+    transform: rotate(45deg);
+}
+
+.filter-checklist+.MyBtn {
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.MyCard.CanvasCard {
+    padding: 0px;
+}
+
+.CanvasCard .TitleFlex {
+    width: 100%;
+    padding: 5px 15px 10px 15px;
+    margin-bottom: 0px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.CanvasCard .TitleFlex h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--LightBlack);
+    margin: 0px;
+}
+
+.CanvasCard .resize-div {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+.CanvasCard .resize-div svg,
+.CanvasCard .resize-div img {
+    max-width: 24px;
+}
+
+.CanvasCard .MyCardCanvas {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.MyCard.CanvasCard.mb-30 {
+    margin-bottom: 30px;
+}
+
+.Card50.OneCanvas.fullscreen,
+.Card100.OneCanvas.fullscreen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 99999999;
+    padding: 0;
+}
+
+.Card50.OneCanvas.fullscreen .CanvasCard,
+.Card100.OneCanvas.fullscreen .CanvasCard {
+    border-radius: 0px;
+    height: 100%;
+}
+
+.Card50.OneCanvas.fullscreen .CanvasCard .MyCardTitle,
+.Card100.OneCanvas.fullscreen .CanvasCard .MyCardTitle {
+    max-height: calc(100vh - 43px);
+    overflow: auto;
+}
+
+.Card50.OneCanvas.fullscreen .CanvasCard .MyCardTitle svg.fullscreen,
+.Card100.OneCanvas.fullscreen .CanvasCard .MyCardTitle svg.fullscreen {
+    display: none;
+}
+
+.resize-div .smallscreen {
+    display: none;
+}
+
+.fullscreen .resize-div .fullscreen {
+    display: none;
+}
+
+.fullscreen .resize-div .smallscreen {
+    display: block;
+}
+
+.chart-indigators {
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    background: #0099d545;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.chart-indigators li {
+    color: var(--White);
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+}
+
+.chart-indigators li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.chart-indigators li span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.color1 {
+    background: var(--Color1);
+}
+
+.color2 {
+    background: var(--Color2);
+}
+
+.color3 {
+    background: var(--Color3);
+}
+
+.color4 {
+    background: var(--Color4);
+}
+
+.color5 {
+    background: var(--Color5);
+}
+
+.color6 {
+    background: var(--Color6);
+}
+
+.d-flex {
+    display: flex;
+}
+
+.width-full {
+    width: 100%;
+}
+
+.display-none {
+    display: none;
+}
+
+.display-block {
+    display: block;
+}
+
+.canvas-div {
+    width: 100%;
+    height: 100%;
+}
+
+.map {
+    width: 100%;
+    height: 180px;
+}
+canvas#project-map-canvas {
+    width: 100%!important;
+    height: 100%!important;
+}
+
+canvas#field-canvas {
+    max-width: 100%;
+    max-height: 100%;
 }

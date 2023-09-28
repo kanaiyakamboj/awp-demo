@@ -1,11 +1,34 @@
 @media screen and (max-width: 1728px) {
-    .AsideBarRight.Active,.AsideBarInstallRight.Active {
+    .AsideBarRight.Active {
         flex: 0 0 380px;
     }
 }
 
+@media screen and (max-width: 1600px) {
+    .AsideBarRight.RightPanel1Active {
+        flex: 0 0 310px;
+    }
+    .AsideBarRight.RightPanel2Active {
+        flex: 0 0 310px;
+    }
+    .AsideBarLeft.AsideBarLeftActive {
+        flex: 0 0 280px;
+    }
+    .PannelIcon.Active {
+        right: 256px;
+    }
+    .PannelIcon2.Active {
+        right: 248px;
+    }
+    .LeftPannelIcon1.Active {
+        left: 249px;
+    }
+    .toggle-card-header h3 {
+        font-size: 16px;
+    }
+}
 @media screen and (max-width: 1512px) {
-    .AsideBarRight.Active,.AsideBarInstallRight.Active {
+    .AsideBarRight.Active {
         flex: 0 0 320px;
     }
     .MyCardTitle {
@@ -35,7 +58,7 @@
     .ContentWrapper {
         height: calc(100% - 85px);
     }
-    .AsideBarRight.Active .PannelAside,.AsideBarInstallRight.Active .PannelAside {
+    .AsideBarRight.Active .PannelAside {
         max-height: calc(100vh - 123px);
     }
     .MenusList li a, .UserAccountMenus li a {
@@ -83,7 +106,7 @@
     .MenusList {
         max-height: calc(100vh - 275px);
     }
-    .AsideBarRight.Active,.AsideBarInstallRight.Active {
+    .AsideBarRight.Active {
         flex: 0 0 320px;
     }
     .MyCardTitle {
@@ -96,22 +119,20 @@
         font-size: 16px;
         min-height: 38px;
     }
-    .MenuIcon svg, .PannelIcon svg,  .PannelIcon2 svg, .LeftPannelIcon1 svg {
+    .MenuIcon svg, .PannelIcon svg, .PannelIcon2 svg, .LeftPannelIcon1 svg {
         width: 18px;
         height: 18px;
-    } 
+    }    
+    
     .MenuIcon {
-        top: 150px;
-    }   
-    .PannelIcon {
-        left: -62px;
+        top: 80px;
     }
     .TopMenuIcon svg {
         width: 20px;
         height: 20px;
     }
     .MyCard {
-        padding: 20px 15px;
+        padding: 15px;
     }
     .MyCard.mb-30 {
         margin-bottom: 15px;
@@ -128,11 +149,30 @@
     .ContentWrapper {
         height: calc(100% - 58px);
     }
-    .AsideBarRight.Active .PannelAside,.AsideBarInstallRight.Active .PannelAside {
+    .AsideBarRight.Active .PannelAside {
         max-height: calc(100vh - 98px);
     }
     .MyInput, .MySelect, .MyInputBtn {
         min-height: 44px;
+    }
+    .toggle-card-header h3 {
+        font-size: 14px;
+    }
+    .ContentPara p {
+        font-size: 14px;
+    }
+    .toggle-card-header .filter-btns button svg {
+        max-width: 15px;
+        max-height: 15px;
+    }
+    .ValueView {
+        margin-bottom: 15px;
+    }
+    .ValueView span {
+        font-size: 14px;
+    }
+    .ValueView h4 {
+        font-size: 14px;
     }
 }
 

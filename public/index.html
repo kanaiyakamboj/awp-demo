@@ -15,46 +15,37 @@
 
 <body>
     <div class="MainWrapper">
+        <!--Header Toggle Button-->
         <button class="TopMenuIcon ToggleBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="21.5" height="20.501" viewBox="0 0 21.5 20.501">
-                <g transform="translate(-1.25 -1.75)">
-                    <path d="M19.14,19.5a9.995,9.995,0,1,0-14.3-.01" fill="none" stroke="currentColor"
-                        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" />
-                    <path
-                        d="M-12611.619-2879a3.385,3.385,0,0,1-3.382-3.381,3.385,3.385,0,0,1,3.382-3.381,3.384,3.384,0,0,1,3.378,3.381A3.384,3.384,0,0,1-12611.619-2879Zm4-9.5h-.75a.761.761,0,0,1-.751-.75v-.75a1.5,1.5,0,0,1,1.5-1.5,1.521,1.521,0,0,1,1.5,1.5A1.5,1.5,0,0,1-12607.621-2888.5Z"
-                        transform="translate(12623.62 2900.5)" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" />
-                </g>
-            </svg>
-        </button>
-        <button onclick="toggelFilterMenu()" class="MenuIcon MyBtn MenuToggle">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18.721" height="17.501" viewBox="0 0 18.721 17.501">
-                <g transform="translate(-2.64 -3.25)">
-                    <path
-                        d="M-12633.31-2883.458a2.461,2.461,0,0,1,2.46-2.463,2.461,2.461,0,0,1,2.46,2.463,2.46,2.46,0,0,1-2.46,2.46A2.46,2.46,0,0,1-12633.31-2883.458Zm-12.3-11.082a2.46,2.46,0,0,1,2.46-2.459,2.459,2.459,0,0,1,2.459,2.459,2.459,2.459,0,0,1-2.459,2.459A2.46,2.46,0,0,1-12645.61-2894.541Z"
-                        transform="translate(12649 2901)" fill="none" stroke="#fff" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" />
-                    <path
-                        d="M-12645.61-2883.458a2.461,2.461,0,0,1,2.46-2.463,2.46,2.46,0,0,1,2.459,2.463,2.459,2.459,0,0,1-2.459,2.46A2.46,2.46,0,0,1-12645.61-2883.458Zm12.3-11.082a2.46,2.46,0,0,1,2.46-2.459,2.46,2.46,0,0,1,2.46,2.459,2.46,2.46,0,0,1-2.46,2.459A2.46,2.46,0,0,1-12633.31-2894.541Z"
-                        transform="translate(12649 2901)" fill="none" stroke="#fff" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" opacity="0.4" />
-                </g>
-            </svg>
-            Menu
+            <img src="assets/panel-icon.svg" alt="">
         </button>
         <!--Header section-->
         <div class="HeaderPart ToggleDiv Active" include-my-html="./templates/header/header.html">
         </div>
         <!--filter menu section-->
         <div id="filter-menu" class="MainMenu modal">
-            <div onclick="toggelFilterMenu()" class="modal-overlay MenuToggle"></div>
+            <!-- <div onclick="toggelFilterMenu()" class="modal-overlay MenuToggle"></div> -->
+            <div class="modal-overlay MenuToggle"></div>    
             <div class="modal-wrapper modal-transition" include-my-html="./templates/menues/filter-menu.html"></div>
         </div>
-        <!--field template section-->
-        <div id="ContentWrapper" class="ContentWrapper ToggleDiv"
-            include-my-html="./templates/main-content/main-template.html">
-        </div>
+
+        <div class="ContentWrapper ToggleDiv">
+            <button class="MenuIcon MyBtn MenuToggle">
+                <img src="assets/menu-icon.svg" alt=""> Menu
+            </button>
+           
+              
+       
+            <!--field template section-->
+        <div id="field-container" class="d-flex active width-full"  include-my-html="./templates/pages/field.html"></div>
+        <!--install template section-->
+        <div id="install-container" class="d-flex display-none" include-my-html="./templates/pages/install.html"></div>
     </div>
+    </div>
+
+    <div include-my-html="./templates/component/modal.html">
+    </div>
+
     <script src="js/jquery-3.7.1.min.js"></script>
 
     <script>
