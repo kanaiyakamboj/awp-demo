@@ -12,93 +12,122 @@ $(document).ready(function () {
     asideBarRight = document.getElementById("AsideBarRight");
     fieldContainer = document.getElementById("field-container");
     installcontainer = document.getElementById("install-container");
+   if (document.getElementById("pannelone")) {
+        document.getElementById("pannelone").classList.toggle("Active");
+        document.getElementById("AsideBarRight").classList.toggle("RightPanel1Active");
+        document.getElementById("RightPanelone").classList.toggle("Active");
 
-    // $(".LeftPannelIcon1").click(function () {
-    //     toggleInstallMenu();
-    // });
-
-    // $(".PannelIcon2").click(function () {
-    //     toggleRightInstallMenu();
-    // });
-  
-    
+    }
 });
 
-function PannelIcon2(event)  {
-    $(".AsideBarInstallRight").toggleClass("RightPanel2Active");
-    $(".RightPanel2").toggleClass("Active");
-    event.currentTarget.classList.toggle("Active")
-};
+function toggelProjectSelectDiv(event, page) {
 
-function toggleRightInstallMenu() {
-    $(this).toggleClass("Active", { duration: 3000 });
-    $(".PannelIcon").removeClass("Active", { duration: 3000 });
-    $(".AsideBarInstallRight").toggleClass("RightPanel2Active");
-    $(".AsideBarRight").removeClass("RightPanel1Active");
-    $(".RightPanel1").removeClass("Active");
-    $(".RightPanel2").toggleClass("Active");
+    if (event != "") {
+        if (event.currentTarget.classList.contains("PannelIcon")) {
+            if (document.getElementById("installationSteps").classList.contains("Active")) {
+                document.getElementById("panneltwo").classList.remove("Active");
+                event.currentTarget.parentElement.classList.remove("RightPanel2Active");
+                document.getElementById("installationSteps").classList.remove("Active");
+            }
+            event.currentTarget.classList.toggle("Active");
+            event.currentTarget.parentElement.classList.toggle("RightPanel1Active");
+            document.getElementById("RightPanelone").classList.toggle("Active");
 
-    if ($(".AsideBarRight").hasClass("Active")) {
-        toggelProjectSelectDiv();
-        removeClasses([rightMenuBtn], "display-block");
-        addClasses([rightMenuBtn], "display-none");
+        }
+        if (event.currentTarget.classList.contains("PannelIcon2")) {
+            if (document.getElementById("RightPanelone").classList.contains("Active")) {
+                document.getElementById("pannelone").classList.remove("Active");
+                event.currentTarget.parentElement.classList.remove("RightPanel1Active");
+                document.getElementById("RightPanelone").classList.remove("Active");
+            }
+            event.currentTarget.classList.toggle("Active");
+            event.currentTarget.parentElement.classList.toggle("RightPanel2Active");
+            document.getElementById("installationSteps").classList.toggle("Active");
+
+        }
+        if (event.currentTarget.classList.contains("LeftPannelIcon1")) {
+            event.currentTarget.classList.toggle("Active");
+            event.currentTarget.parentElement.classList.toggle("AsideBarLeftActive");
+        }
     }
-    if (!$(".AsideBarInstallRight").hasClass("RightPanel2Active")) {
-        addClasses([rightMenuBtn], "display-block");
-        removeClasses([rightMenuBtn], "display-none");
+    if (page == "install") {
+        document.getElementById("pannelthree").classList.add("Active");
+        document.getElementById("AsideBarleft").classList.add("AsideBarLeftActive");
+        document.getElementById("panneltwo").classList.add("Active");
+        document.getElementById("AsideBarRight").classList.add("RightPanel2Active");
+        document.getElementById("installationSteps").classList.add("Active");
+        document.getElementById("RightPanelone").classList.remove("Active");
+        document.getElementById("AsideBarRight").classList.remove("RightPanel1Active");
+        document.getElementById("pannelone").classList.remove("Active");
+
     }
-    else {
-        removeClasses([rightMenuBtn], "display-block");
-        addClasses([rightMenuBtn], "display-none");
+    if (page == "field") {
+        document.getElementById("pannelthree").classList.remove("Active");
+        document.getElementById("AsideBarleft").classList.remove("AsideBarLeftActive");
+        document.getElementById("panneltwo").classList.remove("Active");
+        document.getElementById("AsideBarRight").classList.remove("RightPanel2Active");
+        document.getElementById("installationSteps").classList.remove("Active");
+        document.getElementById("RightPanelone").classList.add("Active");
+        document.getElementById("AsideBarRight").classList.add("RightPanel1Active");
+        document.getElementById("pannelone").classList.add("Active");
+
     }
 }
 
-function toggleInstallMenu() {
-    $(".LeftPannelIcon1").toggleClass("Active", { duration: 3000 });
-    removeClasses([leftInstallMenuBtn], "display-none");
-    addClasses([leftInstallMenuBtn], "display-block");
-    removeClasses([rightInstallMenuBtn], "display-none");
-    addClasses([rightInstallMenuBtn], "display-block");
-    $(".AsideBarLeft").toggleClass("AsideBarLeftActive");
 
-    // $(".ContentWrapper").removeClass("ChangeFlex");
+function filterPopup(e) {
+    document.getElementById("FilterModalId").classList.toggle("is-visible") 
+}
+function modalPopup(e) {
+    document.getElementById("StepInstructionModalId").classList.toggle("is-visible") 
+}
+
+function collpaseButton(event) {
+    if (event.currentTarget.classList.value == "collpase-btn") {id="collpaseparent"
+        event.currentTarget.parentElement.parentElement.parentElement.classList.toggle("active")
+    }
+    if (event.currentTarget.classList.value == "resize-div") {
+        event.currentTarget.parentElement.parentElement.parentElement.classList.toggle("fullscreen")
+    }
 }
 
 function handleInstallMenuItemClick(filterType) {
     const filedLi = document.getElementById('field');
     const htvLi = document.getElementById('htv');
     const installLi = document.getElementById('install');
-const templateName=document.getElementById('template-name');
+    const templateName = document.getElementById('template-name');
 
     if (filterType === 'field') {
         addClasses([filedLi], "active");
         removeClasses([htvLi], "active");
         removeClasses([installLi], "active");
-        templateName.textContent='Field';
+        templateName.textContent = 'Field';
         removeClasses([fieldContainer], "display-none");
         addClasses([fieldContainer], "d-flex");
         removeClasses([installcontainer], "d-flex");
         addClasses([installcontainer], "display-none");
-        $(".AsideBarRight").addClass("Active");
-        $(".PannelIco").addClass("Active");
+        toggelProjectSelectDiv("", "field");
     }
 
     if (filterType === 'install') {
         addClasses([installLi], "active");
         removeClasses([filedLi], "active");
         removeClasses([htvLi], "active");
-        templateName.textContent='Install';
+        templateName.textContent = 'Install';
         removeClasses([fieldContainer], "d-flex");
         addClasses([fieldContainer], "display-none");
         removeClasses([installcontainer], "display-none");
         addClasses([installcontainer], "d-flex");
+        toggelProjectSelectDiv("", "install");
     }
 
-   
+
     toggelFilterMenu();
-    
+
     // if install menu is already not opened
-    if (!$(".AsideBarLeft").hasClass("AsideBarLeftActive")) {
-        toggleInstallMenu();
-    }
+    // if (!$(".AsideBarLeft").hasClass("AsideBarLeftActive")) {
+    //     toggleInstallMenu();
+    // }
 }
+
+
