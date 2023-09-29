@@ -22,12 +22,14 @@
             </div>
             <div class="toggle-card-body">
                 <div class="map">
-                    <img src="assets/map.png" alt="">
+                    <div id="first-panel-content-right-menu" class="map">
+                        <canvas id="project-map-canvas"></canvas>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="MyCard">
+    <!-- <div class="MyCard">
         <div class="MyCardTitle">WORK PACK SELECTION</div>
         <div class="MyCardBody">
             <div class="MyInputField">
@@ -44,7 +46,32 @@
             </div>
             <button class="MyBtn OrangeBtn W100 JustifyCenter">Aply Now</button>
         </div>
+    </div> -->
+    <div class="MyCard">
+        <div class="MyCardTitle">PROJECT SELECTION</div>
+        <div class="MyCardBody">
+            <div class="MyInputField">
+        
+            <input type="file" id="file-upload-btn" onchange="btnImportProjectClick(event)" hidden webkitdirectory multiple/>
+                <label for="">Project Name</label>
+                <label id="btn-import-file" for="file-upload-btn" class="MyInputBtn">Import Project</label>
+            </div>
+            <div class="MyInputField">
+                <label for="">HTV Name</label>
+                <select onchange="onHtvDropdownChange(event)" id="file-names" name="htv-names" class="MySelect">
+                    <option value="">--Select option--</option>
+                </select>
+            </div>
+            <div class="MyInputField">
+                <label for="">Monopile</label>
+                <select onchange="onMonopileDropdownChange(event)" name="sheet-names" id="sheet-names" class="MySelect">
+                    <option value="">--Select option--</option>
+                </select>
+            </div>
+            <button class="MyBtn OrangeBtn W100 JustifyCenter">Aply Now</button>
+        </div>
     </div>
+ 
     <div class="MyCard mb-30">
         <div class="toggle-card active">
             <div class="toggle-card-header">
