@@ -88,6 +88,8 @@ function collpaseButton(event) {
     }
     if (event.currentTarget.classList.value == "resize-div") {
         event.currentTarget.parentElement.parentElement.parentElement.classList.toggle("fullscreen")
+        event.currentTarget.parentElement.parentElement.parentElement.parentElement.classList.toggle("HideCards")
+        
     }
 }
 
