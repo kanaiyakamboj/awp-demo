@@ -1,36 +1,43 @@
-<button class="PannelIcon MyBtn">
+<button class="PannelIcon MyBtn" onclick="toggelProjectSelectDiv(event)">
     <img src="assets/panel-icon.svg" alt=""> Panel     
 </button>
-<button class="PannelIcon2 MyBtn Active" >                    
+<button class="PannelIcon2 MyBtn " onclick="toggelProjectSelectDiv(event)" >                    
     <img src="assets/panel-icon.svg" alt="">   Panel 2
 </button>
 
-<div class="PannelAside RightPanel1  ">
+
+  <div class="PannelAside RightPanel1 ">
     <div class="MyCard mb-30">
-        <div id="first-panel-right-menu" class="MyCardTitle">PROJECT MAP</div>
-        <div class="MyCardBody">
-            <div id="first-panel-content-right-menu" class="map">
-            <!-- <canvas id="project-map-canvas"></canvas> -->
+        <div class="toggle-card active">
+            <div class="toggle-card-header">
+                <h3 class="faq-title">Map</h3>
+                <div class="filter-btns">
+                    <button class="collpase-btn" onclick="collpaseButton(event)">
+                        <img src="assets/arrow-up-icon.svg" alt="">                                  
+                    </button>
+                    <button class="FilterModalBtn" onclick="filterPopup(event)">
+                        <img src="assets/filter-icon.svg" alt="">                                                                            
+                    </button>
+                </div>
+            </div>
+            <div class="toggle-card-body">
+                <div class="map">
+                    <img src="assets/map.png" alt="">
+                </div>
             </div>
         </div>
     </div>
     <div class="MyCard">
-        <div class="MyCardTitle">PROJECT SELECTION</div>
+        <div class="MyCardTitle">WORK PACK SELECTION</div>
         <div class="MyCardBody">
             <div class="MyInputField">
-        
-            <input type="file" id="file-upload-btn" onchange="btnImportProjectClick(event)" hidden webkitdirectory multiple/>
-                <label for="">Project Name</label>
-                <label id="btn-import-file" for="file-upload-btn" class="MyInputBtn">Import Project</label>
-            </div>
-            <div class="MyInputField">
-                <label for="">HTV Name</label>
+                <label for="">Transport Vessel</label>
                 <select onchange="onHtvDropdownChange(event)" id="file-names" name="htv-names" class="MySelect">
                     <option value="">--Select option--</option>
                 </select>
             </div>
             <div class="MyInputField">
-                <label for="">Monopile</label>
+                <label for="">Ident. No.</label>
                 <select onchange="onMonopileDropdownChange(event)" name="sheet-names" id="sheet-names" class="MySelect">
                     <option value="">--Select option--</option>
                 </select>
@@ -38,8 +45,32 @@
             <button class="MyBtn OrangeBtn W100 JustifyCenter">Aply Now</button>
         </div>
     </div>
-  </div>
-<div class="PannelAside RightPanel2 Active">
+    <div class="MyCard mb-30">
+        <div class="toggle-card active">
+            <div class="toggle-card-header">
+                <h3 class="faq-title">Installation Steps</h3>
+                <div class="filter-btns">
+                    <button class="collpase-btn" onclick="collpaseButton(event)">
+                        <img src="assets/arrow-up-icon.svg" alt="">                                  
+                    </button>
+                    <button class="FilterModalBtn" onclick="filterPopup(event)">
+                        <img src="assets/filter-icon.svg" alt="">                                                                            
+                    </button>
+                </div>
+            </div>
+            <div class="toggle-card-body">
+               <ul class="progress-steps">
+                <li class="MyInputBtn"><span>Button</span><button class="MyInputBtn StepInstructionBtn" onclick="modalPopup(event)"><img src="assets/info-icon.svg" alt=""></button></li>
+                <li class="MyInputBtn"><span>Button 2</span><button class="MyInputBtn StepInstructionBtn" onclick="modalPopup(event)"><img src="assets/info-icon.svg" alt=""></button></li>
+                <li class="MyInputBtn"><span>Button 3</span><button class="MyInputBtn StepInstructionBtn" onclick="modalPopup(event)"><img src="assets/info-icon.svg" alt=""></button></li>
+                <li class="MyInputBtn"><span>Button 4</span><button class="MyInputBtn StepInstructionBtn" onclick="modalPopup(event)"><img src="assets/info-icon.svg" alt=""></button></li>
+                <li class="MyInputBtn"><span>Button 5</span><button class="MyInputBtn StepInstructionBtn" onclick="modalPopup(event)"><img src="assets/info-icon.svg" alt=""></button></li>
+               </ul>
+            </div>
+        </div>
+    </div>                    
+</div>
+<div class="PannelAside RightPanel2 ">
     <div class="MyCard mb-30">
         <div class="toggle-card active">
             <div class="toggle-card-header">
@@ -72,7 +103,7 @@
                     <button class="collpase-btn" onclick="collpaseButton(event)">
                         <img src="assets/arrow-up-icon.svg" alt="">                                  
                     </button>
-                    <button class="FilterModalBtn">
+                    <button class="FilterModalBtn" onclick="filterPopup(event)">
                         <img src="assets/filter-icon.svg" alt="">                                                                            
                     </button>
                 </div>
