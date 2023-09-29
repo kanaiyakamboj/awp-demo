@@ -12,10 +12,10 @@ $(document).ready(function () {
     asideBarRight = document.getElementById("AsideBarRight");
     fieldContainer = document.getElementById("field-container");
     installcontainer = document.getElementById("install-container");
-   if (document.getElementsByClassName("PannelIcon")[0]) {
-        document.getElementsByClassName("PannelIcon")[0].classList.toggle("Active");
-        document.getElementsByClassName("PannelIcon")[0].parentElement.classList.toggle("RightPanel1Active");
-        document.getElementsByClassName("RightPanel1")[0].classList.toggle("Active");
+   if (document.getElementById("pannelone")) {
+        document.getElementById("pannelone").classList.toggle("Active");
+        document.getElementById("AsideBarRight").classList.toggle("RightPanel1Active");
+        document.getElementById("RightPanelone").classList.toggle("Active");
 
     }
 });
@@ -24,25 +24,25 @@ function toggelProjectSelectDiv(event, page) {
 
     if (event != "") {
         if (event.currentTarget.classList.contains("PannelIcon")) {
-            if (document.getElementsByClassName("RightPanel2")[0].classList.contains("Active")) {
-                document.getElementsByClassName("PannelIcon2")[0].classList.remove("Active");
+            if (document.getElementById("installationSteps").classList.contains("Active")) {
+                document.getElementById("panneltwo").classList.remove("Active");
                 event.currentTarget.parentElement.classList.remove("RightPanel2Active");
-                document.getElementsByClassName("RightPanel2")[0].classList.remove("Active");
+                document.getElementById("installationSteps").classList.remove("Active");
             }
             event.currentTarget.classList.toggle("Active");
             event.currentTarget.parentElement.classList.toggle("RightPanel1Active");
-            document.getElementsByClassName("RightPanel1")[0].classList.toggle("Active");
+            document.getElementById("RightPanelone").classList.toggle("Active");
 
         }
         if (event.currentTarget.classList.contains("PannelIcon2")) {
-            if (document.getElementsByClassName("RightPanel1")[0].classList.contains("Active")) {
-                document.getElementsByClassName("PannelIcon")[0].classList.remove("Active");
+            if (document.getElementById("RightPanelone").classList.contains("Active")) {
+                document.getElementById("pannelone").classList.remove("Active");
                 event.currentTarget.parentElement.classList.remove("RightPanel1Active");
-                document.getElementsByClassName("RightPanel1")[0].classList.remove("Active");
+                document.getElementById("RightPanelone").classList.remove("Active");
             }
             event.currentTarget.classList.toggle("Active");
             event.currentTarget.parentElement.classList.toggle("RightPanel2Active");
-            document.getElementsByClassName("RightPanel2")[0].classList.toggle("Active");
+            document.getElementById("installationSteps").classList.toggle("Active");
 
         }
         if (event.currentTarget.classList.contains("LeftPannelIcon1")) {
@@ -51,25 +51,25 @@ function toggelProjectSelectDiv(event, page) {
         }
     }
     if (page == "install") {
-        document.getElementsByClassName("LeftPannelIcon1")[0].classList.add("Active");
-        document.getElementsByClassName("AsideBarLeft")[0].classList.add("AsideBarLeftActive");
-        document.getElementsByClassName("PannelIcon2")[0].classList.add("Active");
-        document.getElementsByClassName("AsideBarRight")[0].classList.add("RightPanel2Active");
-        document.getElementsByClassName("RightPanel2")[0].classList.add("Active");
-        document.getElementsByClassName("RightPanel1")[0].classList.remove("Active");
-        document.getElementsByClassName("AsideBarRight")[0].classList.remove("RightPanel1Active");
-        document.getElementsByClassName("PannelIcon")[0].classList.remove("Active");
+        document.getElementById("pannelthree").classList.add("Active");
+        document.getElementById("AsideBarleft").classList.add("AsideBarLeftActive");
+        document.getElementById("panneltwo").classList.add("Active");
+        document.getElementById("AsideBarRight").classList.add("RightPanel2Active");
+        document.getElementById("installationSteps").classList.add("Active");
+        document.getElementById("RightPanelone").classList.remove("Active");
+        document.getElementById("AsideBarRight").classList.remove("RightPanel1Active");
+        document.getElementById("pannelone").classList.remove("Active");
 
     }
     if (page == "field") {
-        document.getElementsByClassName("LeftPannelIcon1")[0].classList.remove("Active");
-        document.getElementsByClassName("AsideBarLeft")[0].classList.remove("AsideBarLeftActive");
-        document.getElementsByClassName("PannelIcon2")[0].classList.remove("Active");
-        document.getElementsByClassName("AsideBarRight")[0].classList.remove("RightPanel2Active");
-        document.getElementsByClassName("RightPanel2")[0].classList.remove("Active");
-        document.getElementsByClassName("RightPanel1")[0].classList.add("Active");
-        document.getElementsByClassName("AsideBarRight")[0].classList.add("RightPanel1Active");
-        document.getElementsByClassName("PannelIcon")[0].classList.add("Active");
+        document.getElementById("pannelthree").classList.remove("Active");
+        document.getElementById("AsideBarleft").classList.remove("AsideBarLeftActive");
+        document.getElementById("panneltwo").classList.remove("Active");
+        document.getElementById("AsideBarRight").classList.remove("RightPanel2Active");
+        document.getElementById("installationSteps").classList.remove("Active");
+        document.getElementById("RightPanelone").classList.add("Active");
+        document.getElementById("AsideBarRight").classList.add("RightPanel1Active");
+        document.getElementById("pannelone").classList.add("Active");
 
     }
 }
