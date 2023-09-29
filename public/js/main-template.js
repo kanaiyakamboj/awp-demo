@@ -76,16 +76,14 @@ function toggelProjectSelectDiv(event, page) {
 
 
 function filterPopup(e) {
-    $('.FilterModal').toggleClass('is-visible').animate({ top: 0 });
-
+    document.getElementById("FilterModalId").classList.toggle("is-visible") 
 }
 function modalPopup(e) {
-    $('.StepInstructionModal').toggleClass('is-visible').animate({ top: 0 });
-
+    document.getElementById("StepInstructionModalId").classList.toggle("is-visible") 
 }
 
 function collpaseButton(event) {
-    if (event.currentTarget.classList.value == "collpase-btn") {
+    if (event.currentTarget.classList.value == "collpase-btn") {id="collpaseparent"
         event.currentTarget.parentElement.parentElement.parentElement.classList.toggle("active")
     }
     if (event.currentTarget.classList.value == "resize-div") {
@@ -127,9 +125,9 @@ function handleInstallMenuItemClick(filterType) {
     toggelFilterMenu();
 
     // if install menu is already not opened
-    if (!$(".AsideBarLeft").hasClass("AsideBarLeftActive")) {
-        toggleInstallMenu();
-    }
+    // if (!$(".AsideBarLeft").hasClass("AsideBarLeftActive")) {
+    //     toggleInstallMenu();
+    // }
 }
 
 
