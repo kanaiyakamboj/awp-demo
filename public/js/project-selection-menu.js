@@ -82,7 +82,19 @@ function onHtvDropdownChange(e) {
 
   localStorage.removeItem("projectSelectionFilterData");
 
-  const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
+ const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
+  const abc=storeData['HTV-EW1-02'];
+  if(abc){
+    const selctedMonoileData=abc['EW1-B13'];
+    const steps=selctedMonoileData.steps;
+    let listr='';
+
+    steps.forEach(step=>listr=+`<li active></li>`)
+    parseMex.innerHTML=listr;
+
+    const stepData=selctedMonoileData['step_1'];
+    localStorage('stepData',stepData)
+  }
 
   setProjectSelectionFilter({
     projectName: storeData.projectName,

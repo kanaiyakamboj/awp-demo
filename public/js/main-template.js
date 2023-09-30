@@ -12,10 +12,12 @@ $(document).ready(function () {
     asideBarRight = document.getElementById("AsideBarRight");
     fieldContainer = document.getElementById("field-container");
     installcontainer = document.getElementById("install-container");
-   if (document.getElementById("pannelone")) {
-        document.getElementById("pannelone").classList.toggle("Active");
-        document.getElementById("AsideBarRight").classList.toggle("RightPanel1Active");
-        document.getElementById("RightPanelone").classList.toggle("Active");
+    RightPanelOne = document.getElementById("pannelone");
+    RightPanelOneParent = document.getElementById("RightPanelone");
+   if (RightPanelOne) {
+        RightPanelOne.classList.toggle("Active");
+        asideBarRight.classList.toggle("RightPanel1Active");
+        RightPanelOneParent.classList.toggle("Active");
 
     }
 });
@@ -31,14 +33,14 @@ function toggelProjectSelectDiv(event, page) {
             }
             event.currentTarget.classList.toggle("Active");
             event.currentTarget.parentElement.classList.toggle("RightPanel1Active");
-            document.getElementById("RightPanelone").classList.toggle("Active");
+            RightPanelOneParent.classList.toggle("Active");
 
         }
         if (event.currentTarget.classList.contains("PannelIcon2")) {
-            if (document.getElementById("RightPanelone").classList.contains("Active")) {
-                document.getElementById("pannelone").classList.remove("Active");
+            if (RightPanelOneParent.classList.contains("Active")) {
+                RightPanelOne.classList.remove("Active");
                 event.currentTarget.parentElement.classList.remove("RightPanel1Active");
-                document.getElementById("RightPanelone").classList.remove("Active");
+                RightPanelOneParent.classList.remove("Active");
             }
             event.currentTarget.classList.toggle("Active");
             event.currentTarget.parentElement.classList.toggle("RightPanel2Active");
@@ -54,22 +56,22 @@ function toggelProjectSelectDiv(event, page) {
         document.getElementById("pannelthree").classList.add("Active");
         document.getElementById("AsideBarleft").classList.add("AsideBarLeftActive");
         document.getElementById("panneltwo").classList.add("Active");
-        document.getElementById("AsideBarRight").classList.add("RightPanel2Active");
+        asideBarRight.classList.add("RightPanel2Active");
         document.getElementById("installationSteps").classList.add("Active");
-        document.getElementById("RightPanelone").classList.remove("Active");
-        document.getElementById("AsideBarRight").classList.remove("RightPanel1Active");
-        document.getElementById("pannelone").classList.remove("Active");
+        RightPanelOneParent.classList.remove("Active");
+        asideBarRight.classList.remove("RightPanel1Active");
+        RightPanelOne.classList.remove("Active");
 
     }
     if (page == "field") {
         document.getElementById("pannelthree").classList.remove("Active");
         document.getElementById("AsideBarleft").classList.remove("AsideBarLeftActive");
         document.getElementById("panneltwo").classList.remove("Active");
-        document.getElementById("AsideBarRight").classList.remove("RightPanel2Active");
+        asideBarRight.classList.remove("RightPanel2Active");
         document.getElementById("installationSteps").classList.remove("Active");
-        document.getElementById("RightPanelone").classList.add("Active");
-        document.getElementById("AsideBarRight").classList.add("RightPanel1Active");
-        document.getElementById("pannelone").classList.add("Active");
+        RightPanelOneParent.classList.add("Active");
+        asideBarRight.classList.add("RightPanel1Active");
+        RightPanelOne.classList.add("Active");
 
     }
 }
@@ -126,10 +128,7 @@ function handleInstallMenuItemClick(filterType) {
 
     toggelFilterMenu();
 
-    // if install menu is already not opened
-    // if (!$(".AsideBarLeft").hasClass("AsideBarLeftActive")) {
-    //     toggleInstallMenu();
-    // }
+  
 }
 
 
