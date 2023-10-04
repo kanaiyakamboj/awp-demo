@@ -7,12 +7,11 @@ const precachedResources = [
   "./css/index.css",
   "./css/responsive.css",
   "./css/style.css",
-  "./js/custom.js",
-  "./js/filter-result-right-menu.js",
   "./js/index.js",
   "./js/js-include-html.js",
   "./js/latln-converter.js",
   "./js/load-canvas.js",
+  "./js/project-selection-menu.js"
 ];
 
 async function precache() {

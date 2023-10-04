@@ -223,12 +223,11 @@ let meshNum = 0;
 function getObject3DAncestor(child){
     let parent = child.parent;
     if(parent === null) return child;
-    if(parent.type==='Object3D') return parent;
+    if(parent.type!=='Mesh') return parent;
     return getObject3DAncestor(parent);
 }
 
 function setMatRec(obj, material, fixUVs){
-
     obj.updateMatrix(); 
     for(let i = 0; i < obj.children.length; i++){
         let child = obj.children[i];
@@ -261,11 +260,12 @@ let groupMap = new Map();
 function countMeshesRec(obj){
     for(let i = 0; i < obj.children.length; i++){
         let child = obj.children[i];
-        if(child.type==='Object3D'){
+        if(child.type!=='Mesh'){
             console.log(child.name);
+            meshNum++;
             child.selectionId = meshNum;
             groupMap.set(meshNum, child);
-            meshNum++;
+
         }
         // if(child.type==='Mesh'){
         //     meshNum++;
@@ -282,11 +282,14 @@ async function loadFromUrl(url, name){
    if(gltfOrUndefined){
             console.log(gltfOrUndefined);
             objLoader.parse(gltfOrUndefined, (obj)=>{
-                meshNum = 0;
+                meshNum = 1;
                 if(grandChild!= null) scene.remove(grandChild);
                 grandChild = obj;
                 groupMap.clear();
+                grandChild.selectionId = meshNum;
+                groupMap.set(meshNum, grandChild);
                 countMeshesRec(grandChild);
+                meshNum=256;
                 console.log(groupMap);
                 setMatRec(grandChild, material, false);
 
@@ -303,11 +306,14 @@ async function loadFromUrl(url, name){
         // called when the resource is loaded
         async function ( gltf ) {
             console.log(gltf.animations); // Array<THREE.AnimationClip>
-            meshNum = 0;
+            meshNum = 1;
             if(grandChild!= null) scene.remove(grandChild);
             grandChild = gltf.scene;
             groupMap.clear();
+            grandChild.selectionId = meshNum;
+            groupMap.set(meshNum, grandChild);
             countMeshesRec(grandChild);
+            meshNum=256;
             setMatRec(grandChild, material, true);
             console.log(groupMap);
             scene.add(grandChild);

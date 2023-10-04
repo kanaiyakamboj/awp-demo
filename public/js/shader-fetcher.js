@@ -1,0 +1,112 @@
+import * as THREE from 'three';
+export function getShaderMaterial(shaderUrl){
+    let vert = `attribute float objId;
+varying vec2 vUv;
+varying vec3 vUv1;
+varying vec3 vPos;
+varying vec3 vNorm;
+void main()\t{
+    vUv = uv;
+    vUv1 = vec3(uv1.xy, objId);
+    vPos = (modelMatrix * vec4(position.xyz, 0.0)).xyz;
+    vNorm = normalize((modelMatrix * vec4(normal.xyz, 0.0)).xyz);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+}`;
+    let frag = `
+//#extension GL_OES_standard_derivatives : enable
+
+varying vec2 vUv;
+varying vec3 vUv1;
+varying vec3 vPos;
+varying vec3 vNorm;
+
+uniform float winWidth;
+uniform float winHeight;
+uniform float objectNum;
+uniform float hoverObjId;
+uniform float selectedObjId;
+uniform sampler2D objectIdTex;
+uniform bool renderSurfaceIds;
+uniform vec3 camDir;
+uniform vec3 colors[256];
+
+void main() {
+    //                                        surface index                   object index         surface type
+    if(renderSurfaceIds) gl_FragColor = vec4(vUv1.xyz, 1.0);//vec4((vUv.y*4.0+vUv.x)/(objectNum*4.0), vUv.y/objectNum, vUv.x/4.0, 0.0);
+    else {
+        if(!gl_FrontFacing){
+            gl_FragColor =vec4(0.5, 0.5, 0.5, 1.0);
+            return;
+        }
+        float toCamNorm = dot(vNorm, camDir);
+        //toCamNorm=1.0;
+        vec2 uv = vec2(gl_FragCoord.x/winWidth,gl_FragCoord.y/winHeight);
+        vec4 texel = texture2D( objectIdTex, uv);
+        //vec4 delta = vec4(0.0);
+        float delta = 0.0;
+        float deltaz = 0.0;
+        float deltaw = 0.0;
+        int rad = 1;
+        for(int j = -rad; j < rad+1; j++ )
+        {
+            for(int i = -rad; i < rad+1; i++ )
+            {
+                vec2 step = i==0 && j==0 ? vec2(0,0) : normalize(vec2(float(i),float(j)))*0.5;
+                vec4 otherTex = texture2D( objectIdTex, uv+vec2(step.x/winWidth, step.y/winHeight) );
+                if(i>0 && j>0) delta = max(delta, length(otherTex.xy-texel.xy));
+                deltaz = max(deltaz,  otherTex.z-texel.z);
+                deltaw = max(deltaw,  otherTex.w-texel.w);
+            }
+        }
+        // delta.x = delta.x > (0.01 / (objectNum*4.0)) ? 0.0 : 1.0;
+        // delta.y = delta.y > (0.01 / (objectNum)) ? 0.0 : 1.0;
+        // delta.z = delta.z > (0.01 / (4.0)) ? 0.0 : 1.0;
+        // float darker = 0.125*0.5;
+        // if((selectedObjId>-0.5) && (abs(selectedObjId/objectNum - texel.y) < 0.5/objectNum)) darker *=0.5;
+        // if((hoverObjId>-0.5) && (abs(hoverObjId/objectNum - texel.y) < 0.5/objectNum)) darker = 0.0;
+        // float c = (delta.x+delta.y+delta.z)/3.0;
+        // c = pow(c, 1.0);
+        // c *= 1.0-delta.w*1000.0;
+        // c*= 1.0-(texel.z)*0.125-darker;
+        delta = (0.5+0.5*toCamNorm) - (delta > 0.01 ? 0.5:0.0)-(deltaz > 0.0003 ? 1.0 : 0.0)-(deltaw > 0.003 ? 1.0 : 0.0);
+        bool isSelected = (abs(vUv1.z-selectedObjId) < (0.5/objectNum));
+        vec3 col = vec3(delta,delta*(isSelected?0.0:1.0),delta*(isSelected?0.0:1.0));
+        if(!isSelected)col*=colors[int(vUv1.z*objectNum+0.5)];
+        gl_FragColor =vec4(col.xyz, 1.0);
+        //gl_FragColor =vec4(texel.xyz/10.0,1.0);
+    }
+}`;
+    return  new THREE.ShaderMaterial({
+        vertexShader: vert,
+        fragmentShader: frag
+    })
+
+
+
+    function unEscape(htmlStr) {
+        htmlStr = htmlStr.replace(/&lt;/g , "<");
+        htmlStr = htmlStr.replace(/&gt;/g , ">");
+        htmlStr = htmlStr.replace(/&quot;/g , "\"");
+        htmlStr = htmlStr.replace(/&#39;/g , "\'");
+        htmlStr = htmlStr.replace(/&amp;/g , "&");
+        return htmlStr;
+    }
+
+
+
+    let material = null;
+
+    let request = new XMLHttpRequest();
+    request.open('GET', shaderUrl, false);
+    request.send(null);
+
+    if (request.status === 200) {
+        let shaders = request.responseText.split('@');
+        material = new THREE.ShaderMaterial({
+            vertexShader: unEscape(shaders[0]),
+            fragmentShader: unEscape(shaders[1])
+        });
+        // material.side = THREE.DoubleSide;
+    }
+    return material;
+}

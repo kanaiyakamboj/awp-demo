@@ -1,0 +1,38 @@
+  <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18.721"
+                height="17.501"
+                viewBox="0 0 18.721 17.501"
+              >
+                <g
+                  id="Menu_Icons1"
+                  data-name="Menu Icons1"
+                  transform="translate(-2.64 -3.25)"
+                >
+                  <path
+                    id="Union_3"
+                    data-name="Union 3"
+                    d="M-12633.31-2883.458a2.461,2.461,0,0,1,2.46-2.463,2.461,2.461,0,0,1,2.46,2.463,2.46,2.46,0,0,1-2.46,2.46A2.46,2.46,0,0,1-12633.31-2883.458Zm-12.3-11.082a2.46,2.46,0,0,1,2.46-2.459,2.459,2.459,0,0,1,2.459,2.459,2.459,2.459,0,0,1-2.459,2.459A2.46,2.46,0,0,1-12645.61-2894.541Z"
+                    transform="translate(12649 2901)"
+                    fill="none"
+                    stroke="#fff"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-miterlimit="10"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    id="Union_4"
+                    data-name="Union 4"
+                    d="M-12645.61-2883.458a2.461,2.461,0,0,1,2.46-2.463,2.46,2.46,0,0,1,2.459,2.463,2.459,2.459,0,0,1-2.459,2.46A2.46,2.46,0,0,1-12645.61-2883.458Zm12.3-11.082a2.46,2.46,0,0,1,2.46-2.459,2.46,2.46,0,0,1,2.46,2.459,2.46,2.46,0,0,1-2.46,2.459A2.46,2.46,0,0,1-12633.31-2894.541Z"
+                    transform="translate(12649 2901)"
+                    fill="none"
+                    stroke="#fff"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-miterlimit="10"
+                    stroke-width="1.5"
+                    opacity="0.4"
+                  />
+                </g>
+              </svg>

@@ -43,13 +43,15 @@ export class ThreejsMonopileGenerator {
         }
         return jsonData;
     }
-    static generate(jsonData, material){
+    static generate(jsonData, material, normalize= false){
         let monopileTop = -10000;
         let monopileBot = 10000;
         let waterHeight=0;
         let root = new THREE.Object3D();
         let calcHeight = 0;
         let num = jsonData.geometry.shapes.length;
+        let divisorX = normalize ? 3 : 1;
+        let divisorY = normalize ? num : 1;
         let shapes = jsonData.geometry.shapes;
         for(let j = 0; j < num; j++){
             const shape = jsonData.geometry.shapes[j];
@@ -58,10 +60,10 @@ export class ThreejsMonopileGenerator {
             const botOuterRadius = shape.shapeProperties.radius1;
             const botInnerRadius = botOuterRadius - shape.shapeProperties.thickness;
 
-            console.log(topInnerRadius);
-            console.log(topOuterRadius);
-            console.log(botInnerRadius);
-            console.log(botOuterRadius);
+            // console.log(topInnerRadius);
+            // console.log(topOuterRadius);
+            // console.log(botInnerRadius);
+            // console.log(botOuterRadius);
 
             //let vertices = [];
             const vertNum = 50;
@@ -88,7 +90,7 @@ export class ThreejsMonopileGenerator {
                 verts.push(sinNext*topOuterRadius, height, cosNext*topOuterRadius);
                 verts.push(sinNext*topInnerRadius, height, cosNext*topInnerRadius);
 
-                for(let k = 0; k < 6; k++) uvs.push(0,j);
+                for(let k = 0; k < 6; k++)  uvs.push(0/divisorX,j/divisorY);
 
                 //bottom
                 verts.push(sinAt*botInnerRadius, 0, cosAt*botInnerRadius);
@@ -99,7 +101,7 @@ export class ThreejsMonopileGenerator {
                 verts.push(sinNext*botInnerRadius, 0, cosNext*botInnerRadius);
                 verts.push(sinNext*botOuterRadius, 0, cosNext*botOuterRadius);
 
-                for(let k = 0; k < 6; k++) uvs.push(1,j);
+                for(let k = 0; k < 6; k++) uvs.push(1/divisorX,j/divisorY);
 
                 //outer
                 verts.push(sinAt*topOuterRadius, height, cosAt*topOuterRadius);
@@ -110,7 +112,7 @@ export class ThreejsMonopileGenerator {
                 verts.push(sinNext*botOuterRadius, 0, cosNext*botOuterRadius);
                 verts.push(sinNext*topOuterRadius, height, cosNext*topOuterRadius);
 
-                for(let k = 0; k < 6; k++) uvs.push(2,j);
+                for(let k = 0; k < 6; k++) uvs.push(2/divisorX,j/divisorY);
 
                 //inner
                 verts.push(sinAt*topInnerRadius, height, cosAt*topInnerRadius);
@@ -121,7 +123,7 @@ export class ThreejsMonopileGenerator {
                 verts.push(sinNext*topInnerRadius, height, cosNext*topInnerRadius);
                 verts.push(sinNext*botInnerRadius, 0, cosNext*botInnerRadius);
 
-                for(let k = 0; k < 6; k++) uvs.push(3,j);
+                for(let k = 0; k < 6; k++) uvs.push(3/divisorX,j/divisorY);
 
             }
 

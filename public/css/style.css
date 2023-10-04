@@ -1,120 +1,97 @@
-*,
-::after,
-::before {
+*, ::after, ::before {
     box-sizing: border-box;
     transition: all 0.3s;
 }
 
-
-
-:root {
-    --Black: #1f1f1f;
+:root{
+    --Black: #1F1F1F;
     --LightBlack: #313236;
     --InputColor: #434650;
     --White: #fff;
-    --Blue: #0099d5;
+    --Blue: #0099D5;
     --DarkBlue: #0089be;
-    --Orange: #ff400a;
+    --Orange: #FF400A;
     --DarkOrange: #e03101;
     --CardBg2: #2b2b2f;
-    --GrayColor: #c4c4c4;
+    --GrayColor: #C4C4C4;
     --Color1: #658483;
-    --Color2: #f23d3e;
-    --Color3: #c49899;
-    --Color4: #bf02fa;
+    --Color2: #F23D3E;
+    --Color3: #C49899;
+    --Color4: #BF02FA;
     --Color5: #000000;
-    --Color6: #00e600;
+    --Color6: #00E600;
 
     --PrimaryFont: Poppins;
-}
 
-::-webkit-scrollbar,
-::-webkit-scrollbar-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: var(--LightBlack);
+}
+::-webkit-scrollbar, ::-webkit-scrollbar-webkit-scrollbar {
+	width: 6px; height: 6px;
+	background-color: var(--LightBlack);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--CardBg2);
+	background-color: var(--CardBg2);
     border-radius: 10px;
-}
-
-.W100 {
+} 
+.W100{
     width: 100%;
 }
-
-.MW100 {
+.MW100{
     max-width: 100%;
 }
-
-body {
+body{
     margin: 0px;
     font-family: var(--PrimaryFont);
     transition: all 0.6s;
 }
-
-ul {
+ul{
     padding: 0px;
     margin: 0px;
     list-style-type: none;
 }
-
-img {
+img{
     max-width: 100%;
 }
-
-button {
+button{
     cursor: pointer;
 }
-
-.mb-20 {
+.mb-20{
     margin-bottom: 20px;
 }
-
-.mb-30 {
+.mb-30{
     margin-bottom: 30px;
 }
-
-.OrangeBtn {
+.OrangeBtn{
     background: var(--Orange);
     color: var(--White);
 }
-
-.OrangeBtn:hover {
+.OrangeBtn:hover{
     background: var(--DarkOrange);
     color: var(--White);
 }
-
-.BlueBtn {
+.BlueBtn{
     background: var(--Blue);
     color: var(--White);
 }
-
-.BlueBtn:hover {
+.BlueBtn:hover{
     background: var(--DarkBlue);
 }
-
-.WhiteBtn {
+.WhiteBtn{
     background: var(--White);
     color: var(--Orange);
 }
-
-.WhiteBtn:hover {
+.WhiteBtn:hover{
     background: var(--Orange);
     color: var(--White);
 }
-
-.TextCenter {
+.TextCenter{
     text-align: center;
 }
-
-.JustifyCenter {
+.JustifyCenter{
     justify-content: center;
 }
-
-.MyBtn {
+.MyBtn{
     min-height: 42px;
     display: inline-flex;
     align-items: center;
@@ -126,24 +103,22 @@ button {
     box-shadow: none;
 }
 
-.flex-wrap {
+.flex-wrap{
     width: calc(100% + 30px);
     display: flex;
     flex-wrap: wrap;
     margin: 0 -15px;
 }
-
-.Card50 {
+.Card50{
     width: 50%;
     padding: 0px 15px;
 }
-
-.Card100 {
+.Card100{
     width: 100%;
     padding: 0px 15px;
 }
 
-.MainWrapper {
+.MainWrapper{
     width: 100%;
     height: 100vh;
     min-height: 100vh;
@@ -152,10 +127,9 @@ button {
     flex-direction: column;
     justify-content: space-between;
 }
-
-.HeaderPart {
+.HeaderPart{
     width: 100%;
-    height: 0px;
+    height: 0px;    
     padding: 0px 20px 0px 50px;
     background: var(--LightBlack);
     display: flex;
@@ -164,8 +138,7 @@ button {
     align-items: center;
     transition: all 0.6s;
 }
-
-.HeaderPart.Active {
+.HeaderPart.Active{
     opacity: 1;
     height: auto;
     transition: all 0.6s;
@@ -173,14 +146,12 @@ button {
     top: 0px;
     padding: 25px 20px 25px 50px;
 }
-
-.HeaderPart h2 {
+.HeaderPart h2{
     margin: 0px;
     color: var(--White);
     font-size: 28px;
     font-weight: 600;
 }
-
 .header-buttons {
     display: flex;
     align-items: center;
@@ -198,26 +169,16 @@ button {
     z-index: 999999;
     border: none;
 }
-
 .TopMenuIcon:hover {
     background: var(--DarkBlue);
 }
-
-.TopMenuIcon svg,
-.TopMenuIcon img,
-.PannelIcon2 svg,
-.PannelIcon2 img,
-.LeftPannelIcon1 svg,
-.LeftPannelIcon1 img,
-.MenuIcon svg,
-.MenuIcon img,
-.MyBtn svg,
-.MyBtn img {
+.TopMenuIcon svg, .TopMenuIcon img, .PannelIcon2 svg, .PannelIcon2 img, 
+.LeftPannelIcon1 svg, .LeftPannelIcon1 img, .MenuIcon svg, .MenuIcon img, 
+.MyBtn svg, .MyBtn img {
     width: 22px;
     height: 22px;
     max-width: unset;
 }
-
 .PannelIcon {
     position: absolute;
     /* left: -70px; */
@@ -231,15 +192,12 @@ button {
     color: var(--White);
     gap: 8px;
 }
-
-.PannelIcon:hover {
+.PannelIcon:hover{
     background: var(--DarkBlue);
 }
-
 .PannelIcon.Active {
     right: 376px;
 }
-
 .MenuIcon {
     position: absolute;
     left: -25px;
@@ -252,40 +210,32 @@ button {
     gap: 8px;
     z-index: 9;
 }
-
 .MenuIcon:hover {
     background: var(--DarkBlue);
 }
-
-.MenuIcon svg,
-.PannelIcon svg,
-.PannelIcon2 svg,
-.LeftPannelIcon1 svg {
+.MenuIcon svg, .PannelIcon svg, .PannelIcon2 svg, .LeftPannelIcon1 svg {
     width: 24px;
     height: 24px;
 }
 
-.ContentWrapper {
+.ContentWrapper{
     width: 100%;
     height: calc(100% - 95px);
     display: flex;
     /* gap: 30px; */
     padding: 20px;
-    overflow: auto;
+    overflow: auto;    
     transition: all 0.3s;
     bottom: 0;
     position: relative;
 }
-
 .ContentWrapper.ToggleDiv.Active {
     height: 100%;
 }
-
 .ContentWrapper.ChangeFlex {
     gap: 0;
 }
-
-.MainContent {
+.MainContent{
     width: 100%;
     padding: 20px;
     border-radius: 10px;
@@ -293,33 +243,30 @@ button {
     overflow: auto;
     position: relative;
 }
-
-.AsideBarRight.Active {
+.AsideBarRight.Active{
     flex: 0 0 430px;
     transform: translateX(0%);
 }
-
-.AsideBarRight {
+.AsideBarRight{
     /* flex: 0 0 430px; */
     flex: 0 0 0px;
     width: 0px;
     border-radius: 10px;
     position: relative;
-    transition: all 0.8s;
-    transform: translateX(100%);
+    transition: all 1s;
+    /* transform: translateX(100%); */
 }
-
-.AsideBarRight .PannelAside {
+.AsideBarRight .PannelAside{
     padding: 0px;
     width: 0px;
     height: 0px;
     border-radius: 10px;
     background: var(--LightBlack);
     overflow: hidden;
-    transition: all 0.8s;
+    /* transition: all 0.8s; */
+    display: none;
 }
-
-.AsideBarRight.Active .PannelAside {
+.AsideBarRight.Active .PannelAside{
     width: 100%;
     height: 100%;
     transition: all 0.8s;
@@ -328,45 +275,40 @@ button {
     border-radius: 10px 0px 0px 10px;
     padding: 10px;
 }
-
-.AsideBarRight.Active .PannelAside {
+.AsideBarRight.Active .PannelAside{
     max-height: calc(100vh - 38px);
 }
 
-.MyCard {
+.MyCard{
     width: 100%;
     padding: 25px 20px;
     border-radius: 10px;
     background: var(--LightBlack);
 }
-
-.MyCardTitle {
-    font-size: 26px;
+.MyCardTitle{
+    font-size: 32px;
     font-weight: 600;
     color: var(--White);
     margin-bottom: 20px;
 }
+.MyCardBody{
 
-.MyCardBody {}
-
-.AsideBarRight .PannelAside .MyCard {
+}
+.AsideBarRight .PannelAside .MyCard{
     background: var(--CardBg2);
 }
-
 .MyInputField {
     width: 100%;
     height: auto;
     margin-bottom: 30px;
 }
-
 .MyInputField label {
     display: block;
     font-size: 20px;
     color: var(--White);
     margin-bottom: 7px;
 }
-
-.MySelect {
+.MySelect{
     width: 100%;
     min-height: 50px;
     padding: 10px 20px;
@@ -384,8 +326,7 @@ button {
     background-position: right 20px center;
     background-size: 20px;
 }
-
-.MyInput {
+.MyInput{
     width: 100%;
     min-height: 50px;
     padding: 10px 20px;
@@ -399,12 +340,11 @@ button {
     -moz-appearance: none;
     background-color: var(--InputColor);
 }
-
-.MyInput::placeholder {
+.MyInput::placeholder{
     color: var(--White);
 }
 
-.MyInputBtn {
+.MyInputBtn{
     /* width: 100%; */
     min-height: 50px;
     padding: 10px 20px;
@@ -420,17 +360,13 @@ button {
     background-color: var(--InputColor);
     transition: all 0.6s;
 }
-
-.MyInputBtn:hover,
-.MyInputBtn:focus,
-.MyInputBtn:active {
+.MyInputBtn:hover, .MyInputBtn:focus, .MyInputBtn:active{
     background: var(--Orange);
 }
 
 .modal {
     position: absolute;
-    z-index: 999999;
-    /* 1 */
+    z-index: 999999; /* 1 */
     top: 0;
     left: 0;
     visibility: hidden;
@@ -443,51 +379,50 @@ button {
 }
 
 .modal-overlay {
-    position: fixed;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: hsla(0, 0%, 0%, 0.5);
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s linear 0.3s, opacity 0.3s;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: hsla(0, 0%, 0%, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 0.3s, opacity 0.3s;
 }
 
 .modal.is-visible .modal-overlay {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0s;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
 }
 
 .modal-wrapper {
-    position: absolute;
-    z-index: 9999;
-    top: 50%;
-    left: 50%;
-    width: 32em;
-    /* margin-left: -16em; */
-    transform: translate(-50%, -50%);
-    background-color: var(--LightBlack);
-    box-shadow: 0 0 1.5em hsla(0, 0%, 0%, 0.35);
+  position: absolute;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  width: 32em;
+  /* margin-left: -16em; */
+  transform: translate(-50%, -50%);
+  background-color: var(--LightBlack);
+  box-shadow: 0 0 1.5em hsla(0, 0%, 0%, 0.35);
 }
 
 .modal-transition {
-    transition: all 0.3s 0.12s;
-    transform: translateY(-10%);
-    opacity: 0;
+  transition: all 0.3s 0.12s;
+  transform: translateY(-10%);
+  opacity: 0;
 }
 
 .modal.is-visible .modal-transition {
-    transform: translateY(0);
-    opacity: 1;
+  transform: translateY(0);
+  opacity: 1;
 }
 
-.modal-header {
-    padding: 20px 15px;
+.modal-header{
+  padding: 20px 15px;
 }
-
 .modal-content {
     /* padding: 20px 15px 0px 15px; */
     display: flex;
@@ -497,85 +432,76 @@ button {
 }
 
 .modal-header {
-    position: relative;
-    background-color: var(--LightBlack);
-    box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.06);
-    border-bottom: 1px solid var(--InputColor);
+  position: relative;
+  background-color: var(--LightBlack);
+  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.06);
+  border-bottom: 1px solid var(--InputColor);
 }
-
-.modal-header img {
+.modal-header img{
     max-height: 47px;
     max-width: 100%;
 }
 
 .modal-close {
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    color: var(--White);
-    background: none;
-    border: 0;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  color: var(--White);
+  background: none;
+  border: 0;
+  transform: translateY(-50%);
 }
 
 .modal-close:hover {
-    color: #777;
+  color: #777;
 }
 
 .modal-heading {
-    font-size: 1.125em;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: var(--White);
-    font-size: 24px;
-    font-weight: 600;
+  font-size: 1.125em;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--White);
+  font-size: 24px;
+  font-weight: 600;
 }
 
-.modal-content>*:first-child {
-    margin-top: 0;
+.modal-content > *:first-child {
+  margin-top: 0;
 }
 
-.modal-content>*:last-child {
-    margin-bottom: 0;
+.modal-content > *:last-child {
+  margin-bottom: 0;
 }
-
-.modal-content p {
+.modal-content p{
     font-size: 14px;
     line-height: 28px;
     color: var(--White);
     font-weight: 300;
 }
-
 /*** Modal 2 CSS ***/
 
-.modal.FilterModal .modal-header,
-.modal.StepInstructionModal .modal-header {
+.modal.FilterModal .modal-header, .modal.StepInstructionModal .modal-header {
     width: 100%;
     padding: 20px 30px;
 }
-
-.modal.FilterModal .modal-content,
-.modal.StepInstructionModal .modal-content {
+.modal.FilterModal .modal-content, .modal.StepInstructionModal .modal-content {
     padding: 30px;
 }
-
-.modal.FilterModal .modal-wrapper,
-.modal.StepInstructionModal .modal-wrapper {
+.modal.FilterModal .modal-wrapper, .modal.StepInstructionModal .modal-wrapper{
     width: 100%;
     max-width: 700px;
     border-radius: 20px;
     overflow: hidden;
     /* transform: translateX(-50%); */
-    transform: translate(-50%, -50%) !important;
+    transform: translate(-50%, -50%)!important;
     margin-left: 0px;
 }
-
-.modal.FilterModal .modal-body,
-.modal.StepInstructionModal .modal-body {
+.modal.FilterModal .modal-body, .modal.StepInstructionModal .modal-body{
     max-height: calc(100vh - 90px);
     overflow: auto;
 }
+
 
 .MainMenu.modal .modal-wrapper {
     left: -100%;
@@ -585,18 +511,15 @@ button {
     overflow: auto;
     max-width: 320px;
 }
-
 .MainMenu.modal.is-visible .modal-wrapper {
     left: 0;
     border-radius: 0px 10px 10px 0px;
 }
-
 .MenusList {
     padding: 20px 15px;
     max-height: calc(100vh - 320px);
     overflow: auto;
 }
-
 .MenusList li a {
     display: flex;
     align-items: center;
@@ -608,15 +531,12 @@ button {
     padding: 15px;
     border-radius: 8px;
 }
-
 .MenusList li.active a {
     background: var(--Orange);
 }
-
 .MenusList li:hover a {
     background: var(--Orange);
 }
-
 .MenusList li a span {
     flex: 0 0 18px;
     height: 18px;
@@ -626,10 +546,13 @@ button {
     max-width: 18px;
     max-height: 18px;
 }
-
-.MenusList li:not(:last-child),
-.UserAccountMenus li:not(:last-child) {
+.MenusList li:not(:last-child), .UserAccountMenus li:not(:last-child) {
     margin-bottom: 2px;
+}
+.menuinput{
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: solid 1px var(--InputColor);
 }
 
 .UserAccountMenus {
@@ -637,6 +560,7 @@ button {
     padding: 20px 15px;
     border-radius: 10px 10px 0px 0px;
 }
+
 
 .UserAccountMenus li a {
     display: flex;
@@ -649,15 +573,12 @@ button {
     padding: 15px;
     border-radius: 8px;
 }
-
 .UserAccountMenus li.active a {
     background: var(--Orange);
 }
-
 .UserAccountMenus li:hover a {
     background: var(--Orange);
 }
-
 .UserAccountMenus li a span {
     flex: 0 0 18px;
     height: 18px;
@@ -667,21 +588,19 @@ button {
     max-width: 18px;
     max-height: 18px;
 }
-
 .UserAccountMenus li a span.usericon {
     flex: 0 0 40px;
     height: 40px;
 }
-
 .UserAccountMenus li .ProfileMenu {
     border-bottom: solid 1px var(--LightBlack);
-    border-radius: 0px !important;
+    border-radius: 0px!important;
 }
-
 .UserAccountMenus li:hover .ProfileMenu {
     border-color: var(--Orange);
-    border-radius: 8px !important;
+    border-radius: 8px!important;
 }
+
 
 .MainMenu.modal .modal-body {
     height: calc(100vh - 95px);
@@ -689,35 +608,31 @@ button {
     flex-direction: column;
     justify-content: space-between;
 }
-
 .MainContent canvas {
     max-width: 100%;
     max-height: 100%;
 }
-
 ul.BreadCrumb {
     display: inline-flex;
     flex-flow: wrap;
     gap: 10px;
 }
-
 ul.BreadCrumb li {
-    font-size: 28px;
-    color: var(--InputColor);
+   font-size: 28px;
+    color: var(--White);
     font-weight: 600;
 }
-
-ul.BreadCrumb li:not(:last-child):after {
-    content: "/";
+ul.BreadCrumb li:not(:last-child):after{
+    content:"/";
     font-size: 20px;
     padding-left: 10px;
 }
-
 ul.BreadCrumb li a {
-    font-size: 28px;
+   font-size: 28px;
     text-decoration: none;
     color: var(--White);
 }
+
 
 .PannelIcon2 {
     position: absolute;
@@ -731,17 +646,16 @@ ul.BreadCrumb li a {
     gap: 8px;
     white-space: nowrap;
 }
-
 .PannelIcon2.Active {
     right: 288px;
 }
+
 
 .AsideBarRight.RightPanel1Active {
     transform: translateX(0px);
     width: 100%;
     flex: 0 0 430px;
 }
-
 .AsideBarRight.RightPanel1Active .PannelAside.RightPanel1.Active {
     width: calc(100% - 30px);
     height: 100%;
@@ -749,24 +663,26 @@ ul.BreadCrumb li a {
     margin-left: 30px;
     margin-right: 30px;
     overflow: auto;
+    display: block;
 }
-
 .AsideBarRight.RightPanel2Active {
     transform: translateX(0px);
     width: 100%;
     flex: 0 0 350px;
 }
-
 .AsideBarRight.RightPanel2Active .PannelAside.RightPanel2.Active {
     width: calc(100% - 30px);
     height: 100%;
     margin-left: 30px;
     padding: 10px;
     overflow: auto;
+    display: block;
 }
 
+
+
 /*** Collapse ***/
-.toggle-card {
+.toggle-card{
     transition: all 0.3s;
 }
 
@@ -777,14 +693,16 @@ ul.BreadCrumb li a {
     align-items: center;
     justify-content: space-between;
 }
-
-.toggle-card-header h3 {
+.toggle-card-header h3{
     color: var(--White);
     font-size: 18px;
     font-weight: 700;
     margin: 0px;
 }
-
+.toggle-card-header .filter-btns {
+    display: flex;
+    align-items: center;
+}
 .toggle-card-header .filter-btns button {
     background: transparent;
     border: none;
@@ -794,34 +712,26 @@ ul.BreadCrumb li a {
     padding: 0px;
     text-align: center;
 }
-
-.toggle-card .toggle-card-header .filter-btns .collpase-btn svg,
-.toggle-card .toggle-card-header .filter-btns .collpase-btn img {
+.toggle-card .toggle-card-header .filter-btns .collpase-btn svg, .toggle-card .toggle-card-header .filter-btns .collpase-btn img{
     transform: rotate(180deg);
 }
-
-.toggle-card.active .toggle-card-header .filter-btns .collpase-btn svg,
-.toggle-card.active .toggle-card-header .filter-btns .collpase-btn img {
+.toggle-card.active .toggle-card-header .filter-btns .collpase-btn svg, .toggle-card.active .toggle-card-header .filter-btns .collpase-btn img{
     transform: rotate(0deg);
 }
-
 .toggle-card .toggle-card-header .filter-btns button img {
     max-width: 24px;
     max-height: 24px;
 }
-
 .toggle-card .toggle-card-body {
     display: none;
 }
-
 .toggle-card.active .toggle-card-body {
     display: block;
     margin-top: 15px;
     padding-top: 20px;
     border-top: solid 1px var(--InputColor);
 }
-
-.toggle-card-body .progress-steps li {
+.toggle-card-body .progress-steps li{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -836,45 +746,44 @@ ul.BreadCrumb li a {
     padding-bottom: 0px;
     padding-right: 0px;
 }
-
-.toggle-card-body .progress-steps li:not(:last-child) {
+.toggle-card-body .progress-steps li:not(:last-child){
     margin-bottom: 15px;
 }
-
+.toggle-card-body .progress-steps li:hover, .toggle-card-body .progress-steps li:hover .StepInstructionBtn{
+    background: var(--Orange);
+    border-left-color: var(--DarkOrange);
+}
 /* .toggle-card-body .progress-steps li span{
     padding-left: 15px;
 } */
-.toggle-card-body .progress-steps li button {
+.toggle-card-body .progress-steps li button{
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-left: solid 1px var(--LightBlack);
     padding: 10px;
 }
-
-.toggle-card-body .progress-steps li button img {
+.toggle-card-body .progress-steps li button img{
     max-width: 20px;
     max-height: 20px;
 }
-
-.ValueView {
+.ValueView{
     width: 100%;
     height: auto;
     margin-bottom: 20px;
 }
-
-.ValueView span {
+.ValueView span{
     display: block;
     font-size: 16px;
     margin-bottom: 5px;
     color: var(--White);
 }
-
-.ValueView h4 {
+.ValueView h4{
     font-size: 18px;
     font-weight: 700;
     color: var(--Orange);
     margin: 0px;
 }
+
 
 .LeftPannelIcon1 {
     position: absolute;
@@ -888,21 +797,18 @@ ul.BreadCrumb li a {
     gap: 8px;
     white-space: nowrap;
 }
-
-.LeftPannelIcon1.Active {
-    left: 289px;
-}
+.LeftPannelIcon1.Active {left: 289px;}
 
 /* .ToggleDiv.Active .AsideBarRight.Active .LeftPannelIcon1 {
     top: 113px;
 } */
-.LeftPannelIcon1:hover {
+.LeftPannelIcon1:hover{
     background: var(--DarkOrange);
 }
-
 /* .ContentWrapper.ToggleDiv.ChangeFlex .LeftPannelIcon1 {
     left: -51px;
 } */
+
 
 .ContentPara {
     width: 100%;
@@ -910,37 +816,36 @@ ul.BreadCrumb li a {
     max-height: 25vh;
     overflow: auto;
 }
-
-.ContentPara p {
+.ContentPara p{
     font-size: 16px;
     font-weight: 400;
     color: var(--GrayColor);
 }
 
-.AsideBarLeft.AsideBarLeftActive {
+
+
+.AsideBarLeft.AsideBarLeftActive{
     flex: 0 0 320px;
     margin-right: 30px;
     transform: translateX(0%);
 }
-
-.AsideBarLeft {
+.AsideBarLeft{
     /* flex: 0 0 430px; */
     flex: 0 0 0px;
     width: 0px;
     position: relative;
     transition: all 0.8s;
     transform: translateX(100%);
+    z-index: 1;
 }
-
-.AsideBarLeft .PannelAside {
+.AsideBarLeft .PannelAside{
     padding: 0px;
     width: 0px;
     background: var(--LightBlack);
     overflow: hidden;
     transition: all 0.8s;
 }
-
-.AsideBarLeft.AsideBarLeftActive .PannelAside {
+.AsideBarLeft.AsideBarLeftActive .PannelAside{
     width: 100%;
     height: 100%;
     transition: all 0.8s;
@@ -949,25 +854,24 @@ ul.BreadCrumb li a {
     border-radius: 10px;
     padding: 10px;
 }
-
-.AsideBarLeft .PannelAside .MyCard {
+.AsideBarLeft .PannelAside .MyCard{
     background: var(--Black);
 }
-
-.ToggleDiv.Active .AsideBarLeft.AsideBarLeftActive .PannelAside {
+.ToggleDiv.Active .AsideBarLeft.AsideBarLeftActive .PannelAside{
     max-height: calc(100vh - 38px);
 }
 
-.ContentPara p {
+.ContentPara p{
     font-weight: 300;
     font-size: 16px;
     margin-top: 0px;
     color: var(--GrayColor);
 }
-
-.MyCard.BgWhite {
+.MyCard.BgWhite{
     background: var(--White);
 }
+
+
 
 /***** CheckBox CSS *****/
 .filter-checklist {
@@ -976,21 +880,17 @@ ul.BreadCrumb li a {
     flex-wrap: wrap;
     margin-bottom: 30px;
 }
-
-.filter-checklist li {
+.filter-checklist li{
     flex: 0 0 49%;
 }
-
-.filter-checklist li:not(:last-child) {
+.filter-checklist li:not(:last-child){
     margin-bottom: 20px;
 }
-
 .styled-checkbox {
     position: absolute;
     opacity: 0;
-}
-
-.styled-checkbox+label {
+  }
+  .styled-checkbox + label {
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -999,9 +899,8 @@ ul.BreadCrumb li a {
     font-weight: 300;
     color: var(--White);
     padding-left: 30px;
-}
-
-.styled-checkbox+label:before {
+  }
+  .styled-checkbox + label:before {
     content: "";
     margin-right: 10px;
     display: inline-block;
@@ -1013,31 +912,25 @@ ul.BreadCrumb li a {
     top: 3px;
     left: 0px;
     position: absolute;
-}
-
-.styled-checkbox:hover+label:before {
+  }
+  .styled-checkbox:hover + label:before {
     background: var(--Orange);
-}
-
-.styled-checkbox:focus+label:before {
+  }
+  .styled-checkbox:focus + label:before {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
-}
-
-.styled-checkbox:checked+label:before {
-    background: var(--Orange);
-}
-
-.styled-checkbox:disabled+label {
+  }
+  .styled-checkbox:checked + label:before {
+    background:  var(--Orange);
+  }
+  .styled-checkbox:disabled + label {
     color: var(--White);
     cursor: auto;
-}
-
-.styled-checkbox:disabled+label:before {
+  }
+  .styled-checkbox:disabled + label:before {
     box-shadow: none;
     /* background: #ddd; */
-}
-
-.styled-checkbox:checked+label:after {
+  }
+  .styled-checkbox:checked + label:after {
     content: "";
     position: absolute;
     left: 3px;
@@ -1045,21 +938,19 @@ ul.BreadCrumb li a {
     /* background: white; */
     width: 2px;
     height: 2px;
-    box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white,
-        4px -6px 0 white, 4px -8px 0 white;
+    box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
     transform: rotate(45deg);
-}
+  }
 
-.filter-checklist+.MyBtn {
+  .filter-checklist + .MyBtn{
     max-width: 250px;
     margin: 0 auto;
-}
-
-.MyCard.CanvasCard {
+  }
+  .MyCard.CanvasCard{
     padding: 0px;
-}
+  }
 
-.CanvasCard .TitleFlex {
+  .CanvasCard .TitleFlex {
     width: 100%;
     padding: 5px 15px 10px 15px;
     margin-bottom: 0px;
@@ -1068,14 +959,12 @@ ul.BreadCrumb li a {
     align-items: center;
     justify-content: space-between;
 }
-
-.CanvasCard .TitleFlex h3 {
+.CanvasCard .TitleFlex h3{
     font-size: 14px;
     font-weight: 700;
     color: var(--LightBlack);
     margin: 0px;
 }
-
 .CanvasCard .resize-div {
     width: 28px;
     height: 28px;
@@ -1086,58 +975,45 @@ ul.BreadCrumb li a {
     justify-content: center;
     background: transparent;
 }
-
-.CanvasCard .resize-div svg,
-.CanvasCard .resize-div img {
+.CanvasCard .resize-div svg, .CanvasCard .resize-div img{
     max-width: 24px;
 }
-
-.CanvasCard .MyCardCanvas {
+.CanvasCard .MyCardCanvas{
     width: 100%;
     height: auto;
     text-align: center;
 }
-
 .MyCard.CanvasCard.mb-30 {
     margin-bottom: 30px;
 }
 
-.Card50.OneCanvas.fullscreen,
-.Card100.OneCanvas.fullscreen {
+.Card50.OneCanvas.fullscreen, .Card100.OneCanvas.fullscreen {
+    /* position: fixed;*/
     position: absolute;
     left: 0;
-    top: 0;
+    top: 0; 
     width: 100%;
-    height: 100vh;
-    z-index: 99999999;
+    height: 100%;
+    /* z-index: 99999999; */
     padding: 0;
 }
-
-.Card50.OneCanvas.fullscreen .CanvasCard,
-.Card100.OneCanvas.fullscreen .CanvasCard {
+.Card50.OneCanvas.fullscreen .CanvasCard, .Card100.OneCanvas.fullscreen .CanvasCard{
     border-radius: 0px;
     height: 100%;
 }
-
-.Card50.OneCanvas.fullscreen .CanvasCard .MyCardTitle,
-.Card100.OneCanvas.fullscreen .CanvasCard .MyCardTitle {
+.Card50.OneCanvas.fullscreen .CanvasCard .MyCardTitle, .Card100.OneCanvas.fullscreen .CanvasCard .MyCardTitle{
     max-height: calc(100vh - 43px);
     overflow: auto;
 }
-
-.Card50.OneCanvas.fullscreen .CanvasCard .MyCardTitle svg.fullscreen,
-.Card100.OneCanvas.fullscreen .CanvasCard .MyCardTitle svg.fullscreen {
+.Card50.OneCanvas.fullscreen .CanvasCard .MyCardTitle svg.fullscreen, .Card100.OneCanvas.fullscreen .CanvasCard .MyCardTitle svg.fullscreen{
     display: none;
 }
-
 .resize-div .smallscreen {
     display: none;
 }
-
 .fullscreen .resize-div .fullscreen {
     display: none;
 }
-
 .fullscreen .resize-div .smallscreen {
     display: block;
 }
@@ -1146,89 +1022,44 @@ ul.BreadCrumb li a {
     width: auto;
     height: auto;
     position: absolute;
-    left: 30px;
-    bottom: 30px;
-    background: #0099d545;
+    left: 10px;
+    bottom: 10px;
     padding: 10px 20px;
     border-radius: 4px;
 }
-
 .chart-indigators li {
-    color: var(--White);
+    color: var(--Black);
     font-size: 14px;
     display: flex;
     gap: 8px;
 }
-
 .chart-indigators li:not(:last-child) {
-    margin-bottom: 10px;
+   margin-bottom: 10px;
 }
-
-.chart-indigators li span {
+.chart-indigators li span{
     width: 12px;
     height: 12px;
     border-radius: 50%;
     display: inline-block;
     margin-top: 5px;
 }
-
-.color1 {
+.color1{
     background: var(--Color1);
 }
-
-.color2 {
+.color2{
     background: var(--Color2);
 }
-
-.color3 {
+.color3{
     background: var(--Color3);
 }
-
-.color4 {
+.color4{
     background: var(--Color4);
 }
-
-.color5 {
+.color5{
     background: var(--Color5);
 }
-
-.color6 {
+.color6{
     background: var(--Color6);
-}
-
-.d-flex {
-    display: flex;
-}
-
-.width-full {
-    width: 100%;
-}
-
-.display-none {
-    display: none;
-}
-
-.display-block {
-    display: block;
-}
-
-.canvas-div {
-    width: 100%;
-    height: 100%;
-}
-
-.map {
-    width: 100%;
-    height: 180px;
-}
-canvas#project-map-canvas {
-    width: 100%!important;
-    height: 100%!important;
-}
-
-canvas#field-canvas {
-    max-width: 100%;
-    max-height: 100%;
 }
 
 .HideCards .OneCanvas {

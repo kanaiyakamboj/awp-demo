@@ -32,7 +32,7 @@
         flex: 0 0 320px;
     }
     .MyCardTitle {
-        font-size: 26px;
+        font-size: 22px;
     }
     .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MySelect {
         font-size: 18px;

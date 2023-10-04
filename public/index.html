@@ -10,50 +10,57 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/responsive.css" />
+    <link rel="stylesheet" href="./css/index.css" />
     <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
+<div hidden id="modalBackgroundDiv" style="position:absolute; height:100%; width:100%;background-color:rgba(0, 0, 0, 0.5);z-index:11;">
+    <p style="position:absolute; min-width: 100%; min-height: 100%; left:0%; top:50%; text-align: center; color: white">Loading..</p>
+<!--    <div></div>-->
+</div>
     <div class="MainWrapper">
         <!--Header Toggle Button-->
-        <button class="TopMenuIcon ToggleBtn">
+        <button class="TopMenuIcon ToggleBtn" onclick="toggleHeader()">
             <img src="assets/panel-icon.svg" alt="">
         </button>
         <!--Header section-->
-        <div class="HeaderPart ToggleDiv Active" include-my-html="./templates/header/header.html">
+        <div id="header" class="HeaderPart ToggleDiv Active" include-my-html="./templates/header/header.html">
         </div>
         <!--filter menu section-->
         <div id="filter-menu" class="MainMenu modal">
-            <!-- <div onclick="toggelFilterMenu()" class="modal-overlay MenuToggle"></div> -->
-            <div class="modal-overlay MenuToggle"></div>    
-            <div class="modal-wrapper modal-transition" include-my-html="./templates/menues/filter-menu.html"></div>
+            <div onclick="closeFilterMenu()" class="modal-overlay MenuToggle"></div>
+            <div class="modal-wrapper modal-transition" include-my-html="./templates/panels/filter-menu.html"></div>
         </div>
 
         <div class="ContentWrapper ToggleDiv">
-            <button class="MenuIcon MyBtn MenuToggle">
-                <img src="assets/menu-icon.svg" alt=""> Menu
+            <button class="MenuIcon MyBtn MenuToggle" onclick="openFilterMenu()">
+                <img src="./assets/menu-icon.svg" alt=""> Menu
             </button>
-           
-            <div id="AsideBarleft" class="AsideBarLeft " include-my-html="./templates/menues/install-left-menu.html"></div>
-        <!--field template section-->
-       <div class="MainContent" id="field-container"> <div  class="d-flex active width-full"  include-my-html="./templates/pages/field.html"></div> </div>
-        <!--install template section-->
-        <div id="install-container" class="d-flex display-none width-full" include-my-html="./templates/pages/install.html"></div>
 
-        <div id="AsideBarRight" class="AsideBarRight" include-my-html="./../templates/menues/install-right-menu.html"></div>
-    </div>
+            <div id="asideBarLeftPanels" class="AsideBarLeft" include-my-html="./templates/panels/left-panels.html">
+            </div>
+            <!--field template section-->
+            <div class="MainContent" id="field-container" include-my-html="./templates/pages/field.html"></div>
+            <!--install template section-->
+            <div id="install-container" class="MainContent display-none"
+                include-my-html="./templates/pages/install.html"></div>
 
-    <div include-my-html="./templates/component/modal.html"></div>
+            <div id="asideBarRightPanels" class="AsideBarRight RightPanel1Active"
+                include-my-html="./../templates/panels/right-panels.html"></div>
+        </div>
 
-    <script src="js/jquery-3.7.1.min.js"></script>
+        <div include-my-html="./templates/component/modal.html"></div>
 
-    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("service-worker.js", { scope: "./" });
-        }
-    </script>
+        <script src="js/jquery-3.7.1.min.js"></script>
 
-    <script type="importmap">
+        <script>
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("service-worker.js", { scope: "./" });
+            }
+        </script>
+
+        <script type="importmap">
         {
           "imports": {
             "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
@@ -61,15 +68,14 @@
           }
         }
       </script>
-    <script src="./js/index.js"></script>
-    <script src="./js/custom.js"></script>
-    <script src="./js/latln-converter.js"></script>
-    <script src="./js/js-include-html.js"></script>
-    <script type="module" src="./js/load-canvas.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
-    <script src="./js/project-selection-menu.js"></script>
-    <script src="./js/main-template.js"></script>
+        <script src="./js/index.js"></script>
+        <script src="./js/latln-converter.js"></script>
+        <script type="module" src="./js/load-canvas.js"></script>
+        <script type="module" src="./js/gltf-loader.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+        <script src="./js/project-selection-menu.js"></script>
+        <script src="./js/js-include-html.js"></script>
 </body>
 
 </html>

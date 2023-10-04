@@ -34,7 +34,7 @@ export class ThreejsRendererBoilerplate {
             this.div.getBoundingClientRect().width / 100,
             this.div.getBoundingClientRect().height/ 100,
             this.div.getBoundingClientRect().height / - 100,
-            -1000, 1000 );//
+            -20, 40 );//
         this.persCamera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );//
 
         // this.controls = new OrbitControls( this.camera, this.renderer.domElement );
@@ -49,18 +49,22 @@ export class ThreejsRendererBoilerplate {
         this.resize();
         console.log('bp can print');
         console.log(this.renderer);
-
-        const resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                console.log(entries);
-                this.resize(entry.contentBoxSize.width, entry.contentBoxSize.height);
-            }
-        });
-        resizeObserver.observe(this.div);
+        // this.div.addEventListener("resize", (event) => {
+        //     this.resize();
+        // });
+        // const resizeObserver = new ResizeObserver((entries) => {
+        //     for (const entry of entries) {
+        //         console.log(entries);
+        //         // ResizeObserverEntry.devicePixelContentBoxSize
+        //         //this.resize(entry.contentRect.width, entry.contentRect.height);
+        //
+        //     }
+        // });
+        // resizeObserver.observe(this.div);
     }
     resize(width, height){
-        if(!width) width = this.div.getBoundingClientRect().width;
-        if(!height) height = this.div.getBoundingClientRect().height;
+        if(!width) width = this.div.clientWidth;
+        if(!height) height = this.div.clientHeight;
         let aspect = width/height;
         this.persCamera.aspect = aspect;
         let orthHeight = Math.abs(this.orthCamera.top - this.orthCamera.bottom);
@@ -74,12 +78,19 @@ export class ThreejsRendererBoilerplate {
         this.orthCamera.zoom = zoom;
         this.orthCamera.updateProjectionMatrix();
         this.renderer.setSize(width, height );
-        this.render();
+        // this.render();
 
     }
     // prevTarget = new THREE.Vector3(0,0,0);
     scene;
+
+    renderSimple(scene){
+        this.resize();
+        this.renderer.render (scene, this.camera );
+    }
+
     render(scene, cam){
+        this.resize();
         this.renderer.clear();
         if(scene) this.scene = scene;
         // console.log(cam);

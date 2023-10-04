@@ -1,0 +1,55 @@
+<button
+  class="PannelIcon MyBtn Active"
+  id="rightSidePannelOneButton"
+  onclick="onClickToggelProjectSelectDiv(event)"
+>
+  <img src="../../assets/panel-icon.svg" alt="" /> Panel
+</button>
+<button
+  class="PannelIcon2 MyBtn"
+  id="rightSideDownPanelButton"
+  onclick="onClickToggelProjectSelectDiv(event)"
+>
+  <img src="../../assets/panel-icon.svg" alt="" /> Panel 2
+</button>
+
+<div
+  class="PannelAside RightPanel1 Active"
+  id="rightTopProjectSelectionPannel"
+  include-my-html="./../templates/panels/project-selection-panel.html"
+></div>
+
+<div class="PannelAside RightPanel2" id="installationStepsPannel">
+  <div class="MyCard mb-30" include-my-html="./../templates/panels/installation-steps.html"></div>
+  
+  <div class="MyCard">
+    <div class="toggle-card active">
+      <div class="toggle-card-header">
+        <h3 class="faq-title">PS Crane Dimensions</h3>
+        <div class="filter-btns">
+          <button class="collpase-btn" onclick="onClickCollpaseButton(event)">
+            <img src="../../assets/arrow-up-icon.svg" alt="" />
+          </button>
+          <button class="FilterModalBtn" onclick="onClickFilterPopup(event)">
+            <img src="../../assets/filter-icon.svg" alt="" />
+          </button>
+        </div>
+      </div>
+      <div class="toggle-card-body">
+        <div class="ValueView">
+          <span>PS Rotation</span>
+          <h4>186 deg</h4>
+        </div>
+        <div class="ValueView">
+          <span>PS Boom Angle</span>
+          <h4>72 deg</h4>
+        </div>
+        <div class="ValueView">
+          <span>PS Hook Load</span>
+          <h4>2100T</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

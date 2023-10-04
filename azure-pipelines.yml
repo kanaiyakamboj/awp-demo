@@ -1,5 +1,5 @@
-trigger:
-  - main
+trigger: none
+#   - main
 
 pool:
   vmImage: ubuntu-latest
@@ -16,82 +16,69 @@ stages:
 - stage: 'deployment_dev'
   displayName: 'Deployment DEV'
   jobs:
-  - job: 'deploy_dev'
-    displayName: 'Deployment DEV'
-    steps:
-      - checkout: self
-        submodules: true
-      - task: AzureStaticWebApp@0
-        inputs:
-          app_location: '/public' # App source code path relative to cwd
-          output_location: '' # Leave this empty
-          skip_app_build: true
-          cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
-          azure_static_web_apps_api_token: '$(apiTokenDev)'
+  - deployment: 'DeployDev'
+    environment: 'Dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            submodules: true
+          - task: AzureStaticWebApp@0
+            inputs:
+              app_location: '/public' # App source code path relative to cwd
+              output_location: '' # Leave this empty
+              skip_app_build: true
+              cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
+              azure_static_web_apps_api_token: '$(apiTokenDev)'
 
 # DEPLOYMENT GREEN
 - stage: 'deployment_test_green'
   displayName: 'Deployment TEST Green'
   dependsOn: 'deployment_dev'
   jobs:
-
-  - job: waitForValidation
-    displayName: Wait for external validation
-    pool: server
-    timeoutInMinutes: 4320 # job times out in 3 days
-    steps:
-    - task: ManualValidation@0
-      timeoutInMinutes: 1440 # task times out in 1 day
-      inputs:
-        notifyUsers: |
-          svanderkraan@hmc-heerema.com
-        instructions: 'Please validate the build configuration and resume'
-        onTimeout: 'reject'
-  - job: 'deploy_test_green'
-    displayName: 'Deploy TEST Green'
-    dependsOn: 'waitForValidation'
-    steps:
-      - checkout: self
-        submodules: true
-      - task: AzureStaticWebApp@0
-        inputs:
-          app_location: '/' # App source code path relative to cwd
-          output_location: '' # Leave this empty
-          skip_app_build: true
-          cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
-          azure_static_web_apps_api_token: '$(apiTokenTestGreen)'
+  - deployment: 'DeployTestGreen'
+    environment: 'TestGreen'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              submodules: true
+            - task: AzureStaticWebApp@0
+              inputs:
+                app_location: '/public' # App source code path relative to cwd
+                output_location: '' # Leave this empty
+                skip_app_build: true
+                cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
+                azure_static_web_apps_api_token: '$(apiTokenTestGreen)'
 
 # DEPLOYMENT BLUE
 - stage: 'deployment_test_blue'
   displayName: 'Deployment TEST Blue'
   dependsOn: 'deployment_dev'
   jobs:
+  - deployment: 'DeployTestBlue'
+    environment: 'TestBlue'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              submodules: true
 
-  - job: waitForValidation
-    displayName: Wait for external validation
-    pool: server
-    timeoutInMinutes: 4320 # job times out in 3 days
-    steps:
-    - task: ManualValidation@0
-      timeoutInMinutes: 1440 # task times out in 1 day
-      inputs:
-        notifyUsers: |
-          svanderkraan@hmc-heerema.com
-        instructions: 'Please validate the build configuration and resume'
-        onTimeout: 'reject'
-  - job: 'deploy_test_blue'
-    displayName: 'Deploy TEST Blue'
-    dependsOn: 'waitForValidation'
-    steps:
-      - checkout: self
-        submodules: true
-      - task: AzureStaticWebApp@0
-        inputs:
-          app_location: '/' # App source code path relative to cwd
-          output_location: '' # Leave this empty
-          skip_app_build: true
-          cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
-          azure_static_web_apps_api_token: '$(apiTokenTestBlue)'
+            - task: DeleteFiles@1 # This removes the PWA functionality for the Blue environment
+              inputs:
+                SourceFolder: 'public'
+                Contents: 'manifest.json'
+
+            - task: AzureStaticWebApp@0
+              inputs:
+                app_location: '/public' # App source code path relative to cwd
+                output_location: '' # Leave this empty
+                skip_app_build: true
+                cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
+                azure_static_web_apps_api_token: '$(apiTokenTestBlue)'
 
 # DEPLOYMENT ACC
 - stage: 'deployment_acc'
@@ -106,28 +93,18 @@ stages:
       eq(dependencies.deployment_test_green.result, 'Succeeded')
     )
   jobs:
-  - job: waitForValidation
-    displayName: Wait for external validation
-    pool: server
-    timeoutInMinutes: 4320 # job times out in 3 days
-    steps:
-    - task: ManualValidation@0
-      timeoutInMinutes: 1440 # task times out in 1 day
-      inputs:
-        notifyUsers: |
-          svanderkraan@hmc-heerema.com
-        instructions: 'Please validate the build configuration and resume'
-        onTimeout: 'reject'
-  - job: 'deploy_acc'
-    displayName: 'Deployment ACC'
-    dependsOn: 'waitForValidation'
-    steps:
-      - checkout: self
-        submodules: true
-      - task: AzureStaticWebApp@0
-        inputs:
-          app_location: '/' # App source code path relative to cwd
-          output_location: '' # Leave this empty
-          skip_app_build: true
-          cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
-          azure_static_web_apps_api_token: '$(apiTokenAcc)'
+  - deployment: 'DeployAcc'
+    environment: 'Acc'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            submodules: true
+          - task: AzureStaticWebApp@0
+            inputs:
+              app_location: '/public' # App source code path relative to cwd
+              output_location: '' # Leave this empty
+              skip_app_build: true
+              cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
+              azure_static_web_apps_api_token: '$(apiTokenAcc)'

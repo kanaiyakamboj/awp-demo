@@ -7,7 +7,7 @@ void main()	{
     vUv = uv;
     vUv1 = vec3(uv1.xy, objId);
     vPos = (modelMatrix * vec4(position.xyz, 0.0)).xyz;
-    vNorm = (modelMatrix * vec4(normal.xyz, 0.0)).xyz;
+    vNorm = normalize((modelMatrix * vec4(normal.xyz, 0.0)).xyz);
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 }
 
@@ -28,6 +28,7 @@ uniform float selectedObjId;
 uniform sampler2D objectIdTex;
 uniform bool renderSurfaceIds;
 uniform vec3 camDir;
+uniform vec3 colors[256];
 
 void main() {
     //                                        surface index                   object index         surface type
@@ -67,9 +68,11 @@ void main() {
         // c = pow(c, 1.0);
         // c *= 1.0-delta.w*1000.0;
         // c*= 1.0-(texel.z)*0.125-darker;
-        delta = (0.5+0.5*toCamNorm) - (delta > 0.01 ? 0.5:0.0)-(deltaz > 0.003 ? 1.0 : 0.0)-(deltaw > 0.003 ? 1.0 : 0.0);
+        delta = (0.5+0.5*toCamNorm) - (delta > 0.01 ? 0.5:0.0)-(deltaz > 0.0003 ? 1.0 : 0.0)-(deltaw > 0.003 ? 1.0 : 0.0);
         bool isSelected = (abs(vUv1.z-selectedObjId) < (0.5/objectNum));
-        gl_FragColor =vec4(delta,delta*(isSelected?0.0:1.0),delta*(isSelected?0.0:1.0), 1.0);
+        vec3 col = vec3(delta,delta*(isSelected?0.0:1.0),delta*(isSelected?0.0:1.0));
+        if(!isSelected)col*=colors[int(vUv1.z*objectNum+0.5)];
+        gl_FragColor =vec4(col.xyz, 1.0);
         //gl_FragColor =vec4(texel.xyz/10.0,1.0);
     }
 }
