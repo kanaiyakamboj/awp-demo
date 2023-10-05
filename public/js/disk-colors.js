@@ -8,15 +8,17 @@ export function getDiskColors(storeData, psfd){
 
     if(storeData && psfd){
         for(let i = 0; i < storeData.fileNames.length; i++){
-            if(storeData.fileNames[i]===psfd.fileName){
-                for(let j = 0; j < storeData[storeData.fileNames[i]].monopiles.length; j++){
+            const fileName = storeData.fileNames[i];
+            const monopiles = storeData[fileName].monopiles;
+            if(fileName===psfd.fileName){
+                for(let j = 0; j < monopiles.length; j++){
                     if(!psfd.monopileName) break;
-                    if(storeData[storeData.fileNames[i]].monopiles[j]===psfd.monopileName) break;
-                    purple.push(storeData[storeData.fileNames[i]].monopiles[j]);
+                    if(monopiles[j]===psfd.monopileName) break;
+                    purple.push(monopiles[j]);
                 }
                 break;
             }
-            black = black.concat(storeData[storeData.fileNames[i]].monopiles);
+            black = black.concat(monopiles);
         }
         if(storeData[psfd.fileName]) pink = storeData[psfd.fileName].monopiles;
         if(psfd.monopileName) red.push(psfd.monopileName);

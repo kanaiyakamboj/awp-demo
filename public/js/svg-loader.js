@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
+
 export function loadSVGInto(scene, url, xScale, yScale, xOff, yOff, zOff, color){
+
     // instantiate a loader
     const loader = new SVGLoader();
 

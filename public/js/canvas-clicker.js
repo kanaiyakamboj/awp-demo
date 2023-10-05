@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 export class CanvasClicker {
+
     constructor(canvas, callback) {
         let pointer = new THREE.Vector2();
         let raw = new THREE.Vector4();
         canvas.addEventListener( 'pointermove', ( event )=> {
+
             let cRect = canvas.getBoundingClientRect();
             // calculate pointer position in normalized device coordinates
             // (-1 to +1) for both components
@@ -18,6 +20,7 @@ export class CanvasClicker {
 
         } );
         canvas.addEventListener( 'click', () => {
+
             if(Math.abs(pointer.x) <= 1 && Math.abs(pointer.y) <= 1) {
                 callback(pointer, raw);
             }

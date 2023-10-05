@@ -27,10 +27,11 @@ export class OutlineMaterialManager{
                 {
                     //child.geometry.attributes.uv1 = child.geometry.attributes.uv;
                     let uv1 = child.geometry.attributes.uv1;
-                    if(!uv1) child.geometry.setAttribute('uv1', new THREE.BufferAttribute(new Float32Array(child.geometry.attributes.position.array.length), 2));
+                    const length = child.geometry.attributes.position.array.length;
+                    if(!uv1) child.geometry.setAttribute('uv1', new THREE.BufferAttribute(new Float32Array(length), 2));
                     {
                         let objIds = [];
-                        for(let i = 0; i < child.geometry.attributes.position.array.length; i++){
+                        for(let i = 0; i < length; i++){
                             objIds.push(meshIndex/256);
                         }
                         child.geometry.setAttribute( 'objId', new THREE.BufferAttribute( new Float32Array(objIds), 1 ) );
@@ -51,6 +52,7 @@ export class OutlineMaterialManager{
         this.countMeshesRec(obj);
     }
     countMeshesRec(obj){
+
         for(let i = 0; i < obj.children.length; i++){
             let child = obj.children[i];
             if(child.type!=='Mesh'){

@@ -84,17 +84,25 @@ canvas#field-canvas {
 
 canvas#install-top-left-canvas {
     max-width: 100%!important;
-    max-height:calc(50vh - 168px)!important;
+    max-height:calc(50vh - 134px)!important;
+    height:100vh!important;
 }
 
 canvas#install-top-right-canvas {
     max-width: 100%!important;
-    max-height:calc(50vh - 168px)!important;
+    max-height:calc(50vh - 134px)!important;
+    height:100vh!important;
 }
 
 canvas#install-bottom-canvas {
     max-width: 100%!important;
-    max-height:calc(50vh - 168px)!important;
+    max-height:calc(50vh - 134px)!important;
+    height:100vh!important;
+}
+.ContentWrapper.ToggleDiv.Active canvas#install-top-left-canvas,
+.ContentWrapper.ToggleDiv.Active canvas#install-top-right-canvas,
+.ContentWrapper.ToggleDiv.Active canvas#install-bottom-canvas {
+    max-height:calc(50vh - 105px)!important;
 }
 
 .InstallPageCanvas{

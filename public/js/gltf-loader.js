@@ -1,8 +1,8 @@
 import { set } from "https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-
 window.parseGLTFs = (nurls, callback) =>{
+
     let actives = 0;
     nurls.forEach((nurl)=>{
         actives++;
@@ -13,7 +13,9 @@ window.parseGLTFs = (nurls, callback) =>{
     })
 }
 const loader = new GLTFLoader();
+
 window.loadGLTF = (name, url, callback)=>{
+
     loader.load( url,(gltf)=>{
         function updateMatrixRec(obj){
             obj.updateMatrix();

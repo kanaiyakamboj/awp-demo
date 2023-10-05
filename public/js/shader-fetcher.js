@@ -1,5 +1,7 @@
 import * as THREE from 'three';
+
 export function getShaderMaterial(shaderUrl){
+
     let vert = `attribute float objId;
 varying vec2 vUv;
 varying vec3 vUv1;

@@ -10,7 +10,7 @@
       
       <div class="modal-body">
         <div class="modal-content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis tenetur corrupti ratione, 
+            <p id="stepsContent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis tenetur corrupti ratione, 
                 inventore doloribus veritatis laudantium voluptatibus perspiciatis nobis cumque sint. 
                 Inventore dolorem quam blanditiis voluptas quo corporis voluptatibus in nobis quidem iure 
                 obcaecati assumenda necessitatibus, dignissimos soluta numquam unde modi quos perspiciatis 
@@ -33,38 +33,14 @@
     <div class="modal-overlay FilterModalBtn"></div>
     <div class="modal-wrapper modal-transition">
       <div class="modal-header">
-        <button class="modal-close FilterModalBtn" onclick="onClickFilterPopup(event)">
+        <button class="modal-close FilterModalBtn" onclick="onClickFilterPopup('closeClick')">
                 <img src="assets/close-icon.svg" alt="">                                        
         </button>
         <h2 class="modal-heading">Filters</h2>
       </div>
       
       <div class="modal-body">
-        <div class="modal-content">
-          <ul class="filter-checklist">
-            <li>
-                <input class="styled-checkbox" id="styled-checkbox-1" type="checkbox" value="value1">
-                <label for="styled-checkbox-1">Lorem Ipsum is simply dummy text</label>
-            </li>
-            <li>
-                <input class="styled-checkbox" id="styled-checkbox-2" type="checkbox" value="value1">
-                <label for="styled-checkbox-2">Lorem Ipsum is simply dummy text</label>
-            </li>
-            <li>
-                <input class="styled-checkbox" id="styled-checkbox-3" type="checkbox" value="value1">
-                <label for="styled-checkbox-3">Lorem Ipsum is simply dummy text</label>
-            </li>
-            <li>
-                <input class="styled-checkbox" id="styled-checkbox-4" type="checkbox" value="value1">
-                <label for="styled-checkbox-4">Lorem Ipsum is simply dummy text</label>
-            </li>
-            <li>
-                <input class="styled-checkbox" id="styled-checkbox-5" type="checkbox" value="value1">
-                <label for="styled-checkbox-5">Lorem Ipsum is simply dummy text</label>
-            </li>
-          </ul>
-          
-          <button class="MyBtn OrangeBtn W100 JustifyCenter">Aply Now</button>
+        <div class="modal-content" id="dataPanelFields">
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@
         <button class="collpase-btn" onclick="onClickCollpaseButton(event)">
           <img src="../../assets/arrow-up-icon.svg" alt="" />
         </button>
-        <button class="FilterModalBtn" onclick="onClickFilterPopup(event)">
+        <button class="FilterModalBtn">
           <img src="../../assets/filter-icon.svg" alt="" />
         </button>
       </div>
@@ -65,6 +65,24 @@
 </div>
 
 <div
-  class="MyCard mb-30"
-  include-my-html="./../templates/panels/installation-steps.html"
-></div>
+  class="MyCard mb-30 display-none"
+  id="panelOneInstallationSteps"
+>
+<div class="MyCard mb-30">
+  <div class="toggle-card active">
+  <div class="toggle-card-header">
+      <h3 class="faq-title">Installation Steps</h3>
+      <div class="filter-btns">
+          <button class="collpase-btn" onclick="onClickCollpaseButton(event)">
+              <img src="assets/arrow-up-icon.svg" alt="">                            
+          </button>
+          <button class="FilterModalBtn" onclick="onClickFilterPopup('${panelGroupId}')">
+              <img src="assets/filter-icon.svg" alt="">                                                                            
+          </button>
+      </div>
+  </div>
+  <div class="toggle-card-body" id="installationStepsProjectSelection">
+  </div>
+</div>
+</div>
+</div>

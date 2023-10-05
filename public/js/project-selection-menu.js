@@ -1,20 +1,22 @@
 let loadingFiles = new Set();
 
-function removeAndCheck(name){
+function removeAndCheck(name) {
   loadingFiles.delete(name);
-  if(loadingFiles.size===0){
-    document.getElementById('modalBackgroundDiv').hidden = true;
+  if (loadingFiles.size === 0) {
+    document.getElementById("modalBackgroundDiv").hidden = true;
     datastoreLoaded();
   }
 }
 function setFilesNameDropDownptions(fileNames, element) {
   let strHtml = '<option value="">--Select option--</option>';
 
-  fileNames.forEach((fileName) => {
-    strHtml += `<option value=${fileName}>${fileName}</option>`;
-  });
+  if (element) {
+    (fileNames || []).forEach((fileName) => {
+      strHtml += `<option value=${fileName}>${fileName}</option>`;
+    });
 
-  element.innerHTML = strHtml;
+    element.innerHTML = strHtml;
+  }
 }
 
 function bindControls(fileName) {
@@ -22,14 +24,23 @@ function bindControls(fileName) {
 
   if (storeData.projectName) {
     const btnElement = document.getElementById("btn-import-file");
-    btnElement.textContent = storeData.projectName;
-    const pageTitle = document.getElementById("project-name");
-    pageTitle.textContent = storeData.projectName;
+
+    if (btnElement) {
+      btnElement.textContent = storeData.projectName;
+
+      const pageTitle = document.getElementById("project-name");
+
+      if (pageTitle) {
+        pageTitle.textContent = storeData.projectName;
+      }
+    }
   }
 
   if (storeData.fileNames) {
     const selectOptionElement = document.getElementById("file-names");
-    setFilesNameDropDownptions(storeData.fileNames, selectOptionElement);
+    if (selectOptionElement) {
+      setFilesNameDropDownptions(storeData.fileNames, selectOptionElement);
+    }
   }
 
   if (fileName) {
@@ -37,75 +48,154 @@ function bindControls(fileName) {
   } else {
     const selectOptionElement = document.getElementById("sheet-names");
 
-    setFilesNameDropDownptions([], selectOptionElement);
+    if (selectOptionElement) {
+      setFilesNameDropDownptions([], selectOptionElement);
+    }
   }
 }
 
 function bindMonopilesDropdown(fileName) {
   const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
-  if (fileName) {
-    if (storeData[fileName].monopiles) {
+
+  if (storeData && fileName) {
+    const storedFileName = storeData[fileName];
+
+    if (storedFileName) {
+      const monopiles = storedFileName.monopiles;
+
       const selectOptionElement = document.getElementById("sheet-names");
 
-      setFilesNameDropDownptions(
-        storeData[fileName].monopiles,
-        selectOptionElement
-      );
+      if (selectOptionElement) {
+        setFilesNameDropDownptions(monopiles, selectOptionElement);
+      }
     }
   }
 }
 
 function bindAllProjectSelectionFilterControlOnRefresh() {
-  const lastSync=document.getElementById('last-sync');
+  const lastSync = document.getElementById("last-sync");
+  const btnElement = document.getElementById("btn-import-file");
+  const selectFileNameOptionElement = document.getElementById("file-names");
+  const selectSheetNameOptionElement = document.getElementById("sheet-names");
 
   const projectSelectionFilterData = JSON.parse(
     localStorage.getItem("projectSelectionFilterData")
   );
 
-  if (projectSelectionFilterData && projectSelectionFilterData.projectName) {
+  const projectName = projectSelectionFilterData?.projectName;
+  const fileName = projectSelectionFilterData?.fileName;
 
-  lastSync.textContent=projectSelectionFilterData.lastSyncDate;
-   
-    bindControls(projectSelectionFilterData.fileName);
+  if (projectName) {
+    if (lastSync) {
+      lastSync.textContent = projectSelectionFilterData?.lastSyncDate;
+    }
 
-    const btnElement = document.getElementById("btn-import-file");
+    if (fileName) {
+      bindControls(fileName);
+    }
 
-    btnElement.textContent = projectSelectionFilterData.projectName;
+    if (btnElement) {
+      btnElement.textContent = projectName;
+    }
   }
 
-  if (projectSelectionFilterData && projectSelectionFilterData.fileName) {
-    const selectFileNameOptionElement = document.getElementById("file-names");
-
-    selectFileNameOptionElement.value = projectSelectionFilterData.fileName;
+  if (selectFileNameOptionElement && fileName) {
+    selectFileNameOptionElement.value = fileName;
   }
 
-  if (projectSelectionFilterData && projectSelectionFilterData.monopileName) {
-    const selectSheetNameOptionElement = document.getElementById("sheet-names");
+  const monopileName = projectSelectionFilterData?.monopileName;
 
-    selectSheetNameOptionElement.value =
-      projectSelectionFilterData.monopileName;
+  if (selectSheetNameOptionElement && monopileName) {
+    selectSheetNameOptionElement.value = monopileName;
   }
+
   bindLegend();
+  bindAllPanelsAsPerConfigSetup();
+  bindStepsDataToInstallPage();
+  showInstallationSteps();
 }
 
 function onHtvDropdownChange(e) {
   const val = e.target.value;
 
-  const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
-  const projectSelectionFilterData = JSON.parse(localStorage.getItem("projectSelectionFilterData"));
+  if (val) {
+    const projectSelectionFilterData = JSON.parse(
+      localStorage.getItem("projectSelectionFilterData")
+    );
 
-  setProjectSelectionFilter({
-    ...projectSelectionFilterData,
-    fileName: val,
-  });
+    if (projectSelectionFilterData) {
+      setProjectSelectionFilter({
+        ...projectSelectionFilterData,
+        fileName: val,
+      });
+    }
 
-  bindMonopilesDropdown(val);
+    bindMonopilesDropdown(val);
+  }
 }
 
 function onMonopileDropdownChange(e) {
   const val = e.target.value;
 
-  setProjectSelectionFilter({ monopileName: val });
+  if (val) {
+    setProjectSelectionFilter({ monopileName: val });
+
+    bindAllPanelsAsPerConfigSetup();
+
+    getStepsDataForInstallPage(val);
+  }
+}
+
+function getStepsDataForInstallPage(monopileName) {
+  if (monopileName) {
+    const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
+
+    const projectSelectionFilterData = JSON.parse(
+      localStorage.getItem("projectSelectionFilterData")
+    );
+
+    const fileName = projectSelectionFilterData?.fileName;
+
+      const defaultSelectedPaneldata=stepsDataForMonopile.stepsData["STEP_1"];
+      
+      setProjectSelectionFilter({
+        steps: stepsDataForMonopile.steps,
+        stepsData: stepsDataForMonopile.stepsData,
+        currentStepKeyVal:defaultSelectedPaneldata,
+        currentStepData: createPanelsDataToShow(defaultSelectedPaneldata),
+        currentStepDataToForFilterPopup: createPanelsDataToShow(defaultSelectedPaneldata),
+        currentStep:"STEP_1",
+      });
+      
+    if (storeData && projectSelectionFilterData && fileName) {
+      const selectedTransportVasselData = storeData[fileName];
+
+      if (selectedTransportVasselData) {
+        const stepsDataForMonopile = selectedTransportVasselData[monopileName];
+
+        const stepsData = stepsDataForMonopile?.stepsData;
+
+        if (stepsData) {
+          const defaultSelectedPaneldata = stepsData["STEP_1"];
+
+          setProjectSelectionFilter({
+            steps: stepsDataForMonopile.steps,
+            stepsData: stepsDataForMonopile.stepsData,
+            currentStepKeyVal: defaultSelectedPaneldata,
+            currentStepData: createPanelsDataToShow(defaultSelectedPaneldata),
+            currentStepDataToForFilterPopup: createPanelsDataToShow(
+              defaultSelectedPaneldata
+            ),
+            currentStep: "STEP_1",
+          });
+
+          bindStepsDataToInstallPage();
+
+          showInstallationSteps();
+        }
+      }
+    }
+  }
 }
 
 function getFileName(filesName) {
@@ -131,7 +221,12 @@ async function btnImportProjectClick(event) {
   const date = new Date().toLocaleDateString();
   const time = new Date().toLocaleTimeString();
 
-  document.getElementById('modalBackgroundDiv').hidden = false;
+  const modalBackgroundDiv = document.getElementById("modalBackgroundDiv");
+
+  if (modalBackgroundDiv) {
+    document.getElementById("modalBackgroundDiv").hidden = false;
+  }
+
   const fileNames = [];
 
   localStorage.removeItem("selectedProjectStore");
@@ -146,28 +241,31 @@ async function btnImportProjectClick(event) {
     if (extension === "xlsx") {
       await parseXlsx(files[i]);
 
-      if (fileName.includes("BAR") || fileName.includes("HTV")) {
+      if (fileName.startsWith("BAR") || fileName.startsWith("HTV")) {
         fileNames.push(fileName);
       }
     }
 
     if (extension === "mex" || extension === "gltf") {
-      if(extension === "gltf"){
-        if(['150333.00000-3D-THIALF-MAIN', '150450.27000-3D-320-01-1_full', 'THIALF'].includes(fileName))
-        {
+      if (extension === "gltf") {
+        if (
+          [
+            "150333.00000-3D-THIALF-MAIN",
+            "150450.27000-3D-320-01-1_full",
+            "THIALF",
+          ].includes(fileName)
+        ) {
           const url = URL.createObjectURL(files[i]);
           loadingFiles.add(files[i].name);
-          loadGLTF(fileName, url, (data)=>{
-            console.log(data);
+          loadGLTF(fileName, url, (data) => {
             //formatProjectStoreDataBeforePush(files[i], data);
             //TODO: store somehow?
             removeAndCheck(files[i].name);
           });
         }
         //debugger
-      }
-      else {
-       await parseMex(files[i]);
+      } else {
+        await parseMex(files[i]);
       }
     }
   }
@@ -178,23 +276,25 @@ async function btnImportProjectClick(event) {
 
   const storeData = {
     projectName: folder,
-    fileNames: fileNames
+    fileNames: fileNames,
   };
 
   localStorage.removeItem("projectSelectionFilterData");
 
   setProjectSelectionFilter({
     projectName: folder,
-    lastSyncDate:`Last Sync on: ${date} at: ${time}`
+    lastSyncDate: `Last Sync on: ${date} at: ${time}`,
   });
 
   setDataToStore(storeData, "selectedProjectStore");
 
   bindControls();
- 
-  const lastSync=document.getElementById('last-sync');
 
-  lastSync.textContent=`Last Sync on: ${date} at: ${time}`;
+  const lastSync = document.getElementById("last-sync");
+
+  if (lastSync) {
+    lastSync.textContent = `Last Sync on: ${date} at: ${time}`;
+  }
 }
 
 function bindLegend() {
@@ -202,12 +302,15 @@ function bindLegend() {
   const store = JSON.parse(localStorage.getItem("selectedProjectStore"));
   if (store) {
     const legendFieldLayoutData = store["Legend-FieldLayout"];
+
     if (legendFieldLayoutData) {
       const legendData = legendFieldLayoutData["Legend FieldLayout"];
-      if (legendData) {
+
+      if (legendData && legendElement) {
         const legendDataArray = formateLegendData(legendData);
 
         let legendLiHtml = "";
+
         legendDataArray.forEach((legend) => {
           legendLiHtml += `<li><span style="background:${legend.ColorIcon}"></span>${legend.Title}</li>`;
         });
@@ -218,14 +321,16 @@ function bindLegend() {
   }
 
   function formateLegendData(legendData) {
-    const steps = legendData.steps;
-    return steps.map((step) => legendData.stepsData[step]);
+    const steps = legendData?.steps;
+
+    return (steps || []).map((step) => legendData.stepsData[step]);
   }
 }
+
 function setDataToStore(data, key, existedData) {
   let storeData;
 
-  if (existedData) {
+  if (existedData && data) {
     storeData = { ...existedData, ...data };
   } else {
     storeData = data;
@@ -250,6 +355,7 @@ function parseMex(file) {
 
   reader.readAsText(file);
 }
+
 function parseXlsx(file) {
   loadingFiles.add(file.name);
 
@@ -276,6 +382,7 @@ function parseXlsx(file) {
     });
 
     formatProjectStoreDataBeforePush(file, sheetWiseData, workbook.SheetNames);
+
     removeAndCheck(file.name);
   };
 
@@ -287,21 +394,25 @@ function parseXlsx(file) {
 }
 
 function formatProjectStoreDataBeforePush(file, sheetWiseData, monopiles) {
-  const [fileName] = getFileName(file.name);
+  const fName = file.name;
 
-  const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
+  if (fName) {
+    const [fileName] = getFileName(fName);
 
-  const projectData = {
-    [fileName]: {
-      monopiles,
-      ...sheetWiseData,
-    },
-  };
+    const storeData = JSON.parse(localStorage.getItem("selectedProjectStore"));
 
-  if (storeData) {
-    setDataToStore(projectData, "selectedProjectStore", storeData);
-  } else {
-    setDataToStore(projectData, "selectedProjectStore");
+    const projectData = {
+      [fileName]: {
+        monopiles,
+        ...sheetWiseData,
+      },
+    };
+
+    if (storeData) {
+      setDataToStore(projectData, "selectedProjectStore", storeData);
+    } else {
+      setDataToStore(projectData, "selectedProjectStore");
+    }
   }
 }
 
@@ -321,5 +432,24 @@ function setProjectSelectionFilter(filterData) {
     setDataToStore(filterData, "projectSelectionFilterData");
   } else {
     setDataToStore(filterData, "projectSelectionFilterData", previousData);
+  }
+}
+
+function showInstallationSteps() {
+  const projectSelectionFilterData = JSON.parse(
+    localStorage.getItem("projectSelectionFilterData")
+  );
+
+  if (
+    projectSelectionFilterData &&
+    projectSelectionFilterData.currentStepData
+  ) {
+    const panelOneInstallationSteps = document.getElementById(
+      "panelOneInstallationSteps"
+    );
+
+    if (panelOneInstallationSteps) {
+      removeClasses([panelOneInstallationSteps], "display-none");
+    }
   }
 }

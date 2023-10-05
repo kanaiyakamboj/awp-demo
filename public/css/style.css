@@ -295,7 +295,8 @@ button{
 
 }
 .AsideBarRight .PannelAside .MyCard{
-    background: var(--CardBg2);
+    /* background: var(--CardBg2); */
+    background: var(--Black);
 }
 .MyInputField {
     width: 100%;
@@ -502,7 +503,6 @@ button{
     overflow: auto;
 }
 
-
 .MainMenu.modal .modal-wrapper {
     left: -100%;
     margin-left: 0;
@@ -561,7 +561,6 @@ button{
     border-radius: 10px 10px 0px 0px;
 }
 
-
 .UserAccountMenus li a {
     display: flex;
     align-items: center;
@@ -601,7 +600,6 @@ button{
     border-radius: 8px!important;
 }
 
-
 .MainMenu.modal .modal-body {
     height: calc(100vh - 95px);
     display: flex;
@@ -633,7 +631,6 @@ ul.BreadCrumb li a {
     color: var(--White);
 }
 
-
 .PannelIcon2 {
     position: absolute;
     right: -52px;
@@ -649,7 +646,6 @@ ul.BreadCrumb li a {
 .PannelIcon2.Active {
     right: 288px;
 }
-
 
 .AsideBarRight.RightPanel1Active {
     transform: translateX(0px);
@@ -678,8 +674,6 @@ ul.BreadCrumb li a {
     overflow: auto;
     display: block;
 }
-
-
 
 /*** Collapse ***/
 .toggle-card{
@@ -766,6 +760,11 @@ ul.BreadCrumb li a {
     max-width: 20px;
     max-height: 20px;
 }
+.toggle-card-body .progress-steps li.active,
+.toggle-card-body .progress-steps li.active .MyInputBtn{
+    background: var(--Orange);
+    border-color: var(--DarkOrange);
+}
 .ValueView{
     width: 100%;
     height: auto;
@@ -784,7 +783,6 @@ ul.BreadCrumb li a {
     margin: 0px;
 }
 
-
 .LeftPannelIcon1 {
     position: absolute;
     left: -51px;
@@ -799,16 +797,9 @@ ul.BreadCrumb li a {
 }
 .LeftPannelIcon1.Active {left: 289px;}
 
-/* .ToggleDiv.Active .AsideBarRight.Active .LeftPannelIcon1 {
-    top: 113px;
-} */
 .LeftPannelIcon1:hover{
     background: var(--DarkOrange);
 }
-/* .ContentWrapper.ToggleDiv.ChangeFlex .LeftPannelIcon1 {
-    left: -51px;
-} */
-
 
 .ContentPara {
     width: 100%;
@@ -821,8 +812,6 @@ ul.BreadCrumb li a {
     font-weight: 400;
     color: var(--GrayColor);
 }
-
-
 
 .AsideBarLeft.AsideBarLeftActive{
     flex: 0 0 320px;
@@ -870,8 +859,6 @@ ul.BreadCrumb li a {
 .MyCard.BgWhite{
     background: var(--White);
 }
-
-
 
 /***** CheckBox CSS *****/
 .filter-checklist {
@@ -948,6 +935,7 @@ ul.BreadCrumb li a {
   }
   .MyCard.CanvasCard{
     padding: 0px;
+    height: 100%;
   }
 
   .CanvasCard .TitleFlex {
