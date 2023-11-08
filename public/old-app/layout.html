@@ -131,7 +131,6 @@ window.focusedCanvas = null;
     }
     Object.entries(colorMap).forEach(entry => {
         const [key, value] = entry;
-        console.log(key, value);
         let canvas = document.getElementById(key);
         let ctx = canvas.getContext("2d");
         ctx.fillStyle = value;

@@ -1,14 +1,6 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-export class ThreejsRendererBoilerplate {
+export class RendererBoilerplate {
     div;
     canvas;
     renderer;
@@ -47,8 +39,7 @@ export class ThreejsRendererBoilerplate {
         // this.orthCamera.rotateX(-Math.PI/2);
         // this.controls.update();
         this.resize();
-        console.log('bp can print');
-        console.log(this.renderer);
+
         // this.div.addEventListener("resize", (event) => {
         //     this.resize();
         // });

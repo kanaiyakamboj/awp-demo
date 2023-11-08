@@ -100,7 +100,7 @@ function setCanvases(){
   });
 }
 setCanvases();
-import {ThreejsRendererBoilerplate} from "./ThreejsRendererBoilerplate.js";
+import {RendererBoilerplate} from "../js/awp/renderer-boilerplate.js";
 import {ThreejsSceneBoilerplate} from "./ThreejsSceneBoilerplate.js";
 
 import * as THREE from 'three';
@@ -117,15 +117,11 @@ let renderers = {};
 
 function setDashboard(){
   window.dash = window.dashboards.layouts[window.dashboards.current];
-  console.log(dash);
   renderers = {};
-  window.dashboards.canvases.forEach((canvas)=>renderers[canvas.name] = new ThreejsRendererBoilerplate(document.getElementById(canvas.name + 'CanvasDiv')));
-  console.log(renderers);
+  window.dashboards.canvases.forEach((canvas)=>renderers[canvas.name] = new RendererBoilerplate(document.getElementById(canvas.name + 'CanvasDiv')));
 
   let activeRenderers =new Set(window.dash.canvasSetups.map((x)=>x.name));
-  console.log(activeRenderers);
   window.dashboards.canvases.forEach((canvas)=>{
-    console.log(Object.getOwnPropertyNames(dash.canvasSetups));
     document.getElementById(canvas.name+"CanvasDiv").hidden = !activeRenderers.has(canvas.name);
   });
   if(document.getElementById('leftPanelDiv').hidden !== (dash.leftPanel.length === 0) ) document.getElementById('leftCollapseButton').click();
@@ -158,7 +154,7 @@ function setMenu() {
     const [key, value] = entry;
     let dash = key;
     document.getElementById(key + 'Button').addEventListener("click", () => {
-      console.log('clicked');
+  
       document.getElementById('leftButton').click();
       window.dashboards.current = dash;
       setDashboard();
@@ -251,7 +247,6 @@ window.scenes = {};
   }
 }
 
-console.log();
 function animate() {
   requestAnimationFrame(animate);
   let distinctScenes = new Set(window.dash.canvasSetups.map((x)=>x.scene));
@@ -290,11 +285,9 @@ async function parseJsonFile(file) {
 
 async function pickDirectoryAndParse(){
   const directoryHandle = await window.showDirectoryPicker();
-  console.log(directoryHandle);
 
   let projectArray = [];
   for await (const entry of directoryHandle.entries()) {
-    console.log(entry);
     let arrayOfArrays = await loadExcelJson( await entry[1].getFile());
     projectArray.push(
             {
@@ -307,32 +300,27 @@ async function pickDirectoryAndParse(){
   window.projectName = directoryHandle.name;
   window.projectArray = projectArray;
   // stepChanged(0);
-  console.log(projectArray);
 };
 
 document.getElementById("configPickerButton").addEventListener("click", async ()=>{
   document.getElementById('leftButton').click();
   let [fileHandle] = await window.showOpenFilePicker();
-  console.log(fileHandle);
 
   let file = await fileHandle.getFile();
-  console.log(file);
   let obj = await parseJsonFile(file);
   window.dashboards = obj;
   setCanvases();
   setDashboard();
   setMenu();
-  console.log(obj);
 });
 
 document.getElementById("stylePickerButton").addEventListener("click", async ()=>{
   document.getElementById('leftButton').click();
   let [fileHandle] = await window.showOpenFilePicker();
-  console.log(fileHandle);
 
   let file = await fileHandle.getFile();
   const url = URL.createObjectURL(file);
-  console.log(url);
+
   document.getElementById('styleLink').href = url;
   // let obj = await parseJsonFile(file);
   // window.dashboards = obj;
@@ -428,7 +416,6 @@ window.focusedCanvas = null;
   }
   Object.entries(colorMap).forEach(entry => {
     const [key, value] = entry;
-    console.log(key, value);
     let canvas = document.getElementById(key);
     let ctx = canvas.getContext("2d");
     ctx.fillStyle = value;

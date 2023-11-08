@@ -1,5 +1,5 @@
-trigger: none
-#   - main
+trigger: 
+  - main
 
 pool:
   vmImage: ubuntu-latest
@@ -11,78 +11,160 @@ variables:
   apiTokenTestBlue: '9ff529d8c8d2a54a0f0624767b23507b630063e48edb7e552db2d90b270ef8ff3-59c29bb7-3bce-4a24-a96f-b395ea888878003276204'
   apiTokenAcc: 'a1b09a1420cf20ee6f5da2852ecc17d34e981af7275da1f03fa10cf3589c32603-32e235f2-c7ee-4b5d-9d55-1be752b6bd1c003275868'
 
-# DEPLOYMENT DEV
+
 stages:
+
+# BUILD
+- stage: 'build'
+  displayName: 'Build'
+  jobs:
+  - job: 'buildJob'
+    displayName: 'Building artefacts'
+    steps:
+    - checkout: self
+      submodules: true
+    
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download latest user manual'
+      inputs:
+        buildType: 'specific'
+        project: 'bf0a39a9-9631-4097-89f2-026c369eb7e0'
+        definition: '642'
+        buildVersionToDownload: 'latest'
+        artifactName: 'awp-user-manual.pdf'
+        targetPath: '$(Pipeline.Workspace)'
+      
+    - task: CopyFiles@2
+      displayName: 'Copy manual into assets folder'
+      inputs:
+        SourceFolder: '$(Pipeline.Workspace)'
+        Contents: 'awp-user-manual.pdf'
+        TargetFolder: 'public/assets/documents'
+        OverWrite: true
+
+    - task: UseNode@1
+      displayName: 'Use Node.js'
+      inputs:
+        version: '20.x'
+
+    - script: |
+        npm install
+        npm install javascript-obfuscator --save-dev
+        npm run obfuscate
+      displayName: 'Obfuscate and Minify JavaScript'
+
+    # Create DEV artefact
+    - publish: $(Build.SourcesDirectory)
+      displayName: 'Create DEV artefact'
+      artifact: devBuild
+
+    - task: DeleteFiles@1
+      displayName: 'Delete PWA functionality'
+      inputs:
+        SourceFolder: 'public'
+        Contents: 'manifest.json'
+        
+    - task: CopyFiles@2
+      displayName: 'Copy green favicon'
+      inputs:
+        SourceFolder: 'public/assets/icons/green'
+        Contents: 'favicon.ico'
+        TargetFolder: 'public/assets/'
+        OverWrite: true
+    
+    # Create GREEN artefact
+    - publish: $(Build.SourcesDirectory)
+      displayName: 'Create green artefact'
+      artifact: greenBuild
+    
+    - task: CopyFiles@2
+      displayName: 'Copy blue favicon'
+      inputs:
+        SourceFolder: 'public/assets/icons/blue'
+        Contents: 'favicon.ico'
+        TargetFolder: 'public/assets/'
+        OverWrite: true
+
+    # Create BLUE artefact
+    - publish: $(Build.SourcesDirectory)
+      displayName: 'Create blue artefact'
+      artifact: blueBuild
+
+# DEPLOYMENT DEV
 - stage: 'deployment_dev'
-  displayName: 'Deployment DEV'
+  displayName: 'DEV deployment'
+  dependsOn: 'build'
   jobs:
   - deployment: 'DeployDev'
+    displayName: 'Deploy DEV'
     environment: 'Dev'
     strategy:
       runOnce:
         deploy:
           steps:
-          - checkout: self
-            submodules: true
+          - download: current
+            displayName: 'downloading devBuild artefact'
+            artifact: 'devBuild'
+
           - task: AzureStaticWebApp@0
+            displayName: 'deploying dev'
             inputs:
-              app_location: '/public' # App source code path relative to cwd
-              output_location: '' # Leave this empty
+              app_location: '/devBuild/public' # App source code path relative to cwd
               skip_app_build: true
-              cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
+              cwd: '$(Pipeline.Workspace)' # Working directory - optional
               azure_static_web_apps_api_token: '$(apiTokenDev)'
 
 # DEPLOYMENT GREEN
 - stage: 'deployment_test_green'
-  displayName: 'Deployment TEST Green'
+  displayName: 'GREEN deployment'
   dependsOn: 'deployment_dev'
   jobs:
-  - deployment: 'DeployTestGreen'
+  - deployment: 'DeployGreen'
+    displayName: 'Deploy GREEN'
     environment: 'TestGreen'
     strategy:
       runOnce:
         deploy:
           steps:
-            - checkout: self
-              submodules: true
-            - task: AzureStaticWebApp@0
-              inputs:
-                app_location: '/public' # App source code path relative to cwd
-                output_location: '' # Leave this empty
-                skip_app_build: true
-                cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
-                azure_static_web_apps_api_token: '$(apiTokenTestGreen)'
+          - download: current
+            displayName: 'downloading greenBuild artefact'
+            artifact: 'greenBuild'
+            
+          - task: AzureStaticWebApp@0
+            displayName: 'deploying green'
+            inputs:
+              app_location: '/greenBuild/public' # App source code path relative to cwd
+              skip_app_build: true
+              cwd: '$(Pipeline.Workspace)' # Working directory - optional
+              azure_static_web_apps_api_token: '$(apiTokenTestGreen)'
 
 # DEPLOYMENT BLUE
 - stage: 'deployment_test_blue'
-  displayName: 'Deployment TEST Blue'
+  displayName: 'BLUE deployment'
   dependsOn: 'deployment_dev'
   jobs:
-  - deployment: 'DeployTestBlue'
+  - deployment: 'DeployBlue'
+    displayName: 'Deploy BLUE'
     environment: 'TestBlue'
     strategy:
       runOnce:
         deploy:
           steps:
-            - checkout: self
-              submodules: true
-
-            - task: DeleteFiles@1 # This removes the PWA functionality for the Blue environment
-              inputs:
-                SourceFolder: 'public'
-                Contents: 'manifest.json'
-
-            - task: AzureStaticWebApp@0
-              inputs:
-                app_location: '/public' # App source code path relative to cwd
-                output_location: '' # Leave this empty
-                skip_app_build: true
-                cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
-                azure_static_web_apps_api_token: '$(apiTokenTestBlue)'
+          - download: current
+            displayName: 'downloading blueBuild artefact'
+            artifact: 'blueBuild'
+            
+          - task: AzureStaticWebApp@0
+            displayName: 'deploying blue'
+            inputs:
+              app_location: '/blueBuild/public' # App source code path relative to cwd
+              skip_app_build: true
+              cwd: '$(Pipeline.Workspace)' # Working directory - optional
+              azure_static_web_apps_api_token: '$(apiTokenTestBlue)'
 
 # DEPLOYMENT ACC
 - stage: 'deployment_acc'
-  displayName: 'Deployment ACC'
+  displayName: 'ACC deployment'
   dependsOn:
     - 'deployment_test_blue'
     - 'deployment_test_green'
@@ -94,17 +176,20 @@ stages:
     )
   jobs:
   - deployment: 'DeployAcc'
+    displayName: 'Deploy ACC'
     environment: 'Acc'
     strategy:
       runOnce:
         deploy:
           steps:
-          - checkout: self
-            submodules: true
+          - download: current
+            displayName: 'downloading devBuild artefact'
+            artifact: 'devBuild'
+            
           - task: AzureStaticWebApp@0
+            displayName: 'deploying acc'
             inputs:
-              app_location: '/public' # App source code path relative to cwd
-              output_location: '' # Leave this empty
+              app_location: '/devBuild/public' # App source code path relative to cwd
               skip_app_build: true
-              cwd: '$(System.DefaultWorkingDirectory)' # Working directory - optional
+              cwd: '$(Pipeline.Workspace)' # Working directory - optional
               azure_static_web_apps_api_token: '$(apiTokenAcc)'

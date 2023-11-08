@@ -12,16 +12,16 @@
         flex: 0 0 310px;
     }
     .AsideBarLeft.AsideBarLeftActive {
-        flex: 0 0 280px;
+        flex: 0 0 310px;
     }
     .PannelIcon.Active {
-        right: 256px;
+        right: 264px;
     }
     .PannelIcon2.Active {
-        right: 248px;
+        right: 267px;
     }
     .LeftPannelIcon1.Active {
-        left: 249px;
+        left: 277px;
     }
     .toggle-card-header h3 {
         font-size: 16px;
@@ -34,11 +34,11 @@
     .MyCardTitle {
         font-size: 22px;
     }
-    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MySelect {
-        font-size: 18px;
+    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MyInputBtnDateSubject, .MySelect {
+        font-size: 14px;
     }
     .MySelect {
-        background-size: 16px;
+        background-size: 14px;
     }
     .HeaderPart h2 {
         font-size: 24px;
@@ -52,9 +52,6 @@
      ul.BreadCrumb li a {
         font-size: 24px;
      }
-    .HeaderPart.Active {
-        padding: 20px 20px 20px 50px;
-    }
     .ContentWrapper {
         height: calc(100% - 85px);
     }
@@ -62,7 +59,7 @@
         max-height: calc(100vh - 123px);
     }
     .MenusList li a, .UserAccountMenus li a {
-        font-size: 16px;
+        font-size: 14px;
     }
     .MenusList li a span {
         flex: 0 0 16px;
@@ -75,14 +72,14 @@
 }
 
 @media screen and (max-width: 1440px) {
-    .HeaderPart.Active {
-        padding: 10px 20px 10px 50px;
-    }
     .modal-header {
         padding: 10px 15px;
     }
     .HeaderPart h2 {
         font-size: 18px;
+    }
+    .HeaderPart.Active {
+        padding: 10px 20px;
     }
     ul.BreadCrumb li {
         font-size: 18px;
@@ -112,18 +109,17 @@
     .MyCardTitle {
         font-size: 18px;
     }
-    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MySelect {
-        font-size: 14px;
+    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MyInputBtnDateSubject, .MySelect {
+        font-size: 12px;
     }
     .MyBtn {
         font-size: 16px;
-        min-height: 38px;
+        min-height: 36px;
     }
     .MenuIcon svg, .PannelIcon svg, .PannelIcon2 svg, .LeftPannelIcon1 svg {
         width: 18px;
         height: 18px;
     }    
-    
     .MenuIcon {
         top: 80px;
     }
@@ -131,11 +127,17 @@
         width: 20px;
         height: 20px;
     }
+    .LeftPannelIcon1.Active {
+        left: 279px;
+    }
+    .PannelIcon.Active {
+        right: 266px;
+    }
     .MyCard {
         padding: 15px;
     }
     .MyCard.mb-30 {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
     .MenusList li a, .UserAccountMenus li a {
         padding: 12px 15px;
@@ -152,7 +154,7 @@
     .AsideBarRight.Active .PannelAside {
         max-height: calc(100vh - 98px);
     }
-    .MyInput, .MySelect, .MyInputBtn {
+    .MyInput, .MySelect, .MyInputBtn, .MyInputBtnDateSubject {
         min-height: 44px;
     }
     .toggle-card-header h3 {
@@ -166,31 +168,41 @@
         max-height: 15px;
     }
     .ValueView {
-        margin-bottom: 15px;
+        margin-bottom: 5px;
     }
     .ValueView span {
-        font-size: 14px;
+        font-size: 12px;
     }
     .ValueView h4 {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    canvas#install-bottom-canvas {
+        max-height: calc(50vh - 105px) !important;
+    }
+
+    .OneCanvas.fullscreen .MyCardBody canvas#install-top-left-canvas,
+    .OneCanvas.fullscreen .MyCardBody canvas#install-top-right-canvas,
+    .OneCanvas.fullscreen .MyCardBody canvas#install-bottom-canvas {
+        max-height: calc(100vh - 120px) !important;
     }
 }
 
 @media screen and (max-width: 1280px) {
     .MyCardTitle {
-        font-size: 20px;
+        font-size: 16px;
     }
     .HeaderPart h2 {
-        font-size: 20px;
+        font-size: 16px;
     }
     ul.BreadCrumb li {
-        font-size: 20px;
+        font-size: 16px;
      }
      ul.BreadCrumb li:not(:last-child):after{
-         font-size: 18px;
+         font-size: 14px;
      }
      ul.BreadCrumb li a {
-        font-size: 20px;
+        font-size: 16px;
      }
 }
 
@@ -198,8 +210,8 @@
     .MyCardTitle {
         font-size: 18px;
     }
-    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MySelect {
-        font-size: 14px;
+    .MyInputField label, .MyInput, .MyInput::placeholder, .MyInputBtn, .MyInputBtnDateSubject, .MySelect {
+        font-size: 12px;
     }
 }
 @media screen and (max-width: 991px) {

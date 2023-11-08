@@ -1,0 +1,43 @@
+{
+  "pannelsConfigData": [
+    {
+        "panelId": "panel1",
+        "panelsGroups": [
+          {
+            "panelGroupId": "Eng_Data",
+            "panelTtileText": "General Data"
+          },
+          {
+              "panelGroupId": "HTV_Data",
+              "panelTtileText": "HTV Data"
+            },
+            {
+              "panelGroupId": "HLV_Data",
+              "panelTtileText": "HLV Data"
+            },
+            
+          {
+            "panelGroupId": "HLV_SB_Crane",
+            "panelTtileText": "SB Crane Dimensions"
+          }
+        ]
+      },
+    {
+      "panelId": "panel2",
+      "panelsGroups": [
+        {
+          "panelGroupId": "projectMap",
+          "panelTtileText": "Project Map"
+        },
+        {
+          "panelGroupId": "workpackSelection",
+          "panelTtileText": "Work Pack Selection"
+        },
+        {
+          "panelGroupId": "installationSteps",
+          "panelTtileText": "Installation Steps"
+        }
+      ]
+    }
+  ]
+}

@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 import { getShaderMaterial } from './shader-fetcher.js';
-export class OutlineMaterialManager{
+export class FallbackMaterialManager{
 
-    material = getShaderMaterial('./../old-app/shader.gl');
+    material = new THREE.MeshBasicMaterial();
+
+
 
     colors = [];
 
@@ -20,24 +22,24 @@ export class OutlineMaterialManager{
         for(let i = 0; i < obj.children.length; i++){
             let child = obj.children[i];
             if(child.type==='Mesh'){
-                child.material=this.material;
+                child.material=this.material.clone();
                 let meshIndex = this.getObject3DAncestor(child).selectionId;
                 child.selectionId = meshIndex;
                 this.nameObjIdMap.set(child.name, child.selectionId);
-                {
-                    //child.geometry.attributes.uv1 = child.geometry.attributes.uv;
-                    let uv1 = child.geometry.attributes.uv1;
-                    const length = child.geometry.attributes.position.array.length;
-                    if(!uv1) child.geometry.setAttribute('uv1', new THREE.BufferAttribute(new Float32Array(length), 2));
-                    {
-                        let objIds = [];
-                        for(let i = 0; i < length; i++){
-                            objIds.push(meshIndex/256);
-                        }
-                        child.geometry.setAttribute( 'objId', new THREE.BufferAttribute( new Float32Array(objIds), 1 ) );
-                        // console.log(child.geometry.attributes);
-                    }
-                }
+                // {
+                //     //child.geometry.attributes.uv1 = child.geometry.attributes.uv;
+                //     let uv1 = child.geometry.attributes.uv1;
+                //     const length = child.geometry.attributes.position.array.length;
+                //     if(!uv1) child.geometry.setAttribute('uv1', new THREE.BufferAttribute(new Float32Array(length), 2));
+                //     {
+                //         let objIds = [];
+                //         for(let i = 0; i < length; i++){
+                //             objIds.push(meshIndex/256);
+                //         }
+                //         child.geometry.setAttribute( 'objId', new THREE.BufferAttribute( new Float32Array(objIds), 1 ) );
+                //         // console.log(child.geometry.attributes);
+                //     }
+                // }
             }
             this.setMatRec(child, fixUVs);
         }
@@ -72,7 +74,22 @@ export class OutlineMaterialManager{
     }
 
     setColorsOf (names, r,g,b){
-        names.forEach((name)=>{this.colors[this.nameObjIdMap.get(name)] = new THREE.Vector3(r/255, g/255, b/255)});
+        names.forEach((name)=>{this.setColorOf(name,r,g,b);});
+    }
+
+    setColorRec(object, id, r,g,b){
+        if(!object) return;
+        if(object.type ==='Mesh' && object.selectionId === id) {
+            object.material.color = new THREE.Color(r/255, g/255, b/255);
+        }
+        object.children.forEach((child=>{
+            this.setColorRec(child, id, r,g,b);
+        }))
+    }
+
+    setColorOf(name, r,g,b) {
+        this.setColorRec(this.groupMap.get(this.nameObjIdMap.get(name)), this.nameObjIdMap.get(name), r, g, b);
+        this.colors[this.nameObjIdMap.get(name)] = new THREE.Vector3(r/255, g/255, b/255);
     }
 
     constructor() {

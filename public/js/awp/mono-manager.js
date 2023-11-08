@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {ThreejsMonopileGenerator} from "../old-app/ThreejsMonopileGenerator.js";
+import {MonopileGenerator} from "./monopile-generator.js";
 
 export class MonoManager{
     nameMap = new Map();
@@ -34,18 +34,18 @@ export class MonoManager{
         // console.log(json);
         // console.log(json.properties.name);
         let data = json;//ThreejsMonopileGenerator.simplify(json);
-        let mono = ThreejsMonopileGenerator.generate(data,null, true);
+        let mono = MonopileGenerator.generate(data,null, true, 'x z y');
 
         mono.jsonProperties = data.properties;
-        mono.scale.x=0.0001;
-        mono.scale.y=0.0001;
-        mono.scale.z=0.0001;
+        mono.scale.x=0.5;
+        mono.scale.y=0.5;
+        mono.scale.z=0.5;
 
         const fieldPosition = json.properties.fieldPosition;
         let latLon = toLatLon(fieldPosition.easting, fieldPosition.northing, 18, 'N');
         // console.log(latLon);
-        let x = -latLon.longitude/180*5760/2;
-        let z = -latLon.latitude/90*2880/2;
+        let x = -latLon.longitude/180*5760/2*5000 ;
+        let z = -latLon.latitude/90*2880/2*5000 ;
 
         // x=-5760/2;
         // z=2880/2;
@@ -54,6 +54,10 @@ export class MonoManager{
         const cylinderGeometry =new THREE.CylinderGeometry(0.03, 0.035, 0.0002, 32);
         const cylinder = new THREE.Mesh(cylinderGeometry, this.materials[0]);
         this.piles.add(mono);
+        mono.name = json.properties.name;
+        mono.children.forEach((child)=>{
+            child.name = json.properties.name;
+        })
         cylinder.name = json.properties.name;
         this.nameMap.set(cylinder.name, cylinder);
         cylinder.mono = mono;

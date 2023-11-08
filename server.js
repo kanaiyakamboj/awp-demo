@@ -1,5 +1,7 @@
 const express = require('express');
 
+const packageJson = require('./package.json');
+
 const path = require('path');
 
 const DEFAULT_PORT = process.env.PORT || 3000;
@@ -23,6 +25,11 @@ app.get('/old-AWP-demo', (req, res) => {
 // set up a route for index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/index_New.html'));
+});
+
+//TODO will make work later
+app.get('/packageVersion', (req, res) => {
+    res.json({"version":packageJson.version});
 });
 
 // Set up our server so it will listen on the port

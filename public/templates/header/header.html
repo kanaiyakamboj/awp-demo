@@ -1,55 +1,97 @@
-
-<ul class="BreadCrumb">
+<input type="file"
+       id="file-upload-btn"
+       onchange="btnImportProjectClick(event)"
+       hidden
+       webkitdirectory
+       multiple />
+<input type="file"
+       id="file-upload-btn-zip"
+       onchange="btnImportProjectClickZip(event)"
+       hidden />
+<label class="MyBtn BlueBtn" id="btn-import-file" for="file-upload-btn" style="display: none; position:absolute">
+    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="512px" height="347px" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 347.28">
+        <path fill="currentColor" fill-rule="nonzero" d="M121.35 118.09l260.64 0 0 -31.3c0.73,-7.76 -4.67,-9.69 -11.24,-9.98 -3.77,-0.18 -7.97,-0.2 -11.76,-0.01l-150.17 0c-36.03,0 -43.17,-19.04 -49.96,-37.13 -3.87,-10.32 -7.56,-20.17 -22.65,-20.17l-104.38 0c-6.76,0 -12.33,5.57 -12.33,12.33l0 253.04 61.44 -139.95c6.5,-14.82 24.13,-26.83 40.41,-26.83zm280.14 0l86.05 0c19.11,0 29.72,16.28 21.83,34.29l0.03 0.01 -73.77 168.06c-6.5,14.83 -24.14,26.83 -40.41,26.83l-366.19 0c-7.65,0 -13.84,-2.56 -18.08,-6.74 -6.2,-5.19 -10.95,-17.13 -10.95,-25.05l0 -283.66c0,-17.52 14.31,-31.83 31.83,-31.83l104.38 0c28.52,0 34.55,16.06 40.86,32.89 4.46,11.89 9.15,24.4 31.75,24.4 51.2,0 102.48,0.33 153.67,0.02 3.05,-0.03 6.18,-0.06 9.1,0.07 16.41,0.76 30.82,5.4 29.88,29.41l0.02 31.3zm85.97 19.05l-366.19 0c-8.66,0 -19,7.42 -22.44,15.25l-73.77 168.06 -0.03 -0.01c-2.05,4.68 -1.46,7.8 4.07,7.8l366.2 0c8.66,0 18.99,-7.43 22.43,-15.26l73.77 -168.06c0.07,0.03 4.09,-7.78 -4.04,-7.78z" />
+    </svg>
+</label>
+<label class="MyBtn BlueBtn" id="btn-import-file-zip" for="file-upload-btn-zip" style="display: none; position: absolute">
+    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="512px" height="347px" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 347.28">
+        <path fill="currentColor" fill-rule="nonzero" d="M121.35 118.09l260.64 0 0 -31.3c0.73,-7.76 -4.67,-9.69 -11.24,-9.98 -3.77,-0.18 -7.97,-0.2 -11.76,-0.01l-150.17 0c-36.03,0 -43.17,-19.04 -49.96,-37.13 -3.87,-10.32 -7.56,-20.17 -22.65,-20.17l-104.38 0c-6.76,0 -12.33,5.57 -12.33,12.33l0 253.04 61.44 -139.95c6.5,-14.82 24.13,-26.83 40.41,-26.83zm280.14 0l86.05 0c19.11,0 29.72,16.28 21.83,34.29l0.03 0.01 -73.77 168.06c-6.5,14.83 -24.14,26.83 -40.41,26.83l-366.19 0c-7.65,0 -13.84,-2.56 -18.08,-6.74 -6.2,-5.19 -10.95,-17.13 -10.95,-25.05l0 -283.66c0,-17.52 14.31,-31.83 31.83,-31.83l104.38 0c28.52,0 34.55,16.06 40.86,32.89 4.46,11.89 9.15,24.4 31.75,24.4 51.2,0 102.48,0.33 153.67,0.02 3.05,-0.03 6.18,-0.06 9.1,0.07 16.41,0.76 30.82,5.4 29.88,29.41l0.02 31.3zm85.97 19.05l-366.19 0c-8.66,0 -19,7.42 -22.44,15.25l-73.77 168.06 -0.03 -0.01c-2.05,4.68 -1.46,7.8 4.07,7.8l366.2 0c8.66,0 18.99,-7.43 22.43,-15.26l73.77 -168.06c0.07,0.03 4.09,-7.78 -4.04,-7.78z" />
+    </svg>
+</label>
+<ul class="BreadCrumb First">
     <li><a id="project-name">Project Name</a></li>
-    <li id="template-name">Field</li>
+    <li id="template-name">Install</li>
 </ul>
 <ul class="BreadCrumb">
     <li><a id="last-sync"></a></li>
 </ul>
 <div class="header-buttons">
-    <button class="MyBtn WhiteBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16.251" height="17.914" viewBox="0 0 16.251 17.914">
-            <path
-                d="M-12595.453-2811.543c-3.042,0-4.794-1.749-4.794-4.791v-8.333c0-3.042,1.752-4.791,4.794-4.791h6.666c3.042,0,4.791,1.749,4.791,4.791v8.333c0,3.042-1.749,4.791-4.791,4.791Zm-3.542-13.123v8.333c0,2.384,1.157,3.542,3.542,3.542h6.666c2.384,0,3.542-1.157,3.542-3.542v-8.333c0-2.384-1.158-3.542-3.542-3.542h-6.666C-12597.838-2828.208-12599-2827.05-12599-2824.666Zm3.542,8.959a.631.631,0,0,1-.626-.626.631.631,0,0,1,.626-.626h6.666a.631.631,0,0,1,.626.626.631.631,0,0,1-.626.626Zm0-3.333a.631.631,0,0,1-.626-.626.631.631,0,0,1,.626-.626h3.333a.629.629,0,0,1,.623.626.629.629,0,0,1-.623.626Zm7.083-3.75a2.29,2.29,0,0,1-2.292-2.293v-1.667a.631.631,0,0,1,.626-.626.629.629,0,0,1,.623.626v1.667a1.042,1.042,0,0,0,1.043,1.041h1.667a.629.629,0,0,1,.623.626.629.629,0,0,1-.623.626Z"
-                transform="translate(12600.247 2829.457)" fill="currentColor" />
+
+    <button onclick="clearAllFilters()" class="MyBtn OrangeBtn">
+        <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="m30 11.414-1.414-1.414-4.586 4.586-4.586-4.586-1.414 1.414 4.586 4.586-4.586 4.585 1.415 1.415 4.585-4.586 4.587 4.586 1.413-1.413-4.586-4.587z"
+                  fill="currentColor" />
+            <path d="m4 4a2 2 0 0 0 -2 2v3.1709a2 2 0 0 0 .5859 1.4145l7.4141 7.4146v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2h-2v2h-4v-8.8291l-.5859-.5855-7.4141-7.4145v-3.1709h20v2h2v-2a2 2 0 0 0 -2-2z"
+                  fill="currentColor" />
         </svg>
-        Notes
     </button>
+
+    <button class="MyBtn WhiteBtn" onclick="hideShowNotesPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16.251" height="17.914" viewBox="0 0 16.251 17.914">
+            <path d="M-12595.453-2811.543c-3.042,0-4.794-1.749-4.794-4.791v-8.333c0-3.042,1.752-4.791,4.794-4.791h6.666c3.042,0,4.791,1.749,4.791,4.791v8.333c0,3.042-1.749,4.791-4.791,4.791Zm-3.542-13.123v8.333c0,2.384,1.157,3.542,3.542,3.542h6.666c2.384,0,3.542-1.157,3.542-3.542v-8.333c0-2.384-1.158-3.542-3.542-3.542h-6.666C-12597.838-2828.208-12599-2827.05-12599-2824.666Zm3.542,8.959a.631.631,0,0,1-.626-.626.631.631,0,0,1,.626-.626h6.666a.631.631,0,0,1,.626.626.631.631,0,0,1-.626.626Zm0-3.333a.631.631,0,0,1-.626-.626.631.631,0,0,1,.626-.626h3.333a.629.629,0,0,1,.623.626.629.629,0,0,1-.623.626Zm7.083-3.75a2.29,2.29,0,0,1-2.292-2.293v-1.667a.631.631,0,0,1,.626-.626.629.629,0,0,1,.623.626v1.667a1.042,1.042,0,0,0,1.043,1.041h1.667a.629.629,0,0,1,.623.626.629.629,0,0,1-.623.626Z"
+                  transform="translate(12600.247 2829.457)" fill="currentColor" />
+        </svg>
+    </button>
+
     <button class="MyBtn BlueBtn">
         <svg xmlns="http://www.w3.org/2000/svg" width="17.667" height="17.667" viewBox="0 0 17.667 17.667">
             <g id="Scanner" transform="translate(-2.046 -1.667)">
                 <path d="M2.546,8V5.917A3.745,3.745,0,0,1,6.3,2.167H8.379" fill="none" stroke="currentColor"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                      stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
                 <path d="M13.379,2.167h2.083a3.745,3.745,0,0,1,3.75,3.75V8" fill="none"
-                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                      stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
                 <path d="M19.212,13.833v1.25a3.745,3.745,0,0,1-3.75,3.75h-1.25" fill="none"
-                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                      stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
                 <path d="M8.379,18.833H6.3a3.745,3.745,0,0,1-3.75-3.75V13" fill="none" stroke="currentColor"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
-                <path
-                    d="M15.046,8.417v4.167a2.21,2.21,0,0,1-2.5,2.5H9.213a2.21,2.21,0,0,1-2.5-2.5V8.417a2.21,2.21,0,0,1,2.5-2.5h3.333A2.21,2.21,0,0,1,15.046,8.417Z"
-                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="1" />
+                      stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                <path d="M15.046,8.417v4.167a2.21,2.21,0,0,1-2.5,2.5H9.213a2.21,2.21,0,0,1-2.5-2.5V8.417a2.21,2.21,0,0,1,2.5-2.5h3.333A2.21,2.21,0,0,1,15.046,8.417Z"
+                      fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="1" />
                 <path d="M16.712,10.5H5.046" fill="none" stroke="currentColor" stroke-linecap="round"
-                    stroke-linejoin="round" stroke-width="1" />
+                      stroke-linejoin="round" stroke-width="1" />
             </g>
         </svg>
-        Cam
     </button>
+
     <button onclick="window.print()" class="MyBtn OrangeBtn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
             <g id="Printer" transform="translate(-2.879 -2.501)">
-                <path
-                    d="M15.879,14.875h.938a1.567,1.567,0,0,0,1.563-1.562V7.063A1.567,1.567,0,0,0,16.817,5.5H4.942A1.567,1.567,0,0,0,3.379,7.063v6.25a1.567,1.567,0,0,0,1.563,1.563h.938"
-                    fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1" />
-                <path
-                    d="M-12568.669-2848a.951.951,0,0,1-.953-.949v-6.227a.951.951,0,0,1,.953-.949h8.1a.948.948,0,0,1,.949.949v6.227a.948.948,0,0,1-.949.949Zm-.953-12.5v-.937a1.575,1.575,0,0,1,.461-1.1,1.555,1.555,0,0,1,1.1-.457h6.874a1.564,1.564,0,0,1,1.1.457,1.563,1.563,0,0,1,.457,1.1v.937Z"
-                    transform="translate(12575.5 2866)" fill="none" stroke="currentColor"
-                    stroke-linejoin="round" stroke-width="1" />
+                <path d="M15.879,14.875h.938a1.567,1.567,0,0,0,1.563-1.562V7.063A1.567,1.567,0,0,0,16.817,5.5H4.942A1.567,1.567,0,0,0,3.379,7.063v6.25a1.567,1.567,0,0,0,1.563,1.563h.938"
+                      fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1" />
+                <path d="M-12568.669-2848a.951.951,0,0,1-.953-.949v-6.227a.951.951,0,0,1,.953-.949h8.1a.948.948,0,0,1,.949.949v6.227a.948.948,0,0,1-.949.949Zm-.953-12.5v-.937a1.575,1.575,0,0,1,.461-1.1,1.555,1.555,0,0,1,1.1-.457h6.874a1.564,1.564,0,0,1,1.1.457,1.563,1.563,0,0,1,.457,1.1v.937Z"
+                      transform="translate(12575.5 2866)" fill="none" stroke="currentColor"
+                      stroke-linejoin="round" stroke-width="1" />
                 <path d="M16.192,8.625a.938.938,0,1,0-.937-.937A.938.938,0,0,0,16.192,8.625Z"
-                    fill="currentColor" />
+                      fill="currentColor" />
             </g>
         </svg>
-        Print
+    </button>
+
+    <span id="version-number" style="color: var(--White); width: 75px; text-align: right;"></span>
+
+    <button onclick="hideShowFaqPopup()" class="MyBtn WhiteBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1.6875C9.96038 1.6875 7.96657 2.29232 6.27069 3.42547C4.5748 4.55862 3.25303 6.16921 2.4725 8.05358C1.69197 9.93794 1.48775 12.0114 1.88566 14.0119C2.28357 16.0123 3.26574 17.8498 4.70797 19.292C6.15019 20.7343 7.98771 21.7164 9.98814 22.1143C11.9886 22.5123 14.0621 22.308 15.9464 21.5275C17.8308 20.747 19.4414 19.4252 20.5745 17.7293C21.7077 16.0334 22.3125 14.0396 22.3125 12C22.3125 9.26496 21.226 6.64193 19.292 4.70796C17.3581 2.77399 14.735 1.6875 12 1.6875Z"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10" />
+            <path d="M8.71875 8.85289C8.71875 8.85289 8.76797 7.8275 9.86543 6.94449C10.5164 6.42007 11.2969 6.26832 12 6.25777C12.6404 6.24957 13.2123 6.35562 13.5545 6.51851C14.1404 6.79742 15.2812 7.47828 15.2812 8.92613C15.2812 10.4496 14.2852 11.1416 13.1502 11.9027C12.0152 12.6638 11.707 13.49 11.707 14.3437"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round" />
+            <path d="M11.6484 18.5625C12.2956 18.5625 12.8203 18.0378 12.8203 17.3906C12.8203 16.7434 12.2956 16.2188 11.6484 16.2188C11.0012 16.2188 10.4766 16.7434 10.4766 17.3906C10.4766 18.0378 11.0012 18.5625 11.6484 18.5625Z"
+                  fill="currentColor" />
+        </svg>
     </button>
 </div>

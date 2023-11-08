@@ -45,3 +45,70 @@
       </div>
     </div>
   </div>
+
+  <div class="modal FilterModal" id="faqPopup">
+    <div class="modal-overlay FilterModalBtn"></div>
+    <div class="modal-wrapper modal-wrapper-Faq modal-transition">
+      <div class="modal-header">
+        <button class="modal-close FilterModalBtn" onclick="hideShowFaqPopup()">
+                <img src="assets/close-icon.svg" alt="">                                        
+        </button>
+        <h2 class="modal-heading">FAQ</h2>
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-content" style="overflow: auto;" id="faqPopupIframe">
+          <iframe id="iframeFaq" class="iframe-class" title="FAQ"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal FilterModal" id="docsPopup">
+    <div class="modal-overlay FilterModalBtn"></div>
+    <div class="modal-wrapper modal-wrapper-Faq modal-transition">
+      <div class="modal-header">
+        <button class="modal-close FilterModalBtn" onclick="hideShowDocsPopup()">
+                <img src="assets/close-icon.svg" alt="">                                        
+        </button>
+        <h2 class="modal-heading">Docs</h2>
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-content" style="overflow: auto;" id="docsPopupIframe">
+          <iframe id="iframeDocs" src="../../tutorial/index.html" class="iframe-class" title="Docs"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal FilterModal" id="NotesModal">
+    <div class="modal-overlay FilterModalBtn"></div>
+    <div class="modal-wrapper modal-wrapper-notes modal-transition">
+      <div class="modal-header">
+        <button class="modal-close FilterModalBtn" onclick="hideShowNotesPopup()">
+                <img src="assets/close-icon.svg" alt="">                                        
+        </button>
+        <h2 class="modal-heading">Notes</h2>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-content modal-content-notes">
+          <div class="drawing-board">
+            <canvas id="drawing-board"></canvas>
+            <div class="nav">
+                <!-- We will be accessing the data-clr in JavaScript -->
+                <div class="clr" data-clr="#000"></div>
+                <div class="clr" data-clr="#EF626C"></div>
+                <div class="clr" data-clr="#fdec03"></div>
+                <div class="clr" data-clr="#24d102"></div>
+                <div class="clr" data-clr="#fff"></div>
+                <button class="undo OrangeBtn">undo</button>
+                <button class="clear OrangeBtn">clear</button>
+                <button class="BlueBtn" onclick="saveNotes()">save</button>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>

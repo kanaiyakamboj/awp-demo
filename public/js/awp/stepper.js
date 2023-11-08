@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+let steIntervalId;
 export class Stepper {
 
     storeData;
@@ -8,18 +9,23 @@ export class Stepper {
         this.storeData = storeData;
         window.toggleStep = ()=> {
             this.doSteps = !this.doSteps;
-            document.getElementById('playPauseButton').innerText = this.doSteps? 'Pause' : 'Play';
+            // document.getElementById('playPauseButton').innerText = this.doSteps? 'Pause' : 'Play';
         };
+        
+        steIntervalId=setInterval(async()=>{
+            if(this.doSteps) {
+            await this.step();
+            }
+        },1000);
     }
 
     clock = new THREE.Clock();
     elapsed = 0;
 
-
     getNextMP(){
         const storeData = this.storeData;
-        const psfd = JSON.parse(localStorage.getItem("projectSelectionFilterData"));
-        if(storeData && psfd){
+        const psfd = getCurrentSelectionData();;
+        if(storeData && psfd && psfd.steps){
             let stepIdx = psfd.steps.indexOf(psfd.currentStep);
             if(!stepIdx) stepIdx = 0;
             let stepNextIdx = (stepIdx+1)%psfd.steps.length;
@@ -36,10 +42,10 @@ export class Stepper {
         return null;
     }
 
-    step(){
+    async step(){
         const storeData = this.storeData;
-        const psfd = JSON.parse(localStorage.getItem("projectSelectionFilterData"));
-        if(storeData && psfd){
+        const psfd =getCurrentSelectionData();
+        if(storeData && psfd && psfd.steps){
             let stepIdx = psfd.steps.indexOf(psfd.currentStep);
             if(stepIdx===null) {
                 console.log(stepIdx);
@@ -55,27 +61,46 @@ export class Stepper {
             let selectedMpIdx = stepNextIdx===0 ? mpNextIdx : mpIdx;
             let selectedHtvIdx = mpNextIdx === 0 ? htvNextIdx : htvIdx;
             let selectedHtvName = storeData.fileNames[selectedHtvIdx];
-            if(mpNextIdx===0) {
+            if(stepNextIdx === 0 && mpNextIdx===0) {
                 document.getElementById('file-names').value = selectedHtvName;
-                onHtvDropdownChange({target: {value: selectedHtvName}});
-            }
-            if(stepNextIdx === 0) {
+                // document.getElementById('file-names').dispatchEvent(new Event('change'));
+                 onHtvDropdownChange({target: {value: selectedHtvName}});
                 let selectedMonopileName = storeData[selectedHtvName].monopiles[selectedMpIdx];
-                document.getElementById('sheet-names').value = selectedMonopileName;
-                onMonopileDropdownChange({target: {value: selectedMonopileName}});
+                 onMonopileDropdownChange({target: {value: selectedMonopileName}});
+                 onStepClick(psfd.steps[0]);
             }
-            onStepClick(psfd.steps[stepNextIdx]);
+            else{
+                if(stepNextIdx === 0) {
+                    let selectedMonopileName = storeData[selectedHtvName].monopiles[selectedMpIdx];
+                    document.getElementById('sheet-names').value = selectedMonopileName;
+                    document.getElementById("template-name").innerHTML = selectedMonopileName;
+                    // document.getElementById('sheet-names').dispatchEvent(new Event('change'));
+                     onMonopileDropdownChange({target: {value: selectedMonopileName}});
+                     onStepClick(psfd.steps[0]);
+                }
+                else {
+                     onStepClick(psfd.steps[stepNextIdx]);
+                }
+            }
         }
     }
 
-    update(){
-        let delta = this.clock.getDelta();
+    async update(){
+       // let delta = this.clock.getDelta();
+    
+/*
         if(this.doSteps) {
             this.elapsed += delta;
+            console.log('elapsed', this.elapsed);
             if (this.elapsed > 1) {
-                this.step();
+               
                 this.elapsed =0;
             }
         }
+        */
     }
 }
+
+window.addEventListener('beforeunload', function() {
+   this.clearInterval(steIntervalId);
+  });

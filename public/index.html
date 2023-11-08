@@ -1,53 +1,91 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=100%, initial-scale=1.0" />
     <title>HEEREMA AWP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link rel="manifest" href="manifest.json">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/responsive.css" />
     <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
     <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
-</head>
+  </head>
 
-<body>
-<div hidden id="modalBackgroundDiv" style="position:absolute; height:100%; width:100%;background-color:rgba(0, 0, 0, 0.5);z-index:11;">
-    <p style="position:absolute; min-width: 100%; min-height: 100%; left:0%; top:50%; text-align: center; color: white">Loading..</p>
-<!--    <div></div>-->
-</div>
+  <body>
+    <div
+      hidden
+      id="modalBackgroundDiv"
+      style="
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 11;
+      "
+    >
+      <p
+        id="modalBackgroundP"
+        style="
+          position: absolute;
+          min-width: 100%;
+          min-height: 100%;
+          left: 0%;
+          top: 5%;
+          text-align: center;
+          color: white;
+        "
+      >
+        Loading..
+      </p>
+      <textarea
+        readonly="true"
+        id="modalBackgroundT"
+        style="
+          position: absolute;
+          left: 10%;
+          min-width: 80%;
+          min-height: 80%;
+          top: 10%;
+          background: black;
+          color: white;
+        "
+      ></textarea>
+      <!--    <div></div>-->
+    </div>
     <div class="MainWrapper">
-        <!--Header Toggle Button-->
-        <button class="TopMenuIcon ToggleBtn" onclick="toggleHeader()">
-            <img src="assets/panel-icon.svg" alt="">
-        </button>
         <!--Header section-->
-        <div id="header" class="HeaderPart ToggleDiv Active" include-my-html="./templates/header/header.html">
+        <div id="header"
+             class="HeaderPart ToggleDiv Active"
+             include-my-html="./templates/header/header.html">
         </div>
         <!--filter menu section-->
         <div id="filter-menu" class="MainMenu modal">
             <div onclick="closeFilterMenu()" class="modal-overlay MenuToggle"></div>
-            <div class="modal-wrapper modal-transition" include-my-html="./templates/panels/filter-menu.html"></div>
+            <div class="modal-wrapper modal-transition"
+                 include-my-html="./templates/panels/filter-menu.html"></div>
         </div>
 
-        <div class="ContentWrapper ToggleDiv">
-            <button class="MenuIcon MyBtn MenuToggle" onclick="openFilterMenu()">
-                <img src="./assets/menu-icon.svg" alt=""> Menu
-            </button>
+        <div  id="content-wrapper" class="ContentWrapper ToggleDiv">
+            <!--<button class="MenuIcon MyBtn MenuToggle" onclick="openFilterMenu()">
+                <img src="./assets/menu-icon.svg" alt="" /> Menu
+            </button>-->
 
-            <div id="asideBarLeftPanels" class="AsideBarLeft" include-my-html="./templates/panels/left-panels.html">
-            </div>
-            <!--field template section-->
-            <div class="MainContent" id="field-container" include-my-html="./templates/pages/field.html"></div>
+            <div id="asideBarLeftPanels"
+                 class="AsideBarLeft AsideBarLeftActive"
+                 include-my-html="./templates/panels/left-panels.html"></div>
+
             <!--install template section-->
-            <div id="install-container" class="MainContent display-none"
-                include-my-html="./templates/pages/install.html"></div>
+            <div id="install-container"
+                 class="MainContent"
+                 include-my-html="./templates/pages/install.html"></div>
 
-            <div id="asideBarRightPanels" class="AsideBarRight RightPanel1Active"
-                include-my-html="./../templates/panels/right-panels.html"></div>
+            <div id="asideBarRightPanels"
+                 class="AsideBarRight RightPanel1Active"
+                 include-my-html="./../templates/panels/right-panels.html"></div>
         </div>
 
         <div include-my-html="./templates/component/modal.html"></div>
@@ -56,28 +94,29 @@
 
         <script>
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("service-worker.js", { scope: "./" });
+                navigator.serviceWorker.register("service-worker.js", {
+                    scope: "./",
+                });
             }
         </script>
 
         <script type="importmap">
-        {
-          "imports": {
-            "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
-          }
-        }
-      </script>
-      <script src="./js/install-panel.js"></script>
-        <script src="./js/index.js"></script>
-        <script src="./js/render-panels-templates.js"></script>
-        <script src="./js/latln-converter.js"></script>
-        <script type="module" src="./js/load-canvas.js"></script>
-        <script type="module" src="./js/gltf-loader.js"></script>
+            {
+              "imports": {
+                "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
+              }
+            }
+        </script>
+        <script src="./js/jszip.js"></script>
+        <script type="text/javascript"
+        src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
-        <script src="./js/project-selection-menu.js"></script>
-        <script src="./js/js-include-html.js"></script>
-</body>
-
+        <script src="./js/load-canvas-evals.js"></script>
+    </div>
+    <div id="scriptsLoader">
+      <script src="./app.min.js"></script>
+    </div>
+  </body>
 </html>

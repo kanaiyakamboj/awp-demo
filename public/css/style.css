@@ -31,7 +31,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--CardBg2);
+	background-color: var(--GrayColor);
     border-radius: 10px;
 } 
 .W100{
@@ -43,7 +43,7 @@
 body{
     margin: 0px;
     font-family: var(--PrimaryFont);
-    transition: all 0.6s;
+    transition: all 0.3s;
 }
 ul{
     padding: 0px;
@@ -60,7 +60,7 @@ button{
     margin-bottom: 20px;
 }
 .mb-30{
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 .OrangeBtn{
     background: var(--Orange);
@@ -69,6 +69,10 @@ button{
 .OrangeBtn:hover{
     background: var(--DarkOrange);
     color: var(--White);
+}
+.OrangeBtn:disabled{
+    background: #808080;
+    color: #AAAAAA;
 }
 .BlueBtn{
     background: var(--Blue);
@@ -104,18 +108,19 @@ button{
 }
 
 .flex-wrap{
-    width: calc(100% + 30px);
+    width: calc(100% + 10px);
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -15px;
+    margin: 0 -5px;
 }
 .Card50{
     width: 50%;
-    padding: 0px 15px;
+    padding: 0px 5px;
 }
 .Card100{
     width: 100%;
-    padding: 0px 15px;
+    padding: 0px 5px;
 }
 
 .MainWrapper{
@@ -125,7 +130,7 @@ button{
     background: var(--Black);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 .HeaderPart{
     width: 100%;
@@ -136,15 +141,15 @@ button{
     opacity: 0;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.6s;
+    transition: all 0.3s;
 }
 .HeaderPart.Active{
     opacity: 1;
     height: auto;
-    transition: all 0.6s;
+    transition: all 0.3s;
     position: relative;
     top: 0px;
-    padding: 25px 20px 25px 50px;
+    padding: 20px;
 }
 .HeaderPart h2{
     margin: 0px;
@@ -172,32 +177,14 @@ button{
 .TopMenuIcon:hover {
     background: var(--DarkBlue);
 }
-.TopMenuIcon svg, .TopMenuIcon img, .PannelIcon2 svg, .PannelIcon2 img, 
+.TopMenuIcon svg, .TopMenuIcon img, .PannelIcon svg, .PannelIcon img, 
 .LeftPannelIcon1 svg, .LeftPannelIcon1 img, .MenuIcon svg, .MenuIcon img, 
 .MyBtn svg, .MyBtn img {
     width: 22px;
     height: 22px;
     max-width: unset;
 }
-.PannelIcon {
-    position: absolute;
-    /* left: -70px; */
-    right: -44px;
-    /* top: 50%; */
-    top: 77px;
-    transform: translateY(-50%) rotate(-90deg);
-    padding: 8px 10px;
-    border-radius: 10px 10px 0 0;
-    background: var(--Blue);
-    color: var(--White);
-    gap: 8px;
-}
-.PannelIcon:hover{
-    background: var(--DarkBlue);
-}
-.PannelIcon.Active {
-    right: 376px;
-}
+
 .MenuIcon {
     position: absolute;
     left: -25px;
@@ -213,17 +200,17 @@ button{
 .MenuIcon:hover {
     background: var(--DarkBlue);
 }
-.MenuIcon svg, .PannelIcon svg, .PannelIcon2 svg, .LeftPannelIcon1 svg {
+.MenuIcon svg, .PannelIcon svg, .LeftPannelIcon1 svg {
     width: 24px;
     height: 24px;
 }
 
 .ContentWrapper{
     width: 100%;
-    height: calc(100% - 95px);
+    /*height: calc(100% - 95px);*/
     display: flex;
     /* gap: 30px; */
-    padding: 20px;
+    padding: 10px 20px;
     overflow: auto;    
     transition: all 0.3s;
     bottom: 0;
@@ -237,10 +224,10 @@ button{
 }
 .MainContent{
     width: 100%;
-    padding: 20px;
+    padding: 10px 35px;
     border-radius: 10px;
     background: var(--LightBlack);
-    overflow: auto;
+    overflow: hidden;
     position: relative;
 }
 .AsideBarRight.Active{
@@ -253,7 +240,7 @@ button{
     width: 0px;
     border-radius: 10px;
     position: relative;
-    transition: all 1s;
+    transition: all 0.3s;
     /* transform: translateX(100%); */
 }
 .AsideBarRight .PannelAside{
@@ -269,7 +256,7 @@ button{
 .AsideBarRight.Active .PannelAside{
     width: 100%;
     height: 100%;
-    transition: all 0.8s;
+    transition: all 0.3s;
     overflow-y: auto;
     max-height: calc(100vh - 133px);
     border-radius: 10px 0px 0px 10px;
@@ -281,7 +268,7 @@ button{
 
 .MyCard{
     width: 100%;
-    padding: 25px 20px;
+    padding: 20px;
     border-radius: 10px;
     background: var(--LightBlack);
 }
@@ -301,7 +288,7 @@ button{
 .MyInputField {
     width: 100%;
     height: auto;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
 }
 .MyInputField label {
     display: block;
@@ -326,6 +313,10 @@ button{
     background-repeat: no-repeat;
     background-position: right 20px center;
     background-size: 20px;
+    font-family: inherit;
+}
+.MySelect option {
+    font-family: inherit;
 }
 .MyInput{
     width: 100%;
@@ -345,11 +336,10 @@ button{
     color: var(--White);
 }
 
-.MyInputBtn{
+.MyInputBtnDateSubject{
     /* width: 100%; */
     min-height: 50px;
     padding: 10px 20px;
-    font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -359,7 +349,25 @@ button{
     box-shadow: none;
     outline: none;
     background-color: var(--InputColor);
-    transition: all 0.6s;
+    pointer-events: none;
+    font-family: inherit;
+}
+
+.MyInputBtn{
+    /* width: 100%; */
+    min-height: 50px;
+    padding: 10px 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--White);
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: var(--InputColor);
+    transition: all 0.3s;
 }
 .MyInputBtn:hover, .MyInputBtn:focus, .MyInputBtn:active{
     background: var(--Orange);
@@ -484,7 +492,7 @@ button{
 
 .modal.FilterModal .modal-header, .modal.StepInstructionModal .modal-header {
     width: 100%;
-    padding: 20px 30px;
+    padding: 10px 15px;
 }
 .modal.FilterModal .modal-content, .modal.StepInstructionModal .modal-content {
     padding: 30px;
@@ -498,6 +506,17 @@ button{
     transform: translate(-50%, -50%)!important;
     margin-left: 0px;
 }
+
+.modal-wrapper-Faq{
+    width: 100%;
+    max-width: 1000px!important;
+    border-radius: 20px;
+    overflow: hidden;
+    /* transform: translateX(-50%); */
+    transform: translate(-50%, -50%)!important;
+    margin-left: 0px;
+}
+
 .modal.FilterModal .modal-body, .modal.StepInstructionModal .modal-body{
     max-height: calc(100vh - 90px);
     overflow: auto;
@@ -615,8 +634,11 @@ ul.BreadCrumb {
     flex-flow: wrap;
     gap: 10px;
 }
+ul.BreadCrumb.First {
+    margin-left: 75px;
+}
 ul.BreadCrumb li {
-   font-size: 28px;
+   font-size: 24px;
     color: var(--White);
     font-weight: 600;
 }
@@ -626,14 +648,14 @@ ul.BreadCrumb li:not(:last-child):after{
     padding-left: 10px;
 }
 ul.BreadCrumb li a {
-   font-size: 28px;
+   font-size: 24px;
     text-decoration: none;
     color: var(--White);
 }
 
-.PannelIcon2 {
+.PannelIcon {
     position: absolute;
-    right: -52px;
+    right: -50px;
     top: 50%;
     transform: translateY(-50%) rotate(-90deg);
     padding: 8px 10px;
@@ -642,21 +664,22 @@ ul.BreadCrumb li a {
     color: var(--White);
     gap: 8px;
     white-space: nowrap;
+    font-family: inherit;
 }
-.PannelIcon2.Active {
-    right: 288px;
+.PannelIcon.Active {
+    right: 305px;
 }
 
 .AsideBarRight.RightPanel1Active {
     transform: translateX(0px);
     width: 100%;
-    flex: 0 0 430px;
+    flex: 0 0 350px;
 }
 .AsideBarRight.RightPanel1Active .PannelAside.RightPanel1.Active {
-    width: calc(100% - 30px);
+    width: calc(100% - 10px);
     height: 100%;
     padding: 10px;
-    margin-left: 30px;
+    margin-left: 10px;
     margin-right: 30px;
     overflow: auto;
     display: block;
@@ -667,9 +690,9 @@ ul.BreadCrumb li a {
     flex: 0 0 350px;
 }
 .AsideBarRight.RightPanel2Active .PannelAside.RightPanel2.Active {
-    width: calc(100% - 30px);
+    width: calc(100% - 10px);
     height: 100%;
-    margin-left: 30px;
+    margin-left: 10px;
     padding: 10px;
     overflow: auto;
     display: block;
@@ -721,8 +744,8 @@ ul.BreadCrumb li a {
 }
 .toggle-card.active .toggle-card-body {
     display: block;
-    margin-top: 15px;
-    padding-top: 20px;
+    margin-top: 7px;
+    padding-top: 10px;
     border-top: solid 1px var(--InputColor);
 }
 .toggle-card-body .progress-steps li{
@@ -735,15 +758,15 @@ ul.BreadCrumb li a {
     box-shadow: none;
     outline: none;
     background-color: var(--InputColor);
-    transition: all 0.6s;
+    transition: all 0.3s;
     padding-top: 0px;
     padding-bottom: 0px;
     padding-right: 0px;
 }
 .toggle-card-body .progress-steps li:not(:last-child){
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
-.toggle-card-body .progress-steps li:hover, .toggle-card-body .progress-steps li:hover .StepInstructionBtn{
+.toggle-card-body .progress-steps li:hover:not(.MyInputBtnDateSubject), .toggle-card-body .progress-steps li:hover .StepInstructionBtn{
     background: var(--Orange);
     border-left-color: var(--DarkOrange);
 }
@@ -768,17 +791,17 @@ ul.BreadCrumb li a {
 .ValueView{
     width: 100%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 .ValueView span{
     display: block;
-    font-size: 16px;
-    margin-bottom: 5px;
+    font-size: 15px;
+    margin-bottom: -5px;
     color: var(--White);
 }
 .ValueView h4{
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 600;
     color: var(--Orange);
     margin: 0px;
 }
@@ -794,10 +817,13 @@ ul.BreadCrumb li a {
     color: var(--White);
     gap: 8px;
     white-space: nowrap;
+    font-family: inherit;
 }
-.LeftPannelIcon1.Active {left: 289px;}
+.LeftPannelIcon1.Active {
+    left: 287px;
+}
 
-.LeftPannelIcon1:hover{
+.LeftPannelIcon1:hover {
     background: var(--DarkOrange);
 }
 
@@ -815,7 +841,7 @@ ul.BreadCrumb li a {
 
 .AsideBarLeft.AsideBarLeftActive{
     flex: 0 0 320px;
-    margin-right: 30px;
+    margin-right: 10px;
     transform: translateX(0%);
 }
 .AsideBarLeft{
@@ -823,8 +849,7 @@ ul.BreadCrumb li a {
     flex: 0 0 0px;
     width: 0px;
     position: relative;
-    transition: all 0.8s;
-    transform: translateX(100%);
+    transition: all 0.3s;
     z-index: 1;
 }
 .AsideBarLeft .PannelAside{
@@ -832,12 +857,12 @@ ul.BreadCrumb li a {
     width: 0px;
     background: var(--LightBlack);
     overflow: hidden;
-    transition: all 0.8s;
+    transition: all 0.3s;
 }
 .AsideBarLeft.AsideBarLeftActive .PannelAside{
     width: 100%;
     height: 100%;
-    transition: all 0.8s;
+    transition: all 0.3s;
     overflow-y: auto;
     max-height: calc(100vh - 63px);
     border-radius: 10px;
@@ -1007,19 +1032,19 @@ ul.BreadCrumb li a {
 }
 
 .chart-indigators {
-    width: auto;
-    height: auto;
     position: absolute;
-    left: 10px;
-    bottom: 10px;
-    padding: 10px 20px;
-    border-radius: 4px;
+    bottom: 18px;
+    left: 45px;
 }
 .chart-indigators li {
     color: var(--Black);
     font-size: 14px;
     display: flex;
     gap: 8px;
+}
+.chart-indigators.fullscreen {
+    left: 10px;
+    bottom: 10px;
 }
 .chart-indigators li:not(:last-child) {
    margin-bottom: 10px;
@@ -1031,6 +1056,13 @@ ul.BreadCrumb li a {
     display: inline-block;
     margin-top: 5px;
 }
+
+.chart-indigators ul {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+
 .color1{
     background: var(--Color1);
 }
@@ -1051,9 +1083,44 @@ ul.BreadCrumb li a {
 }
 
 .HideCards .OneCanvas {
-    display: none;
+    /*display: none;*/
 }
 
 .HideCards .OneCanvas.fullscreen {
     display: block;
+}
+
+.iframe-class{
+    max-height: calc(100vh - 150px);
+    height: 100vh;
+}
+
+canvas {
+    transition: none;
+}
+
+div.flex-wrap > * {
+    transition: none;
+}
+
+.modal-wrapper-notes{
+    width: 100%;
+    height: 100%;
+    max-width: 100%!important;
+    max-height: 100%!important;
+    overflow: hidden;
+    transform: translate(-50%, -50%)!important;
+    margin-left: 0px;
+    border-radius: 0px!important;
+}
+
+.modal-content-notes {
+    padding: 0px!important;
+    height: 100%!important;
+}
+
+.drawing-board{
+    max-height: calc(100vh - 150px);
+    height: 100vh;
+    background-color: white;
 }

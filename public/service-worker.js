@@ -7,22 +7,7 @@ const precachedResources = [
   "./css/index.css",
   "./css/responsive.css",
   "./css/style.css",
-  "./js/index.js",
-  "./js/js-include-html.js",
-  "./js/latln-converter.js",
-  "./js/load-canvas.js",
-  "./js/project-selection-menu.js",
-  "./js/render-panels-templates.js",
-  "./js/canvas-clicker.js",
-  "./js/disk-colors.js",
-  "./js/fleet-manager.js",
-  "./js/gltf-loader.js",
-  "./js/mono-manager.js",
-  "./js/outline-material-manager.js",
-  "./js/shader-fetcher.js",
-  "./js/snapper.js",
-  "./js/stepper.js",
-  "./js/svg-loader.js",
+  "./app.min.js",
 ];
 
 async function precache() {
